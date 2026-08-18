@@ -287,24 +287,21 @@ function productCard(p) {
   return '<article class="product-card reveal">' +
     '<div class="p-media">' +
     (badge ? '<span class="p-badge">' + esc(badge) + "</span>" : "") +
-    '<button type="button" class="p-media-link" data-action="details" data-id="' + esc(p.id) + '" aria-label="' + esc(productName(p)) + '">' +
+    '<a class="p-media-link" href="product.html?p=' + encodeURIComponent(p.id) + '" aria-label="' + esc(productName(p)) + '">' +
     '<img src="' + esc(p.img) + '" alt="' + esc(productName(p)) + '" loading="lazy">' +
-    "</button>" +
+    "</a>" +
     "</div>" +
     '<div class="p-body">' +
     '<div class="p-cat">' + esc(cat ? catName(cat) : "") + "</div>" +
     '<h3 class="p-name">' + esc(productName(p)) + "</h3>" +
     '<ul class="p-specs">' + specs + "</ul>" +
     '<div class="p-foot">' +
-    '<button class="btn btn-outline" data-action="details" data-id="' + esc(p.id) + '">' + esc(t("common.details")) + "</button>" +
+    '<a class="btn btn-outline" href="product.html?p=' + encodeURIComponent(p.id) + '">' + esc(t("common.details")) + "</a>" +
     '<button class="btn btn-primary" data-action="inquire" data-id="' + esc(p.id) + '">' + esc(t("common.inquire")) + "</button>" +
     "</div></div></article>";
 }
 
 function bindProductCards(root) {
-  root.querySelectorAll("[data-action='details']").forEach(function (b) {
-    b.addEventListener("click", function () { openProductModal(b.getAttribute("data-id")); });
-  });
   root.querySelectorAll("[data-action='inquire']").forEach(function (b) {
     b.addEventListener("click", function () { openInquiryModal(b.getAttribute("data-id")); });
   });
@@ -436,6 +433,17 @@ function bindInquiryForm(formEl, opts) {
     const list = store.loadInquiries();
     list.unshift(inquiry);
     store.saveInquiries(list);
+    /* CRM / team webhook forward (optional) */
+    const hook = site.settings.crmWebhook;
+    if (hook) {
+      try {
+        let payload = inquiry;
+        if ((site.settings.crmWebhookType || "generic") === "feishu") {
+          payload = { msg_type: "text", content: { text: "[New Inquiry] " + (inquiry.product || "") + " | " + inquiry.name + " | " + inquiry.country + " | " + inquiry.email + " | " + (inquiry.msg || "") } };
+        }
+        fetch(hook, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) }).catch(function () {});
+      } catch (e) {}
+    }
     /* server-side email copy via api/submit.php (optional; silently skipped on failure
        or when previewing via file:// - the inquiry is already saved locally above) */
     try {
@@ -688,6 +696,79 @@ function initFacebookPixel() {
   fbq("track", "PageView");
 }
 
+/* ---------------- product detail page ---------------- */
+function renderProductPage() {
+  const box = document.getElementById("pd-content");
+  if (!box) return;
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get("p") || params.get("id");
+  const p = site.products.find(function (x) { return x.id === id && x.active !== false; });
+  const crumbsName = document.getElementById("pd-name");
+  const relatedWrap = document.getElementById("pd-related-wrap");
+  if (!p) {
+    box.innerHTML = '<div style="text-align:center;padding:60px 20px;color:var(--ink-3);"><p data-i18n="prod.notfound">Product not found. It may have been removed.</p>' +
+      '<a class="btn btn-primary" href="products.html" data-i18n="common.viewAll">View all products</a></div>';
+    if (relatedWrap) relatedWrap.style.display = "none";
+    return;
+  }
+  const cat = categoryOf(p.cat);
+  const name = productName(p);
+  const desc = productDesc(p);
+  if (crumbsName) crumbsName.textContent = name;
+  const specCells = (p.specs || []).map(function (s) {
+    return '<div class="spec-cell"><div class="k">' + esc(specLabel(s.k)) + '</div><div class="v">' + esc(s.v) + "</div></div>";
+  }).join("");
+  const sampleLink = site.settings.samplePayLink;
+  box.innerHTML =
+    '<div class="pd-layout">' +
+    '<div class="pd-media"><img src="' + esc(p.img) + '" alt="' + esc(name) + '"></div>' +
+    '<div class="pd-info">' +
+    '<div class="m-cat">' + esc(cat ? catName(cat) : "") + "</div>" +
+    "<h1>" + esc(name) + "</h1>" +
+    '<p class="m-desc" style="font-size:1.02rem;">' + esc(desc) + "</p>" +
+    '<h4 style="margin:22px 0 12px;font-size:1.02rem;">' + esc(t("prod.specsTitle")) + "</h4>" +
+    '<div class="spec-grid">' + specCells + "</div>" +
+    '<div class="m-cta" style="margin-top:22px;">' +
+    '<button class="btn btn-primary btn-lg" data-pd-inquire="' + esc(p.id) + '">' + esc(t("common.inquire")) + "</button>" +
+    '<a class="btn btn-wa btn-lg" href="' + waLink(t("wa.defaultMsg") + " " + name) + '" target="_blank" rel="noopener">' + icon("whatsapp") + " WhatsApp</a>" +
+    (sampleLink ? '<a class="btn btn-outline btn-lg" href="' + esc(sampleLink) + '" target="_blank" rel="noopener">' + esc(t("prod.buySample")) + "</a>" : "") +
+    "</div>" +
+    (sampleLink ? '<p style="font-size:0.84rem;color:var(--ink-3);margin-top:10px;" data-i18n="prod.sampleNote">Sample fee will be deducted from your first bulk order. Payment handled securely by PayPal/Stripe.</p>' : "") +
+    "</div></div>";
+  const inqBtn = box.querySelector("[data-pd-inquire]");
+  if (inqBtn) inqBtn.addEventListener("click", function () { openInquiryModal(p.id); });
+  /* SEO: dynamic meta + structured data */
+  document.title = name + " | " + (cat ? catName(cat) : "") + " | Wholesale Home Appliance Factory";
+  const meta = document.querySelector('meta[name="description"]');
+  if (meta) meta.setAttribute("content", "Wholesale " + name + " from China factory. " + (desc || "").slice(0, 140) + " OEM/ODM, MOQ from 300 pcs, reply within 12 hours.");
+  const canon = document.querySelector('link[rel="canonical"]');
+  if (canon) canon.setAttribute("href", location.href.split("?")[0] + "?p=" + encodeURIComponent(id));
+  let ld = document.getElementById("pd-jsonld");
+  if (!ld) { ld = document.createElement("script"); ld.type = "application/ld+json"; ld.id = "pd-jsonld"; document.head.appendChild(ld); }
+  ld.textContent = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: name,
+    description: desc || "",
+    image: new URL(p.img, location.href).href,
+    category: cat ? catName(cat) : "",
+    brand: { "@type": "Brand", name: site.settings.brand },
+    offers: { "@type": "Offer", availability: "https://schema.org/InStock", priceCurrency: "USD", price: "0.00" }
+  });
+  /* related products */
+  const relGrid = document.getElementById("pd-related");
+  if (relGrid && relatedWrap) {
+    const rel = site.products.filter(function (x) { return x.id !== p.id && x.cat === p.cat && x.active !== false; }).slice(0, 4);
+    if (rel.length) {
+      relGrid.innerHTML = rel.map(function (r) { return productCard(r); }).join("");
+      bindProductCards(relGrid);
+      relatedWrap.style.display = "";
+    } else {
+      relatedWrap.style.display = "none";
+    }
+  }
+}
+
 /* ---------------- page dispatch ---------------- */
 function renderDynamic() {
   const page = document.body.getAttribute("data-page");
@@ -700,6 +781,8 @@ function renderDynamic() {
     renderMilestones(); renderQcSteps(); renderCerts(); renderOem();
   } else if (page === "contact") {
     renderContact();
+  } else if (page === "product") {
+    renderProductPage();
   }
   observeReveals();
 }
