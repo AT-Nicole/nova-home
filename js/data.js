@@ -20,6 +20,9 @@ const DEFAULT_DATA = {
     aiApiKey: "",
     aiApiBase: "https://open.bigmodel.cn/api/paas/v4",
     aiModel: "glm-4v-plus",
+    crmWebhook: "",
+    crmWebhookType: "generic",
+    samplePayLink: "",
     adminPass: "admin123",
     replyHours: "12"
   },
