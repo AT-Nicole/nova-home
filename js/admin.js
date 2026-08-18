@@ -93,7 +93,7 @@ const VIEWS = {
   stats: { title: "数据统计", sub: "首页深色统计条的 4 个数字", tools: addBtn("stats"), render: function () { renderList("stats"); } },
   testimonials: { title: "客户见证", sub: "首页与客户评价展示", tools: addBtn("testimonials"), render: function () { renderList("testimonials"); } },
   categories: { title: "产品分类", sub: "5 个产品大类（删除分类会同时隐藏其下产品）", tools: addBtn("categories"), render: function () { renderList("categories"); } },
-  products: { title: "产品管理", sub: "产品增删改查：名称、参数、图片、多语言", tools: addBtn("products"), render: renderProducts },
+  products: { title: "产品管理", sub: "产品增删改查：名称、参数、图片、多语言；可导出翻译表交母语客户校对", tools: '<button class="btn btn-outline btn-sm" id="export-langs">导出翻译表 CSV</button> <button class="btn btn-primary btn-sm" data-add="products">+ 新增</button>', render: renderProducts },
   milestones: { title: "发展历程", sub: "关于页时间轴", tools: addBtn("milestones"), render: function () { renderList("milestones"); } },
   qcsteps: { title: "质控流程", sub: "关于页「四个检查」步骤", tools: addBtn("qcSteps"), render: function () { renderList("qcSteps"); } },
   oem: { title: "OEM/ODM 能力", sub: "关于页 OEM 能力清单", tools: addBtn("oemPoints"), render: function () { renderList("oemPoints"); } },
@@ -116,6 +116,10 @@ function navigate(view) {
   const tools = $("#view-tools");
   const addBtnEl = tools.querySelector("[data-add]");
   if (addBtnEl) addBtnEl.addEventListener("click", function () { openCollectionModal(addBtnEl.getAttribute("data-add"), null); });
+  if (view === "products") {
+    const expL = $("#export-langs");
+    if (expL) expL.addEventListener("click", exportTranslations);
+  }
   if (view === "inquiries") {
     const exp = $("#inq-export");
     if (exp) exp.addEventListener("click", exportInquiries);
@@ -665,6 +669,9 @@ function renderSettings() {
     fieldHtml("aiApiKey", "AI 解析 API Key（智谱开放平台或 OpenAI 的 Key，用于 PDF 目录智能录入；仅存于本浏览器）", s.aiApiKey) +
     fieldHtml("aiApiBase", "AI API 地址（智谱默认 https://open.bigmodel.cn/api/paas/v4；OpenAI 填 https://api.openai.com/v1）", s.aiApiBase) +
     fieldHtml("aiModel", "AI 视觉模型（智谱填 glm-4v-plus 或 glm-4v-flash；OpenAI 填 gpt-4o）", s.aiModel) +
+    fieldHtml("crmWebhook", "CRM / 团队群 Webhook 地址（收到询盘后自动转发 JSON，飞书群机器人或自建接口均可；留空不启用）", s.crmWebhook) +
+    fieldHtml("crmWebhookType", "Webhook 类型（generic = 原始 JSON；feishu = 飞书群机器人格式）", s.crmWebhookType) +
+    fieldHtml("samplePayLink", "样品支付链接（PayPal.Me 或 Stripe Payment Link，填写后产品详情页显示 Buy Sample 按钮）", s.samplePayLink) +
     '<div class="adm-form-actions"><button type="submit" class="btn btn-primary">保存设置</button></div>' +
     "</form></div>" +
     '<div class="adm-card"><h2>修改后台密码</h2><div class="card-sub">默认密码 admin123，请务必修改。</div>' +
@@ -675,7 +682,7 @@ function renderSettings() {
   $("#settings-form").addEventListener("submit", function (e) {
     e.preventDefault();
     const fd = new FormData(this);
-    ["brand", "phone", "whatsapp", "email", "address", "hours", "mapQuery", "analyticsId", "tawkId", "fbpixelId", "aiApiKey", "aiApiBase", "aiModel"].forEach(function (k) {
+    ["brand", "phone", "whatsapp", "email", "address", "hours", "mapQuery", "analyticsId", "tawkId", "fbpixelId", "aiApiKey", "aiApiBase", "aiModel", "crmWebhook", "crmWebhookType", "samplePayLink"].forEach(function (k) {
       s[k] = (fd.get(k) || "").trim();
     });
     save();
@@ -1125,6 +1132,36 @@ function parseJsonArray(text) {
   } catch (e) {
     return [];
   }
+}
+
+/* ---------------- export translations CSV ---------------- */
+function exportTranslations() {
+  const rows = [];
+  const header = ["id", "cat", "name_en", "name_ar", "name_es", "name_th", "badge_en", "badge_ar", "badge_es", "badge_th", "desc_en", "desc_ar", "desc_es", "desc_th", "img", "featured", "active"];
+  rows.push(header);
+  site.products.forEach(function (p) {
+    rows.push(header.map(function (k) {
+      let v = p[k] === undefined ? "" : p[k];
+      if (typeof v === "boolean") v = v ? "1" : "0";
+      return v;
+    }));
+  });
+  /* category names too */
+  rows.push([]);
+  rows.push(["--- categories ---"]);
+  rows.push(["cat_id", "name_en", "name_ar", "name_es", "name_th"]);
+  site.categories.forEach(function (c) {
+    rows.push([c.id, c.name_en || "", c.name_ar || "", c.name_es || "", c.name_th || ""]);
+  });
+  const csv = rows.map(function (r) {
+    return r.map(function (v) { return '"' + String(v == null ? "" : v).replace(/"/g, '""') + '"'; }).join(",");
+  }).join("\n");
+  const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "translations-review-" + new Date().toISOString().slice(0, 10) + ".csv";
+  a.click();
+  toast("翻译表已导出：发给母语客户校对后，把校对结果发回即可批量更新");
 }
 
 /* ---------------- init ---------------- */
