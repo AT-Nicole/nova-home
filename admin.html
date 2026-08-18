@@ -10,6 +10,25 @@
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/admin.css">
+<style>
+/* inline fallback: keeps the login screen usable even if external CSS fails to load */
+body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;background:#F7F1E4;margin:0;color:#2E2419}
+.adm-login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;box-sizing:border-box}
+.adm-login-card{background:#FDFAF3;border:1px solid rgba(92,75,58,.16);border-radius:22px;box-shadow:0 24px 60px rgba(60,46,31,.18);padding:40px 36px;width:100%;max-width:400px;box-sizing:border-box}
+.adm-login-card h1{font-size:1.4rem;margin:0 0 6px;color:#3C2E1F}
+.adm-login-card p{color:#8A7663;font-size:.9rem;margin:0 0 22px}
+.logo{display:inline-flex;align-items:center;gap:10px;color:#3C2E1F;font-weight:700;font-size:1.22rem;text-decoration:none;margin-bottom:22px}
+.logo .logo-mark{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#A34A2A,#3C2E1F);display:inline-flex;align-items:center;justify-content:center;color:#fff}
+.field{display:flex;flex-direction:column;gap:7px;margin-bottom:12px}
+.field label{font-size:.88rem;font-weight:600;color:#3C2E1F}
+.field input{font-family:inherit;font-size:.95rem;color:#2E2419;background:#FFFDF7;border:1.5px solid rgba(92,75,58,.28);border-radius:10px;padding:12px 14px;width:100%;box-sizing:border-box}
+.field input:focus{outline:none;border-color:#A34A2A;box-shadow:0 0 0 3px rgba(163,74,42,.15)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:13px 26px;border-radius:999px;font-family:inherit;font-size:.98rem;font-weight:600;border:1.5px solid transparent;cursor:pointer}
+.btn-primary{background:#A34A2A;color:#fff;border:0}
+.btn-block{width:100%}
+.adm-login-card .err{color:#B3261E;font-size:.85rem;margin-top:10px;display:none}
+.adm-login-card .err.show{display:block}
+</style>
 </head>
 <body class="adm-body" data-page="admin">
 
