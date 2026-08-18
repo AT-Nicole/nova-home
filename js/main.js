@@ -433,6 +433,7 @@ function bindInquiryForm(formEl, opts) {
     const list = store.loadInquiries();
     list.unshift(inquiry);
     store.saveInquiries(list);
+    store.insertInquiry(inquiry);
     /* CRM / team webhook forward (optional) */
     const hook = site.settings.crmWebhook;
     if (hook) {
@@ -788,6 +789,7 @@ function renderDynamic() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+  initStore().then(function () {
   site = store.loadSite();
   initHeader();
   fillSettings();
@@ -819,6 +821,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
   }
+  });
 });
 
 /* re-render dynamic text when language changes (static [data-i18n] handled in i18n.js) */
