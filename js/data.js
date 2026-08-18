@@ -548,46 +548,79 @@ const DEFAULT_DATA = {
 };
 
 /* ================= storage helpers ================= */
-const LS_SITE = "hw_site_v1";
-const LS_INQUIRIES = "hw_inquiries_v1";
+/* Supabase backend: site data + inquiries live in a remote PostgreSQL database. */
+const SUPABASE_URL = "https://zmhvarnrdnsimkkhrlol.supabase.co";
+const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InptaHZhcm5yZG5zaW1ra2hybG9sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcwMjMwNzAsImV4cCI6MjEwMjU5OTA3MH0.AIEkHsNaNO1MRkGdIbhHGdUqvMtcMg1KJfqpFDnkYiU";
 
-function deepMerge(base, over) {
-  if (Array.isArray(base)) return over !== undefined ? over : base;
-  if (base && typeof base === "object" && over && typeof over === "object") {
-    const out = {};
-    Object.keys(base).forEach(function (k) {
-      out[k] = deepMerge(base[k], over[k]);
+let _sb = null;
+function sb() {
+  if (_sb) return _sb;
+  if (window.supabase) _sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+  return _sb;
+}
+
+let _cache = { site: null, inquiries: null };
+let _initPromise = null;
+
+function initStore() {
+  if (_initPromise) return _initPromise;
+  _initPromise = (function () {
+    return Promise.resolve().then(function () {
+      _cache.site = JSON.parse(JSON.stringify(DEFAULT_DATA));
+      _cache.inquiries = [];
+      var c = sb();
+      if (!c) return _cache;
+      return c.from("site_data").select("data").eq("id", 1).maybeSingle().then(function (r) {
+        if (r && r.data && r.data.data && Object.keys(r.data.data).length) {
+          _cache.site = deepMerge(DEFAULT_DATA, r.data.data);
+        } else {
+          c.from("site_data").upsert({ id: 1, data: _cache.site }).then(function () {}, function () {});
+        }
+        return _cache;
+      }).catch(function () { return _cache; });
     });
-    Object.keys(over).forEach(function (k) {
-      if (!(k in base)) out[k] = over[k];
-    });
-    return out;
-  }
-  return over !== undefined ? over : base;
+  })();
+  return _initPromise;
 }
 
 const store = {
   loadSite: function () {
-    try {
-      const raw = localStorage.getItem(LS_SITE);
-      if (!raw) return JSON.parse(JSON.stringify(DEFAULT_DATA));
-      return deepMerge(DEFAULT_DATA, JSON.parse(raw));
-    } catch (e) {
-      console.warn("store.loadSite fallback to defaults", e);
-      return JSON.parse(JSON.stringify(DEFAULT_DATA));
-    }
+    return _cache.site || JSON.parse(JSON.stringify(DEFAULT_DATA));
   },
   saveSite: function (data) {
-    localStorage.setItem(LS_SITE, JSON.stringify(data));
+    _cache.site = data;
+    var c = sb();
+    if (c) { c.from("site_data").upsert({ id: 1, data: data }).then(function () {}, function () {}); }
   },
   resetSite: function () {
-    localStorage.removeItem(LS_SITE);
+    var d = JSON.parse(JSON.stringify(DEFAULT_DATA));
+    store.saveSite(d);
   },
   loadInquiries: function () {
-    try { return JSON.parse(localStorage.getItem(LS_INQUIRIES)) || []; } catch (e) { return []; }
+    return _cache.inquiries || [];
   },
   saveInquiries: function (list) {
-    localStorage.setItem(LS_INQUIRIES, JSON.stringify(list));
+    _cache.inquiries = list;
+  },
+  fetchInquiries: function () {
+    var c = sb();
+    if (!c) return Promise.resolve([]);
+    return c.from("inquiries").select("*").order("created_at", { ascending: false }).then(function (r) {
+      _cache.inquiries = (r && r.data) || [];
+      return _cache.inquiries;
+    }).catch(function () { return _cache.inquiries || []; });
+  },
+  insertInquiry: function (q) {
+    var c = sb();
+    if (c) { c.from("inquiries").insert(q).then(function () {}, function () {}); }
+  },
+  markInquiryRead: function (id, read) {
+    var c = sb();
+    if (c) { c.from("inquiries").update({ read: read }).eq("id", id).then(function () {}, function () {}); }
+  },
+  deleteInquiry: function (id) {
+    var c = sb();
+    if (c) { c.from("inquiries").delete().eq("id", id).then(function () {}, function () {}); }
   }
 };
 
