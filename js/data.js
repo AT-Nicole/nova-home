@@ -6,12 +6,12 @@
 
 const DEFAULT_DATA = {
   settings: {
-    brand: "Foshan NovaHome Appliance",
+    brand: "WECHGOOD",
     slogan: "Power your comfortable daily life",
-    phone: "+86 757 8888 6666",
-    whatsapp: "8615788886666",
-    email: "sales@novahome-appliance.com",
-    address: "No. 88 Huaxia Road, Ronggui, Shunde, Foshan, Guangdong, China",
+    phone: "+86 183 2165 8916",
+    whatsapp: "8613143339397",
+    email: "harry_hou@wechgood.com",
+    address: "5th Floor, Building No.12, Tianfulai International Zone, No.39 Changbao West Road, Ronggui, Shunde, Foshan, Guangdong, China",
     hours: "Monday - Saturday, 9:00 - 18:00 (GMT+8)",
     mapQuery: "Ronggui, Shunde, Foshan, Guangdong, China",
     analyticsId: "",
@@ -23,6 +23,9 @@ const DEFAULT_DATA = {
     crmWebhook: "",
     crmWebhookType: "generic",
     samplePayLink: "",
+    factoryVideo: "",
+    facebook: "https://www.facebook.com/profile.php?id=61590714780155",
+    facebookCn: "https://www.facebook.com/profile.php?id=61590159466072",
     adminPass: "admin123",
     replyHours: "12"
   },
@@ -35,10 +38,10 @@ const DEFAULT_DATA = {
       title_ar: "أضف الطاقة إلى حياتك اليومية المريحة",
       title_es: "Da energía a tu día a día con comodidad",
       title_th: "เติมพลังชีวิตประจำวันที่สะดวกสบายของคุณ",
-      sub_en: "Factory-direct wholesale electric household appliances from China: induction cookers, hair dryers, razors, fans and heaters, exported to 40+ countries.",
-      sub_ar: "أجهزة كهربائية منزلية مباشرة من المصنع الصيني: مواقد حث، مجففات شعر، أدوات حلاقة، مراوح ودفايات، مصدَّرة إلى أكثر من 40 دولة.",
-      sub_es: "Electrodomésticos directos de fábrica desde China: cocinas de inducción, secadores, afeitadoras, ventiladores y calefactores, exportados a más de 40 países.",
-      sub_th: "เครื่องใช้ไฟฟ้าจากโรงงานจีนโดยตรง: เตาแม่เหล็กไฟฟ้า ไดร์เป่าผม มีดโกนหนวด พัดลม เครื่องทำความร้อน ส่งออกกว่า 40 ประเทศ"
+      sub_en: "Factory-direct wholesale cooking appliances from China: induction cookers, infrared cookers, tea extractors and 2-in-1 coffee-tea machines, exported to 40+ countries.",
+      sub_ar: "أجهزة طبخ مباشرة من المصنع الصيني: مواقد حث، مواقد الأشعة تحت الحمراء، أجهزة تحضير الشاي وأجهزة القهوة والشاي 2 في 1، مصدَّرة إلى أكثر من 40 دولة.",
+      sub_es: "Aparatos de cocina directos de fábrica desde China: cocinas de inducción, cocinas de infrarrojos, extractores de té y cafeteras y teteras 2 en 1, exportados a más de 40 países.",
+      sub_th: "เครื่องครัวจากโรงงานจีนโดยตรง: เตาแม่เหล็กไฟฟ้า เตาอินฟราเรด เครื่องชงชา และเครื่องชงกาแฟและชา 2-in-1 ส่งออกกว่า 40 ประเทศ"
     },
     {
       id: "s2",
@@ -47,10 +50,10 @@ const DEFAULT_DATA = {
       title_ar: "جودة يمكنك تتبعها حتى المصدر",
       title_es: "Calidad que puedes rastrear hasta el origen",
       title_th: "คุณภาพที่ตรวจสอบย้อนกลับถึงต้นทางได้",
-      sub_en: "Five production lines, 200+ skilled workers and a four-step QC system on every single batch.",
-      sub_ar: "خمسة خطوط إنتاج، أكثر من 200 عامل ماهر، ونظام جودة من أربع خطوات لكل دفعة.",
-      sub_es: "Cinco líneas de producción, más de 200 trabajadores cualificados y un sistema de control de calidad en cuatro pasos en cada lote.",
-      sub_th: "สายการผลิต 5 สาย พนักงานฝีมือดีกว่า 200 คน และระบบ QC 4 ขั้นตอนในทุกชุดการผลิต"
+      sub_en: "Five production lines, 400+ skilled workers and a four-step QC system on every single batch.",
+      sub_ar: "خمسة خطوط إنتاج، أكثر من 400 عامل ماهر، ونظام جودة من أربع خطوات لكل دفعة.",
+      sub_es: "Cinco líneas de producción, más de 400 trabajadores cualificados y un sistema de control de calidad en cuatro pasos en cada lote.",
+      sub_th: "สายการผลิต 5 สาย พนักงานฝีมือดีกว่า 400 คน และระบบ QC 4 ขั้นตอนในทุกชุดการผลิต"
     },
     {
       id: "s3",
@@ -79,7 +82,7 @@ const DEFAULT_DATA = {
       desc_es: "Una fábrica real en Foshan (China), construida por ingenieros y personal de exportación que trabajan con importadores desde el primer día.",
       desc_th: "โรงงานจริงในเมืองฝอซาน ประเทศจีน ก่อตั้งโดยวิศวกรและทีมส่งออกที่ทำงานกับผู้นำเข้ามาตั้งแต่วันแรก",
       stat1_en: "15+ years", stat1_ar: "+15 عاماً", stat1_es: "+15 años", stat1_th: "15+ ปี",
-      stat2_en: "200+ workers", stat2_ar: "+200 عامل", stat2_es: "+200 trabajadores", stat2_th: "200+ คน"
+      stat2_en: "400+ workers", stat2_ar: "+400 عامل", stat2_es: "+400 trabajadores", stat2_th: "400+ คน"
     },
     {
       id: "a2",
@@ -88,12 +91,12 @@ const DEFAULT_DATA = {
       title_ar: "معتمد لسوقك",
       title_es: "Certificado para tu mercado",
       title_th: "ได้มาตรฐานสำหรับตลาดของคุณ",
-      desc_en: "CE, RoHS, CB, ETL, SAA and ISO 9001. Products are tested to the standards of the markets we ship to.",
-      desc_ar: "CE وRoHS وCB وETL وSAA وISO 9001. المنتجات مجرّبة وفق معايير الأسواق التي نشحن إليها.",
-      desc_es: "CE, RoHS, CB, ETL, SAA e ISO 9001. Los productos se prueban según los estándares de los mercados a los que enviamos.",
-      desc_th: "CE, RoHS, CB, ETL, SAA และ ISO 9001 สินค้าผ่านการทดสอบตามมาตรฐานของตลาดที่เราส่งออก",
-      stat1_en: "CE · RoHS · CB", stat1_ar: "CE · RoHS · CB", stat1_es: "CE · RoHS · CB", stat1_th: "CE · RoHS · CB",
-      stat2_en: "ETL · SAA · ISO9001", stat2_ar: "ETL · SAA · ISO9001", stat2_es: "ETL · SAA · ISO9001", stat2_th: "ETL · SAA · ISO9001"
+      desc_en: "CE, RoHS, ErP and UKCA. Products are tested to the standards of the markets we ship to.",
+      desc_ar: "CE وRoHS وErP وUKCA. المنتجات مُختبَرة وفق معايير الأسواق التي نشحن إليها.",
+      desc_es: "CE, RoHS, ErP y UKCA. Los productos se prueban según los estándares de los mercados a los que enviamos.",
+      desc_th: "CE, RoHS, ErP และ UKCA ผลิตภัณฑ์ได้รับการทดสอบตามมาตรฐานของตลาดที่เราส่งออก",
+      stat1_en: "CE · RoHS · UKCA", stat1_ar: "CE · RoHS · UKCA", stat1_es: "CE · RoHS · UKCA", stat1_th: "CE · RoHS · UKCA",
+      stat2_en: "ErP Certified", stat2_ar: "ErP Certified", stat2_es: "ErP Certified", stat2_th: "ErP Certified"
     },
     {
       id: "a3",
@@ -188,258 +191,1048 @@ const DEFAULT_DATA = {
   ],
 
   categories: [
-    { id: "induction-cooker", img: "images/cat-induction.jpg", name_en: "Induction Cookers", name_ar: "مواقد الحث", name_es: "Cocinas de inducción", name_th: "เตาแม่เหล็กไฟฟ้า" },
-    { id: "hair-dryer", img: "images/cat-dryer.jpg", name_en: "Hair Dryers", name_ar: "مجففات الشعر", name_es: "Secadores de pelo", name_th: "ไดร์เป่าผม" },
-    { id: "fan", img: "images/cat-fan.jpg", name_en: "Electric Fans", name_ar: "المراوح", name_es: "Ventiladores", name_th: "พัดลม" },
-    { id: "heater", img: "images/cat-heater.jpg", name_en: "Heaters", name_ar: "الدفايات", name_es: "Calefactores", name_th: "เครื่องทำความร้อน" },
-    { id: "razor", img: "images/cat-razor.jpg", name_en: "Razors", name_ar: "أدوات الحلاقة", name_es: "Afeitadoras", name_th: "มีดโกนหนวด" }
+    {
+        "id": "induction-cooker",
+        "img": "images/cat-induction.jpg",
+        "name_ar": "مواقد الحث",
+        "name_en": "Induction Cookers",
+        "name_es": "Cocinas de inducción",
+        "name_th": "เตาแม่เหล็กไฟฟ้า"
+    },
+    {
+        "id": "infrared-cooker",
+        "img": "images/cat-infrared.jpg",
+        "name_ar": "مواقد الأشعة تحت الحمراء",
+        "name_en": "Infrared Cookers",
+        "name_es": "Cocinas de infrarrojos",
+        "name_th": "เตาอินฟราเรด"
+    },
+    {
+        "id": "tea-extractor",
+        "img": "images/cat-tea.jpg",
+        "name_ar": "أجهزة تحضير الشاي",
+        "name_en": "Tea Extractors",
+        "name_es": "Extractores de té",
+        "name_th": "เครื่องชงชา"
+    },
+    {
+        "id": "coffee-tea-maker",
+        "img": "images/products/wp-wq-yd006.jpg",
+        "name_ar": "أجهزة القهوة والشاي 2 في 1",
+        "name_en": "2-in-1 Coffee & Tea Makers",
+        "name_es": "Cafeteras y teteras 2 en 1",
+        "name_th": "เครื่องชงกาแฟและชา 2-in-1"
+    }
+    ],
+
+    products: [
+    {
+        "id": "wp-wq-2835a",
+        "cat": "induction-cooker",
+        "img": "images/products/wp-wq-2835a.jpg",
+        "model": "WQ-2835A",
+        "name_en": "2100W Single-Burner Induction Cooker",
+        "desc_en": "Universal voltage (AC 220-240V) single-burner induction cooker, 2100W fast heating, 9 power gears, 180-min timer, touch control, A+ microcrystal panel, CE & RoHS certified.",
+        "name_ar": "موقد حثي أحادي العين بقدرة 2100 واط",
+        "desc_ar": "جهد عالمي 220-240 فولت، 9 مستويات طاقة، مؤقت 180 دقيقة، تحكم باللمس، لوح زجاجي A+، معتمد CE وRoHS.",
+        "name_es": "Cocina de inducción de un quemador 2100W",
+        "desc_es": "Voltaje universal AC 220-240V, 9 niveles de potencia, temporizador 180 min, control táctil, panel microcristalino A+, certificado CE y RoHS.",
+        "name_th": "เตาแม่เหล็กไฟฟ้าหัวเดียว 2100W",
+        "desc_th": "แรงดันสากล 220-240V กำลังไฟ 2100W ระดับกำลัง 9 ระดับ ตั้งเวลา 180 นาที ควบคุมแบบสัมผัส แผ่นไมโครคริสตัล A+ ผ่าน CE และ RoHS",
+        "specs": [
+            {
+                "k": "power",
+                "v": "2100W",
+    "featured": true
+            },
+            {
+                "k": "voltage",
+                "v": "AC 220-240V"
+            },
+            {
+                "k": "gears",
+                "v": "9 Heating Gears"
+            },
+            {
+                "k": "timer",
+                "v": "180 mins"
+            },
+            {
+                "k": "control",
+                "v": "Touch"
+            },
+            {
+                "k": "panel",
+                "v": "A+ Microcrystal Panel"
+            },
+            {
+                "k": "weight",
+                "v": "Approx. 2 KG"
+            },
+            {
+                "k": "dimension",
+                "v": "350 x 280 x 52 mm"
+            },
+            {
+                "k": "packaging",
+                "v": "Gift 432x90x320 / Carton 475x335x453 mm, 5 pcs"
+            },
+            {
+                "k": "container",
+                "v": "20' 2020 / 40' 4500 / 40'HQ 4750 pcs"
+            },
+            {
+                "k": "certification",
+                "v": "CE, RoHS"
+            },
+            {
+                "k": "option",
+                "v": "EMC version available"
+            }
+        ],
+        "active": true
+    },
+    {
+        "id": "wp-wq-2835b",
+        "cat": "induction-cooker",
+        "img": "images/products/wp-wq-2835b.jpg",
+        "model": "WQ-2835B",
+        "name_en": "2100W Single-Burner Induction Cooker",
+        "desc_en": "Universal voltage (AC 220-240V) induction cooker with 2100W fast heating, 9 gears, 180-min timer, touch control, child lock and A+ microcrystal panel.",
+        "name_ar": "موقد حثي أحادي العين بقدرة 2100 واط",
+        "desc_ar": "جهد عالمي، 9 مستويات طاقة، مؤقت 180 دقيقة، قفل أمان للأطفال، تحكم باللمس، لوح زجاجي A+.",
+        "name_es": "Cocina de inducción de un quemador 2100W",
+        "desc_es": "Voltaje universal, 9 niveles, temporizador 180 min, bloqueo infantil, control táctil, panel microcristalino A+.",
+        "name_th": "เตาแม่เหล็กไฟฟ้าหัวเดียว 2100W",
+        "desc_th": "แรงดันสากล ระดับกำลัง 9 ระดับ ตั้งเวลา 180 นาที ระบบล็อคเด็ก ควบคุมแบบสัมผัส แผ่น A+",
+        "specs": [
+            {
+                "k": "power",
+                "v": "2100W"
+            },
+            {
+                "k": "voltage",
+                "v": "AC 220-240V"
+            },
+            {
+                "k": "gears",
+                "v": "9 Heating Gears"
+            },
+            {
+                "k": "timer",
+                "v": "180 mins"
+            },
+            {
+                "k": "control",
+                "v": "Touch"
+            },
+            {
+                "k": "functions",
+                "v": "Child lock"
+            },
+            {
+                "k": "panel",
+                "v": "A+ Microcrystal Panel"
+            },
+            {
+                "k": "weight",
+                "v": "Approx. 2 KG"
+            },
+            {
+                "k": "dimension",
+                "v": "350 x 280 x 52 mm"
+            },
+            {
+                "k": "packaging",
+                "v": "5 pcs / carton 475x335x453 mm"
+            },
+            {
+                "k": "container",
+                "v": "20' 2020 / 40' 4500 / 40'HQ 4750 pcs"
+            },
+            {
+                "k": "certification",
+                "v": "CE, RoHS"
+            }
+        ],
+        "active": true
+    },
+    {
+        "id": "wp-wq-2835g",
+        "cat": "induction-cooker",
+        "img": "images/products/wp-wq-2835g.jpg",
+        "model": "WQ-2835G",
+        "name_en": "2100W Single-Burner Induction Cooker",
+        "desc_en": "220V/50Hz induction cooker, 2100W with 9 gears, touch control, raised heating plate, timer setting and intelligent temperature control.",
+        "name_ar": "موقد حثي أحادي العين بقدرة 2100 واط",
+        "desc_ar": "220 فولت/50 هرتز، 2100 واط، 9 مستويات، تحكم باللمس، لوح تسخين بارز، تحكم ذكي بدرجة الحرارة.",
+        "name_es": "Cocina de inducción de un quemador 2100W",
+        "desc_es": "220V/50Hz, 2100W, 9 niveles, control táctil, placa calefactora elevada, control inteligente de temperatura.",
+        "name_th": "เตาแม่เหล็กไฟฟ้าหัวเดียว 2100W",
+        "desc_th": "220V/50Hz กำลังไฟ 2100W ระดับกำลัง 9 ระดับ แผ่นทำความร้อนยกสูง ควบคุมอุณหภูมิอัจฉริยะ",
+        "specs": [
+            {
+                "k": "power",
+                "v": "2100W"
+            },
+            {
+                "k": "voltage",
+                "v": "220V/50Hz"
+            },
+            {
+                "k": "gears",
+                "v": "9 Heating Gears"
+            },
+            {
+                "k": "control",
+                "v": "Touch"
+            },
+            {
+                "k": "dimension",
+                "v": "280 x 350 x 52 mm"
+            },
+            {
+                "k": "material",
+                "v": "Plastic caseback / Microcrystal Glass"
+            },
+            {
+                "k": "functions",
+                "v": "Timer, well-distributed heating zone, overheating protection, intelligent temperature control, turbo key"
+            }
+        ],
+        "active": true
+    },
+    {
+        "id": "wp-wq-2835e",
+        "cat": "induction-cooker",
+        "img": "images/products/wp-wq-2835e.jpg",
+        "model": "WQ-2835E",
+        "name_en": "2100W Single-Burner Induction Cooker (EMC)",
+        "desc_en": "AC 220-240V single-burner induction cooker, 2100W max power, 9 heating levels, 180-min timer, touch control with A+ round microcrystalline panel, CE & RoHS.",
+        "name_ar": "موقد حثي أحادي العين 2100 واط",
+        "desc_ar": "220-240 فولت، 2100 واط، 9 مستويات، مؤقت 180 دقيقة، تحكم باللمس، لوح دائري A+، معتمد CE وRoHS.",
+        "name_es": "Cocina de inducción de un quemador 2100W",
+        "desc_es": "AC 220-240V, 2100W, 9 niveles, temporizador 180 min, control táctil, panel microcristalino redondo A+, CE y RoHS.",
+        "name_th": "เตาแม่เหล็กไฟฟ้าหัวเดียว 2100W (EMC)",
+        "desc_th": "220-240V กำลังไฟ 2100W ระดับความร้อน 9 ระดับ ตั้งเวลา 180 นาที ควบคุมแบบสัมผัส แผ่นกลม A+ ผ่าน CE และ RoHS",
+        "specs": [
+            {
+                "k": "power",
+                "v": "2100W"
+            },
+            {
+                "k": "voltage",
+                "v": "AC 220-240V"
+            },
+            {
+                "k": "gears",
+                "v": "9 Heating Levels"
+            },
+            {
+                "k": "timer",
+                "v": "180 mins"
+            },
+            {
+                "k": "control",
+                "v": "Touch Control"
+            },
+            {
+                "k": "panel",
+                "v": "A+ Round Microcrystalline Panel"
+            },
+            {
+                "k": "weight",
+                "v": "Approx. 2 KG"
+            },
+            {
+                "k": "dimension",
+                "v": "350 x 280 x 52 mm"
+            },
+            {
+                "k": "colors",
+                "v": "1 color option"
+            },
+            {
+                "k": "certification",
+                "v": "CE, RoHS"
+            }
+        ],
+        "active": true
+    },
+    {
+        "id": "wp-wq-3137",
+        "cat": "induction-cooker",
+        "img": "images/products/wp-wq-3137.jpg",
+        "model": "WQ-3137",
+        "name_en": "3500W Commercial Induction Cooker",
+        "desc_en": "Commercial induction cooker, 3500W max power, 10 heating gears, 180-min timer, touch & knob control, A+ microcrystal panel, lightweight 2.5KG.",
+        "name_ar": "موقد حثي تجاري بقدرة 3500 واط",
+        "desc_ar": "3500 واط، 10 مستويات طاقة، مؤقت 180 دقيقة، تحكم باللمس والمقبض، لوح A+، وزن خفيف 2.5 كجم.",
+        "name_es": "Cocina de inducción comercial 3500W",
+        "desc_es": "3500W, 10 niveles, temporizador 180 min, control táctil y perilla, panel microcristalino A+, 2,5 kg.",
+        "name_th": "เตาแม่เหล็กไฟฟ้าเชิงพาณิชย์ 3500W",
+        "desc_th": "กำลังไฟ 3500W ระดับความร้อน 10 ระดับ ตั้งเวลา 180 นาที ควบคุมแบบสัมผัสและปุ่มหมุน แผ่น A+ น้ำหนักเบา 2.5 กก.",
+        "specs": [
+            {
+                "k": "power",
+                "v": "3500W",
+    "featured": true
+            },
+            {
+                "k": "voltage",
+                "v": "AC 220-240V"
+            },
+            {
+                "k": "gears",
+                "v": "10 Heating Gears"
+            },
+            {
+                "k": "timer",
+                "v": "180 mins"
+            },
+            {
+                "k": "control",
+                "v": "Touch & Knob"
+            },
+            {
+                "k": "panel",
+                "v": "A+ Microcrystalline Panel"
+            },
+            {
+                "k": "weight",
+                "v": "Approx. 2.5 KG"
+            },
+            {
+                "k": "dimension",
+                "v": "310 x 399 x 65 mm"
+            },
+            {
+                "k": "packaging",
+                "v": "Carton 485x107x345 mm, 1 pc"
+            },
+            {
+                "k": "container",
+                "v": "20' 1770 / 40' 3630 / 40'HQ 4160 pcs"
+            },
+            {
+                "k": "certification",
+                "v": "CE, RoHS"
+            }
+        ],
+        "active": true
+    },
+    {
+        "id": "wp-wq-3137c",
+        "cat": "induction-cooker",
+        "img": "images/products/wp-wq-3137c.jpg",
+        "model": "WQ-3137 CONCAVE",
+        "name_en": "3500W Commercial Concave Induction Cooker",
+        "desc_en": "Commercial concave induction cooker with wok-friendly design, 3500W, 10 gears, 180-min timer, touch & knob control, 2.5KG lightweight.",
+        "name_ar": "موقد حثي تجاري مقعر 3500 واط",
+        "desc_ar": "تصميم مقعر مناسب للقلاية، 3500 واط، 10 مستويات، مؤقت 180 دقيقة، تحكم باللمس والمقبض، 2.5 كجم.",
+        "name_es": "Cocina de inducción cóncava comercial 3500W",
+        "desc_es": "Diseño cóncavo para wok, 3500W, 10 niveles, temporizador 180 min, control táctil y perilla, 2,5 kg.",
+        "name_th": "เตาแม่เหล็กไฟฟ้าเชิงพาณิชย์แบบก้นเว้า 3500W",
+        "desc_th": "ดีไซน์ก้นเว้าเหมาะกับกระทะจีน กำลังไฟ 3500W ระดับความร้อน 10 ระดับ ตั้งเวลา 180 นาที น้ำหนัก 2.5 กก.",
+        "specs": [
+            {
+                "k": "power",
+                "v": "3500W"
+            },
+            {
+                "k": "voltage",
+                "v": "AC 220-240V"
+            },
+            {
+                "k": "gears",
+                "v": "10 Heating Gears"
+            },
+            {
+                "k": "timer",
+                "v": "180 mins"
+            },
+            {
+                "k": "control",
+                "v": "Touch & Knob"
+            },
+            {
+                "k": "panel",
+                "v": "A+ Microcrystalline Panel"
+            },
+            {
+                "k": "weight",
+                "v": "Approx. 2.5 KG"
+            },
+            {
+                "k": "dimension",
+                "v": "310 x 399 x 77 mm"
+            },
+            {
+                "k": "packaging",
+                "v": "Carton 485x130x345 mm, 1 pc"
+            },
+            {
+                "k": "container",
+                "v": "20' 1300 / 40' 3000 / 40'HQ 3400 pcs"
+            }
+        ],
+        "active": true
+    },
+    {
+        "id": "wp-wq-a730",
+        "cat": "induction-cooker",
+        "img": "images/products/wp-wq-a730.jpg",
+        "model": "WQ-A730",
+        "name_en": "3500W Concave Induction Cooker with Wok",
+        "desc_en": "Concave induction cooker complete with wok, 3500W, 10 power levels, touch & knob control, 8-hour timer, high & low voltage protection, auto standby.",
+        "name_ar": "موقد حثي مقعر مع قدر 3500 واط",
+        "desc_ar": "يشمل قدر، 3500 واط، 10 مستويات، تحكم باللمس والمقبض، مؤقت 8 ساعات، حماية الجهد العالي والمنخفض.",
+        "name_es": "Cocina de inducción cóncava con wok 3500W",
+        "desc_es": "Incluye wok, 3500W, 10 niveles, control táctil y perilla, temporizador 8 h, protección de voltaje, modo de espera.",
+        "name_th": "เตาแม่เหล็กไฟฟ้าก้นเว้าพร้อมกระทะ 3500W",
+        "desc_th": "มาพร้อมกระทะจีน กำลังไฟ 3500W ระดับกำลัง 10 ระดับ ตั้งเวลา 8 ชั่วโมง ระบบป้องกันไฟกระชากและไฟตก",
+        "specs": [
+            {
+                "k": "power",
+                "v": "3500W"
+            },
+            {
+                "k": "voltage",
+                "v": "220V/50Hz"
+            },
+            {
+                "k": "gears",
+                "v": "10 Power Levels"
+            },
+            {
+                "k": "timer",
+                "v": "8-Hour Timer"
+            },
+            {
+                "k": "control",
+                "v": "Touch + Knob"
+            },
+            {
+                "k": "dimension",
+                "v": "454 x 369 x 135 mm"
+            },
+            {
+                "k": "packaging",
+                "v": "530x310x440 mm (with wok)"
+            },
+            {
+                "k": "material",
+                "v": "Microcrystalline Panel / Tempered Glass / PP / ABS"
+            },
+            {
+                "k": "functions",
+                "v": "High & low voltage protection, overheat protection, auto standby"
+            }
+        ],
+        "active": true
+    },
+    {
+        "id": "wp-wq-400",
+        "cat": "induction-cooker",
+        "img": "images/products/wp-wq-400.jpg",
+        "model": "WQ-400",
+        "name_en": "Built-in Multi-zone Induction Cooker 5500W (4 Burners)",
+        "desc_en": "Built-in 4-zone induction cooker, 5500W total power (1500+2000+1500+2000W), 9 power levels, 180-min timer, touch & knob control, pan detection. 3-zone variant available.",
+        "name_ar": "موقد حثي مدمج متعدد المناطق 5500 واط",
+        "desc_ar": "4 مناطق طهي مستقلة، 5500 واط، 9 مستويات، مؤقت 180 دقيقة، تحكم باللمس والمقبض، كشف الأواني. يتوفر إصدار 3 مناطق.",
+        "name_es": "Cocina de inducción integrada multizona 5500W",
+        "desc_es": "4 zonas independientes, 5500W, 9 niveles, temporizador 180 min, control táctil y perilla, detección de ollas. Variante de 3 zonas disponible.",
+        "name_th": "เตาแม่เหล็กไฟฟ้าแบบบิลท์อิน 4 หัว 5500W",
+        "desc_th": "4 หัวทำความร้อนอิสระ กำลังรวม 5500W ระดับกำลัง 9 ระดับ ตั้งเวลา 180 นาที ระบบตรวจจับหม้อ มีรุ่น 3 หัว",
+        "specs": [
+            {
+                "k": "power",
+                "v": "5500W (1500+2000+1500+2000W)",
+    "featured": true
+            },
+            {
+                "k": "voltage",
+                "v": "AC 220-240V, 50/60Hz"
+            },
+            {
+                "k": "gears",
+                "v": "9 Levels"
+            },
+            {
+                "k": "timer",
+                "v": "180 mins"
+            },
+            {
+                "k": "control",
+                "v": "Touch & Knob Control"
+            },
+            {
+                "k": "panel",
+                "v": "A+ Microcrystal Panel + Plastic Frame"
+            },
+            {
+                "k": "dimension",
+                "v": "590 x 520 x 62 mm"
+            },
+            {
+                "k": "cutout",
+                "v": "560 x 490 mm"
+            },
+            {
+                "k": "weight",
+                "v": "8.7 KG"
+            },
+            {
+                "k": "packaging",
+                "v": "Carton 670x580x115 mm, 1 pc"
+            },
+            {
+                "k": "container",
+                "v": "20' 665 / 40' 1368 / 40'HQ 1583 pcs"
+            },
+            {
+                "k": "functions",
+                "v": "4 independent cooking zones, pan detection, double LED display"
+            },
+            {
+                "k": "variant",
+                "v": "3-zone 1500+2000+2300W available"
+            }
+        ],
+        "active": true
+    },
+    {
+        "id": "wp-wqy-x11",
+        "cat": "infrared-cooker",
+        "img": "images/products/wp-wqy-x11.jpg",
+        "model": "WQY-X11",
+        "name_en": "3000W Concave Ceramic Cooker",
+        "desc_en": "Concave ceramic cooker, 3000W, 10 heating levels, touch & knob control, 8-hour timer, overheat protection, auto standby.",
+        "name_ar": "موقد سيراميك مقعر 3000 واط",
+        "desc_ar": "3000 واط، 10 مستويات حرارة، تحكم باللمس والمقبض، مؤقت 8 ساعات، حماية من السخونة الزائدة.",
+        "name_es": "Cocina cerámica cóncava 3000W",
+        "desc_es": "3000W, 10 niveles, control táctil y perilla, temporizador 8 h, protección contra sobrecalentamiento.",
+        "name_th": "เตาเซรามิกก้นเว้า 3000W",
+        "desc_th": "กำลังไฟ 3000W ระดับความร้อน 10 ระดับ ควบคุมแบบสัมผัสและปุ่มหมุน ตั้งเวลา 8 ชั่วโมง ระบบป้องกันความร้อนสูงเกิน",
+        "specs": [
+            {
+                "k": "power",
+                "v": "3000W"
+            },
+            {
+                "k": "voltage",
+                "v": "220-240V / 50Hz"
+            },
+            {
+                "k": "gears",
+                "v": "10 Heating Levels"
+            },
+            {
+                "k": "timer",
+                "v": "8-Hour Timer"
+            },
+            {
+                "k": "control",
+                "v": "Touch + Knob"
+            },
+            {
+                "k": "dimension",
+                "v": "454 x 369 x 135 mm"
+            },
+            {
+                "k": "material",
+                "v": "Microcrystal Plate / Tempered Glass / PP / ABS"
+            },
+            {
+                "k": "functions",
+                "v": "Overheat protection, auto standby"
+            }
+        ],
+        "active": true
+    },
+    {
+        "id": "wp-wq-x2",
+        "cat": "infrared-cooker",
+        "img": "images/products/wp-wq-x2.jpg",
+        "model": "WQ-X2",
+        "name_en": "2200W Infrared Cooker Electric Ceramic Hob",
+        "desc_en": "2200W infrared ceramic hob, inner & outer circle heating, 9 heating levels, 180-min timer, touch + knob dual control, metal frame, suitable for all pots. 2 color options.",
+        "name_ar": "موقد الأشعة تحت الحمراء 2200 واط",
+        "desc_ar": "تسخين الدائرة الداخلية والخارجية، 9 مستويات، مؤقت 180 دقيقة، تحكم مزدوج باللمس والمقبض، إطار معدني، مناسب لجميع الأواني.",
+        "name_es": "Cocina infrarroja de cerámica 2200W",
+        "desc_es": "Calentamiento de círculo interior y exterior, 9 niveles, temporizador 180 min, doble control táctil y perilla, marco metálico, apta para todas las ollas.",
+        "name_th": "เตาอินฟราเรดเซรามิก 2200W",
+        "desc_th": "ระบบทำความร้อนวงในวงนอก ระดับความร้อน 9 ระดับ ตั้งเวลา 180 นาที ควบคุมแบบสัมผัสและปุ่มหมุน โครงโลหะ ใช้ได้กับหม้อทุกชนิด มี 2 สี",
+        "specs": [
+            {
+                "k": "power",
+                "v": "2200W",
+    "featured": true
+            },
+            {
+                "k": "voltage",
+                "v": "AC 220-240V"
+            },
+            {
+                "k": "gears",
+                "v": "9 Heating Levels"
+            },
+            {
+                "k": "timer",
+                "v": "180 mins"
+            },
+            {
+                "k": "control",
+                "v": "Touch Control + Knob"
+            },
+            {
+                "k": "panel",
+                "v": "A+ Microcrystalline Panel"
+            },
+            {
+                "k": "dimension",
+                "v": "407 x 270 x 63 mm"
+            },
+            {
+                "k": "structure",
+                "v": "Metal Frame"
+            },
+            {
+                "k": "colors",
+                "v": "Black / Red (2 color options)"
+            },
+            {
+                "k": "packaging",
+                "v": "Gift 442x106x342 / Carton 555x462x367 mm, 5 pcs"
+            },
+            {
+                "k": "container",
+                "v": "20' 1500 / 40' 3300 / 40'HQ 3700 pcs"
+            },
+            {
+                "k": "functions",
+                "v": "Inner & outer circle heating, suitable for all pots"
+            }
+        ],
+        "active": true
+    },
+    {
+        "id": "wp-wq-x10",
+        "cat": "infrared-cooker",
+        "img": "images/products/wp-wq-x10.jpg",
+        "model": "WQ-X10",
+        "name_en": "2200W Infrared Cooker",
+        "desc_en": "Universal voltage (AC 220-240V) infrared cooker, 2200W, 9 heating gears, 180-min timer, touch control, A+ microcrystal panel, approx. 2KG.",
+        "name_ar": "موقد الأشعة تحت الحمراء 2200 واط",
+        "desc_ar": "جهد عالمي، 2200 واط، 9 مستويات، مؤقت 180 دقيقة، تحكم باللمس، لوح A+، حوالي 2 كجم.",
+        "name_es": "Cocina infrarroja 2200W",
+        "desc_es": "Voltaje universal, 2200W, 9 niveles, temporizador 180 min, control táctil, panel A+, aprox. 2 kg.",
+        "name_th": "เตาอินฟราเรด 2200W",
+        "desc_th": "แรงดันสากล กำลังไฟ 2200W ระดับความร้อน 9 ระดับ ตั้งเวลา 180 นาที ควบคุมแบบสัมผัส แผ่น A+ น้ำหนักประมาณ 2 กก.",
+        "specs": [
+            {
+                "k": "power",
+                "v": "2200W"
+            },
+            {
+                "k": "voltage",
+                "v": "AC 220-240V"
+            },
+            {
+                "k": "gears",
+                "v": "9 Heating Gears"
+            },
+            {
+                "k": "timer",
+                "v": "180 mins"
+            },
+            {
+                "k": "control",
+                "v": "Touch"
+            },
+            {
+                "k": "panel",
+                "v": "A+ Microcrystal Panel"
+            },
+            {
+                "k": "weight",
+                "v": "Approx. 2 KG"
+            },
+            {
+                "k": "dimension",
+                "v": "280 x 360 x 57 mm"
+            },
+            {
+                "k": "packaging",
+                "v": "Gift 370x110x455 / Carton 605x465x420 mm, 5 pcs"
+            },
+            {
+                "k": "container",
+                "v": "20' 1400 / 40' 3000 / 40'HQ 3400 pcs"
+            }
+        ],
+        "active": true
+    },
+    {
+        "id": "wp-wq-x9",
+        "cat": "infrared-cooker",
+        "img": "images/products/wp-wq-x9.jpg",
+        "model": "WQ-X9",
+        "name_en": "2200W Infrared Cooker Electric Ceramic Hob",
+        "desc_en": "2200W infrared ceramic hob, inner & outer circle heating, 9 heating levels, touch + knob control, A+ panel, plastic frame, approx. 2.2KG.",
+        "name_ar": "موقد الأشعة تحت الحمراء 2200 واط",
+        "desc_ar": "تسخين الدائرة الداخلية والخارجية، 9 مستويات، تحكم باللمس والمقبض، لوح A+، إطار بلاستيكي، 2.2 كجم.",
+        "name_es": "Cocina infrarroja de cerámica 2200W",
+        "desc_es": "Calentamiento de doble círculo, 9 niveles, control táctil y perilla, panel A+, marco plástico, aprox. 2,2 kg.",
+        "name_th": "เตาอินฟราเรดเซรามิก 2200W",
+        "desc_th": "ระบบทำความร้อนวงในวงนอก ระดับความร้อน 9 ระดับ ควบคุมแบบสัมผัสและปุ่มหมุน แผ่น A+ โครงพลาสติก น้ำหนักประมาณ 2.2 กก.",
+        "specs": [
+            {
+                "k": "power",
+                "v": "2200W"
+            },
+            {
+                "k": "voltage",
+                "v": "AC 220-240V"
+            },
+            {
+                "k": "gears",
+                "v": "9 Heating Levels"
+            },
+            {
+                "k": "timer",
+                "v": "180 mins"
+            },
+            {
+                "k": "control",
+                "v": "Touch Control + Knob"
+            },
+            {
+                "k": "panel",
+                "v": "A+ Microcrystalline Panel"
+            },
+            {
+                "k": "structure",
+                "v": "Plastic Frame"
+            },
+            {
+                "k": "weight",
+                "v": "Approx. 2.2 KG"
+            },
+            {
+                "k": "dimension",
+                "v": "356 x 283 x 63 mm"
+            },
+            {
+                "k": "packaging",
+                "v": "Gift 370x105x445 / Carton 555x465x394 mm, 5 pcs"
+            },
+            {
+                "k": "container",
+                "v": "20' 1500 / 40' 3300 / 40'HQ 3700 pcs"
+            }
+        ],
+        "active": true
+    },
+    {
+        "id": "wp-dbl-infrared",
+        "cat": "infrared-cooker",
+        "img": "images/products/wp-dbl-infrared.jpg",
+        "model": "2 Burners Infrared",
+        "name_en": "3400-3500W 2 Burners Infrared Cooker",
+        "desc_en": "Double-burner infrared cooker, 3400-3500W, 10 heating gears, 180-min timer, touch & slide control, safety child lock, polished microcrystal glass, inverter function.",
+        "name_ar": "موقد الأشعة تحت الحمراء ثنائي الموقد 3400-3500 واط",
+        "desc_ar": "موقدان، 3400-3500 واط، 10 مستويات، مؤقت 180 دقيقة، تحكم باللمس والانزلاق، قفل أطفال، زجاج مصقول.",
+        "name_es": "Cocina infrarroja de dos quemadores 3400-3500W",
+        "desc_es": "Dos quemadores, 3400-3500W, 10 niveles, temporizador 180 min, control táctil y deslizante, bloqueo infantil, vidrio microcristalino pulido.",
+        "name_th": "เตาอินฟราเรดสองหัว 3400-3500W",
+        "desc_th": "สองหัวทำความร้อน กำลังไฟ 3400-3500W ระดับความร้อน 10 ระดับ ตั้งเวลา 180 นาที ควบคุมแบบสัมผัส ระบบล็อคเด็ก แผ่นแก้วขัดเงา",
+        "specs": [
+            {
+                "k": "power",
+                "v": "3400-3500W"
+            },
+            {
+                "k": "voltage",
+                "v": "AC 220-240V"
+            },
+            {
+                "k": "gears",
+                "v": "10 Heating Gears"
+            },
+            {
+                "k": "timer",
+                "v": "180 mins"
+            },
+            {
+                "k": "control",
+                "v": "Touch & Slide Control"
+            },
+            {
+                "k": "panel",
+                "v": "Polished Microcrystal Glass"
+            },
+            {
+                "k": "dimension",
+                "v": "588 x 340 x 65 mm"
+            },
+            {
+                "k": "functions",
+                "v": "Child lock, residual heat indicator, overflow protection, pause, keep-warm, inverter (imported IGBT)"
+            }
+        ],
+        "active": true
+    },
+    {
+        "id": "wp-wq-yd006",
+        "cat": "coffee-tea-maker",
+        "img": "images/products/wp-wq-yd006.jpg",
+        "model": "WQ-YD006",
+        "name_en": "Tea Extractor & Coffee Maker",
+        "desc_en": "Tea extractor & coffee maker, 1320W, digital control with color screen, capsule coffee head, automatic water supply, 304 stainless steel tea infuser, multi-temperature control, boil-dry protection. MOQ 1000 pcs.",
+        "name_ar": "جهاز استخلاص الشاي وصنع القهوة",
+        "desc_ar": "1320 واط، تحكم رقمي بشاشة ملونة، رأس قهوة كبسولات، تعبئة مياه تلقائية، مصفاة شاي من الفولاذ 304، تحكم متعدد الحرارة. الحد الأدنى 1000 قطعة.",
+        "name_es": "Extractor de té y cafetera",
+        "desc_es": "1320W, control digital con pantalla a color, cabezal de café en cápsulas, suministro automático de agua, infusor de acero 304, control multi-temperatura. MOQ 1000 uds.",
+        "name_th": "เครื่องสกัดชาและชงกาแฟ",
+        "desc_th": "กำลังไฟ 1320W จอสีแสดงผลแบบดิจิทัล หัวชงกาแฟแบบแคปซูล ระบบเติมน้ำอัตโนมัติ ตะแกรงชาสแตนเลส 304 ควบคุมอุณหภูมิหลายระดับ MOQ 1000 ชิ้น",
+        "specs": [
+            {
+                "k": "power",
+                "v": "220-240V 50Hz 1320W",
+    "featured": true
+            },
+            {
+                "k": "dimension",
+                "v": "270 x 205 x 345 mm"
+            },
+            {
+                "k": "moq",
+                "v": "1000 pcs"
+            },
+            {
+                "k": "packaging",
+                "v": "Gift/Carton 491x287x270 mm, 1 pc"
+            },
+            {
+                "k": "container",
+                "v": "20' 640 / 40' 1312 / 40'HQ 1640 pcs"
+            },
+            {
+                "k": "functions",
+                "v": "Color screen display, capsule coffee head, automatic water supply, 304 stainless infuser, keep warm, multi-temperature, boil-dry protection, one-click coffee extraction"
+            }
+        ],
+        "active": true
+    },
+    {
+        "id": "wp-tea-auto",
+        "cat": "tea-extractor",
+        "img": "images/products/wp-tea-auto.jpg",
+        "model": "Automatic Tea Maker",
+        "name_en": "Automatic Tea Maker 1200W",
+        "desc_en": "Automatic tea maker, 1200W fast boiling, reverse-flow spray extraction, pure titanium tea infuser & heating plate, 800ml upper kettle + 600ml fair cup, dual-layer keep warm, dry-burn protection. MOQ 1000 pcs.",
+        "name_ar": "صانع شاي أوتوماتيكي 1200 واط",
+        "desc_ar": "غلي سريع 1200 واط، استخلاص رش عكسي، مصفاة ولوح تسخين من التيتانيوم النقي، غلاية 800 مل + كوب 600 مل، حافظ حرارة مزدوج. الحد الأدنى 1000 قطعة.",
+        "name_es": "Máquina de té automática 1200W",
+        "desc_es": "Hervido rápido 1200W, extracción por rociado inverso, infusor de titanio puro, tetera 800 ml + taza 600 ml, doble conservación de calor. MOQ 1000 uds.",
+        "name_th": "เครื่องชงชาอัตโนมัติ 1200W",
+        "desc_th": "ต้มเร็ว 1200W ระบบสกัดแบบพ่นย้อนกลับ ตะแกรงชาและแผ่นทำความร้อนไทเทเนียมบริสุทธิ์ กาต้มน้ำ 800ml + ถ้วย 600ml เก็บความร้อน 2 ชั้น MOQ 1000 ชิ้น",
+        "specs": [
+            {
+                "k": "power",
+                "v": "220-240V 50Hz 1200W"
+            },
+            {
+                "k": "dimension",
+                "v": "198 x 187 x 313 mm"
+            },
+            {
+                "k": "capacity",
+                "v": "Upper kettle 800 ml / Fair cup 600 ml"
+            },
+            {
+                "k": "moq",
+                "v": "1000 pcs"
+            },
+            {
+                "k": "packaging",
+                "v": "491x287x270 mm, 1 pc"
+            },
+            {
+                "k": "container",
+                "v": "20' 640 / 40' 1312 / 40'HQ 1640 pcs"
+            },
+            {
+                "k": "functions",
+                "v": "Reverse-flow spray extraction, automatic bottom water supply, pure titanium infuser, 12 wellness functions, dual-layer keep warm, dry-burn protection, food-grade borosilicate glass"
+            }
+        ],
+        "active": true
+    },
+    {
+        "id": "wp-tea-steam",
+        "cat": "tea-extractor",
+        "img": "images/products/wp-tea-steam.jpg",
+        "model": "Steam Spray Tea Maker",
+        "name_en": "Automatic Tea Maker (Steam Spray)",
+        "desc_en": "Steam spray tea brewer & sterilizer, dual power 600W sterilization + 1200W tea extraction, automatic dual-bottom water supply, pure titanium components, 800ml + 600ml, dry-burn protection.",
+        "name_ar": "صانع شاي بالبخار",
+        "desc_ar": "قوة مزدوجة 600 واط تعقيم + 1200 واط استخلاص، تعبئة مياه تلقائية، مكونات تيتانيوم نقي، 800 مل + 600 مل، حماية من الاحتراق.",
+        "name_es": "Tetera de vapor automática",
+        "desc_es": "Doble potencia: 600W esterilización + 1200W extracción, suministro automático de agua, componentes de titanio puro, 800 ml + 600 ml, protección contra quemado en seco.",
+        "name_th": "เครื่องชงชาไอน้ำ",
+        "desc_th": "กำลังคู่ 600W ฆ่าเชื้อ + 1200W สกัดชา ระบบเติมน้ำอัตโนมัติ ชิ้นส่วนไทเทเนียมบริสุทธิ์ 800ml + 600ml ระบบป้องกันการเผาแห้ง",
+        "specs": [
+            {
+                "k": "power",
+                "v": "600W sterilization + 1200W tea extraction"
+            },
+            {
+                "k": "dimension",
+                "v": "370 x 195 x 310 mm"
+            },
+            {
+                "k": "capacity",
+                "v": "Upper kettle 800 ml / Fair cup 600 ml"
+            },
+            {
+                "k": "functions",
+                "v": "Dual power system, automatic dual-bottom water supply, reverse-flow steam spray extraction, customizable water level, smart digital display, dual-layer keep warm, dry-burn & overheat protection, pure titanium infuser, food-grade borosilicate glass"
+            }
+        ],
+        "active": true
+    },
+    {
+        "id": "wp-builtin-5200",
+        "cat": "induction-cooker",
+        "img": "images/products/wp-builtin-5200.jpg",
+        "model": "Built-in 5200W",
+        "name_en": "5200W Built-in Induction Cooker",
+        "desc_en": "Built-in induction cooker, 5200W high power with boost function, 9 heating gears, 180-min timer, touch & slide control, safety child lock, residual heat indicator, overflow protection, noise less than 60 dB.",
+        "name_ar": "موقد حثي مدمج 5200 واط",
+        "desc_ar": "5200 واط مع وظيفة التعزيز، 9 مستويات، مؤقت 180 دقيقة، تحكم باللمس والانزلاق، قفل أطفال، مؤشر الحرارة المتبقية، حماية الفائض، ضوضاء أقل من 60 ديسيبل.",
+        "name_es": "Cocina de inducción integrada 5200W",
+        "desc_es": "5200W con función boost, 9 niveles, temporizador 180 min, control táctil y deslizante, bloqueo infantil, indicador de calor residual, protección de desbordamiento, ruido < 60 dB.",
+        "name_th": "เตาแม่เหล็กไฟฟ้าแบบบิลท์อิน 5200W",
+        "desc_th": "กำลังไฟ 5200W ฟังก์ชันบูสต์ ระดับความร้อน 9 ระดับ ตั้งเวลา 180 นาที ควบคุมแบบสัมผัสและสไลด์ ระบบล็อคเด็ก เสียงน้อยกว่า 60 เดซิเบล",
+        "specs": [
+            {
+                "k": "power",
+                "v": "5200W",
+    "featured": true
+            },
+            {
+                "k": "voltage",
+                "v": "AC 220-240V, 50/60Hz"
+            },
+            {
+                "k": "gears",
+                "v": "9 Levels"
+            },
+            {
+                "k": "timer",
+                "v": "180 Minutes"
+            },
+            {
+                "k": "control",
+                "v": "Touch & Slide Control"
+            },
+            {
+                "k": "panel",
+                "v": "Polished Microcrystal Glass"
+            },
+            {
+                "k": "dimension",
+                "v": "730 x 430 x 62 mm"
+            },
+            {
+                "k": "weight",
+                "v": "Approx. 7.0 KG"
+            },
+            {
+                "k": "packaging",
+                "v": "1 pc"
+            },
+            {
+                "k": "container",
+                "v": "20' 532 / 40' 1064 / 40'HQ 1176 pcs"
+            },
+            {
+                "k": "functions",
+                "v": "Boost function, safety child lock, residual heat indicator, overflow protection, pause, keep-warm, noise < 60 dB, inverter with imported IGBT, all cookware compatible"
+            }
+        ],
+        "active": true
+    },
+    {
+        "id": "wp-builtin-double",
+        "cat": "induction-cooker",
+        "img": "images/products/wp-builtin-double.jpg",
+        "model": "Built-in Double Burner",
+        "name_en": "Built-in Double Burner Induction Cooker 3500W",
+        "desc_en": "Built-in double-burner induction cooker, 1500W + 2000W, 9 heating gears, 180-min timer, touch control, A+ microcrystal panel, 4.77KG, cut-out 268x500mm.",
+        "name_ar": "موقد حثي مدمج ثنائي الموقد 3500 واط",
+        "desc_ar": "1500 واط + 2000 واط، 9 مستويات، مؤقت 180 دقيقة، تحكم باللمس، لوح A+، 4.77 كجم، فتحة 268×500 ملم.",
+        "name_es": "Cocina de inducción integrada de dos quemadores 3500W",
+        "desc_es": "1500W + 2000W, 9 niveles, temporizador 180 min, control táctil, panel A+, 4,77 kg, recorte 268x500 mm.",
+        "name_th": "เตาแม่เหล็กไฟฟ้าแบบบิลท์อินสองหัว 3500W",
+        "desc_th": "1500W + 2000W ระดับความร้อน 9 ระดับ ตั้งเวลา 180 นาที ควบคุมแบบสัมผัส แผ่น A+ น้ำหนัก 4.77 กก. ขนาดตัดช่อง 268x500 มม.",
+        "specs": [
+            {
+                "k": "power",
+                "v": "1500W + 2000W"
+            },
+            {
+                "k": "voltage",
+                "v": "AC 220-240V, 50/60Hz"
+            },
+            {
+                "k": "gears",
+                "v": "9 Levels"
+            },
+            {
+                "k": "timer",
+                "v": "180 Minutes"
+            },
+            {
+                "k": "control",
+                "v": "Touch Control"
+            },
+            {
+                "k": "panel",
+                "v": "A+ Microcrystal Panel + Plastic Frame"
+            },
+            {
+                "k": "dimension",
+                "v": "290 x 520 x 62 mm"
+            },
+            {
+                "k": "cutout",
+                "v": "268 x 500 mm"
+            },
+            {
+                "k": "weight",
+                "v": "Approx. 4.77 KG"
+            },
+            {
+                "k": "packaging",
+                "v": "Carton 600x330x115 mm, 1 pc"
+            },
+            {
+                "k": "container",
+                "v": "20' 1140 / 40' 2280 / 40'HQ 2639 pcs"
+            },
+            {
+                "k": "functions",
+                "v": "Inverter with imported IGBT, noise < 60 dB"
+            }
+        ],
+        "active": true
+    },
   ],
 
-  products: [
-    {
-      id: "p1", cat: "induction-cooker", img: "images/cat-induction.jpg", featured: true, badge_en: "Hot", badge_ar: "الأكثر طلباً", badge_es: "Popular", badge_th: "ขายดี",
-      name_en: "Portable Induction Cooker 2000W", name_ar: "موقد حث محمول 2000 واط", name_es: "Cocina de inducción portátil 2000W", name_th: "เตาแม่เหล็กไฟฟ้าแบบพกพา 2000W",
-      desc_en: "Our best-selling portable cooker with a black ceramic glass top, 8 power levels and 1-180 minute timer.",
-      desc_ar: "أكثر مواقدنا مبيعاً بسطح زجاجي سيراميك أسود، 8 مستويات قدرة ومؤقت من 1 إلى 180 دقيقة.",
-      desc_es: "Nuestra cocina portátil más vendida con superficie de vitrocerámica negra, 8 niveles de potencia y temporizador de 1-180 minutos.",
-      desc_th: "เตาแบบพกพาขายดีที่สุด กระจกเซรามิกดำ 8 ระดับกำลังไฟ ตั้งเวลา 1-180 นาที",
-      specs: [
-        { k: "power", v: "2000W" }, { k: "voltage", v: "220-240V~ 50/60Hz" },
-        { k: "levels", v: "8" }, { k: "timer", v: "180 min" },
-        { k: "display", v: "LED" }, { k: "cookware", v: "Magnetic base" },
-        { k: "warranty", v: "12 months" }, { k: "moq", v: "300 pcs" },
-        { k: "certification", v: "CE, RoHS, CB" }
-      ]
-    },
-    {
-      id: "p2", cat: "induction-cooker", img: "images/cat-induction.jpg", featured: true,
-      name_en: "Slim Induction Cooker 2200W", name_ar: "موقد حث رفيع 2200 واط", name_es: "Cocina de inducción fina 2200W", name_th: "เตาแม่เหล็กไฟฟ้าแบบบาง 2200W",
-      desc_en: "Ultra-slim 38mm body with double-ring coil for even heating, suitable for home and camping.",
-      desc_ar: "هيكل فائق النحافة 38 ملم مع ملف مزدوج لتسخين متساوٍ، مناسب للمنزل والتخييم.",
-      desc_es: "Cuerpo ultrafino de 38 mm con bobina de doble anillo para un calentamiento uniforme, ideal para hogar y camping.",
-      desc_th: "ตัวเครื่องบางเฉียบ 38 มม. ขดลวดวงแหวนคู่ให้ความร้อนสม่ำเสมอ ใช้ได้ทั้งบ้านและแคมป์ปิ้ง",
-      specs: [
-        { k: "power", v: "2200W" }, { k: "voltage", v: "220-240V~ 50/60Hz" },
-        { k: "levels", v: "8" }, { k: "size", v: "290x360x38mm" },
-        { k: "warranty", v: "12 months" }, { k: "moq", v: "300 pcs" },
-        { k: "certification", v: "CE, RoHS" }
-      ]
-    },
-    {
-      id: "p3", cat: "induction-cooker", img: "images/cat-induction.jpg", featured: false,
-      name_en: "Twin Zone Induction Hob 2800W", name_ar: "موقد حث بمنطقتين 2800 واط", name_es: "Placa de inducción de doble zona 2800W", name_th: "เตาหุงต้ม 2 โซน 2800W",
-      desc_en: "Two-zone built-in hob with slide touch control, ideal for kitchen distributors and project buyers.",
-      desc_ar: "موقد مدمج بمنطقتين مع تحكم لمسي منزلق، مثالي لموزعي المطابخ ومشتري المشاريع.",
-      desc_es: "Placa empotrable de doble zona con control táctil deslizante, ideal para distribuidores de cocina.",
-      desc_th: "เตาแบบบิลท์อิน 2 โซน ควบคุมแบบสไลด์ทัช เหมาะสำหรับตัวแทนจำหน่ายครัวและโปรเจกต์",
-      specs: [
-        { k: "power", v: "2800W (2 zones)" }, { k: "voltage", v: "220-240V~" },
-        { k: "size", v: "520x280mm cut-out" }, { k: "control", v: "Slide touch" },
-        { k: "timer", v: "99 min" }, { k: "warranty", v: "24 months" },
-        { k: "moq", v: "200 pcs" }, { k: "certification", v: "CE, CB, RoHS" }
-      ]
-    },
-    {
-      id: "p4", cat: "hair-dryer", img: "images/cat-dryer.jpg", featured: true, badge_en: "New", badge_ar: "جديد", badge_es: "Nuevo", badge_th: "ใหม่",
-      name_en: "Professional Hair Dryer 1800W", name_ar: "مجفف شعر احترافي 1800 واط", name_es: "Secador profesional 1800W", name_th: "ไดร์เป่าผมมืออาชีพ 1800W",
-      desc_en: "AC motor dryer with 3 heat / 2 speed settings, cool shot and a 1.8m power cord. Salon-grade airflow.",
-      desc_ar: "مجفف بمحرك AC مع 3 مستويات حرارة وسرعتين، هواء بارد وسلك 1.8 متر. تدفق هواء بجودة الصالونات.",
-      desc_es: "Secador con motor AC, 3 temperaturas y 2 velocidades, botón de aire frío y cable de 1,8 m. Flujo de aire de nivel salón.",
-      desc_th: "ไดร์มอเตอร์ AC ระดับความร้อน 3 ระดับ ความเร็ว 2 ระดับ ปุ่มลมเย็น สายไฟ 1.8 เมตร ลมแรงระดับร้านทำผม",
-      specs: [
-        { k: "power", v: "1800W" }, { k: "voltage", v: "220-240V~ 50/60Hz" },
-        { k: "speeds", v: "2" }, { k: "heat", v: "3 + cool shot" },
-        { k: "noise", v: "≤ 78 dB" }, { k: "material", v: "ABS + PC" },
-        { k: "warranty", v: "12 months" }, { k: "moq", v: "500 pcs" },
-        { k: "certification", v: "CE, RoHS" }
-      ]
-    },
-    {
-      id: "p5", cat: "hair-dryer", img: "images/cat-dryer.jpg", featured: true,
-      name_en: "Ionic Hair Dryer 2000W", name_ar: "مجفف شعر أيوني 2000 واط", name_es: "Secador iónico 2000W", name_th: "ไดร์ไอออนิก 2000W",
-      desc_en: "Negative ion technology reduces frizz and drying time. Foldable handle and dual voltage for travel.",
-      desc_ar: "تقنية الأيونات السالبة تقلل الهيشان ووقت التجفيف. مقبض قابل للطي وجهد مزدوج للسفر.",
-      desc_es: "Tecnología de iones negativos que reduce el encrespado y el tiempo de secado. Mango plegable y doble voltaje.",
-      desc_th: "เทคโนโลยีไอออนลบช่วยลดชี้ฟูและลดเวลาอบแห้ง ด้ามพับได้ รองรับแรงดันไฟคู่สำหรับเดินทาง",
-      specs: [
-        { k: "power", v: "2000W" }, { k: "voltage", v: "110-240V~" },
-        { k: "ion", v: "20 million/cm³" }, { k: "speeds", v: "2" },
-        { k: "weight", v: "480g" }, { k: "warranty", v: "12 months" },
-        { k: "moq", v: "500 pcs" }, { k: "certification", v: "CE, RoHS, ETL" }
-      ]
-    },
-    {
-      id: "p6", cat: "hair-dryer", img: "images/cat-dryer.jpg", featured: false,
-      name_en: "Folding Travel Dryer 1600W", name_ar: "مجفف سفر قابل للطي 1600 واط", name_es: "Secador de viaje plegable 1600W", name_th: "ไดร์พับได้สำหรับเดินทาง 1600W",
-      desc_en: "Compact 360g design with travel pouch, fits any suitcase. DC motor with quiet operation.",
-      desc_ar: "تصميم مضغوط 360 غرام مع حقيبة سفر، يناسب أي حقيبة. محرك DC هادئ.",
-      desc_es: "Diseño compacto de 360 g con bolsa de viaje, cabe en cualquier maleta. Motor DC silencioso.",
-      desc_th: "น้ำหนักเบา 360 กรัม พร้อมกระเป๋าเดินทาง ใส่กระเป๋าเดินทางได้ทุกรุ่น มอเตอร์ DC เงียบ",
-      specs: [
-        { k: "power", v: "1600W" }, { k: "voltage", v: "220-240V~" },
-        { k: "weight", v: "360g" }, { k: "noise", v: "≤ 70 dB" },
-        { k: "warranty", v: "12 months" }, { k: "moq", v: "500 pcs" },
-        { k: "certification", v: "CE, RoHS" }
-      ]
-    },
-    {
-      id: "p7", cat: "fan", img: "images/cat-fan.jpg", featured: true, badge_en: "Hot", badge_ar: "الأكثر طلباً", badge_es: "Popular", badge_th: "ขายดี",
-      name_en: "16-inch Pedestal Fan", name_ar: "مروحة عمودية 16 بوصة", name_es: "Ventilador de pie 16\"", name_th: "พัดลมตั้งพื้น 16 นิ้ว",
-      desc_en: "Three speeds, 60-minute timer and 90° oscillation. Strong airflow with low noise for home and shop use.",
-      desc_ar: "ثلاث سرعات ومؤقت 60 دقيقة وترواح 90 درجة. تدفق هواء قوي وضوضاء منخفضة للمنزل والمحلات.",
-      desc_es: "Tres velocidades, temporizador de 60 minutos y oscilación de 90°. Potente flujo de aire y bajo ruido.",
-      desc_th: "3 ความเร็ว ตั้งเวลา 60 นาที ส่ายหัว 90 องศา ลมแรง เสียงเบา ใช้ได้ทั้งบ้านและร้านค้า",
-      specs: [
-        { k: "power", v: "55W" }, { k: "voltage", v: "220-240V~ 50/60Hz" },
-        { k: "blades", v: "3 (AS)" }, { k: "speeds", v: "3" },
-        { k: "timer", v: "60 min" }, { k: "oscillation", v: "90°" },
-        { k: "warranty", v: "12 months" }, { k: "moq", v: "300 pcs" },
-        { k: "certification", v: "CE, RoHS" }
-      ]
-    },
-    {
-      id: "p8", cat: "fan", img: "images/cat-fan.jpg", featured: false,
-      name_en: "Tower Fan with Remote 40W", name_ar: "مروحة برجية مع ريموت 40 واط", name_es: "Ventilador torre con mando 40W", name_th: "พัดลมทาวเวอร์รีโมท 40W",
-      desc_en: "Slim tower design with 8-hour timer, 3 modes and a remote control. Safe for homes with children.",
-      desc_ar: "تصميم برجي نحيف مع مؤقت 8 ساعات و3 أوضاع وجهاز تحكم عن بعد. آمن للمنازل التي فيها أطفال.",
-      desc_es: "Diseño torre fino con temporizador de 8 horas, 3 modos y mando a distancia. Seguro para hogares con niños.",
-      desc_th: "ดีไซน์ทาวเวอร์บาง ตั้งเวลา 8 ชั่วโมง 3 โหมด พร้อมรีโมท ปลอดภัยสำหรับบ้านที่มีเด็ก",
-      specs: [
-        { k: "power", v: "40W" }, { k: "voltage", v: "220-240V~" },
-        { k: "remote", v: "Yes" }, { k: "timer", v: "8 hours" },
-        { k: "speeds", v: "3 modes" }, { k: "noise", v: "≤ 52 dB" },
-        { k: "warranty", v: "12 months" }, { k: "moq", v: "300 pcs" },
-        { k: "certification", v: "CE, RoHS" }
-      ]
-    },
-    {
-      id: "p9", cat: "fan", img: "images/cat-fan.jpg", featured: false,
-      name_en: "Rechargeable Desk Fan 4000mAh", name_ar: "مروحة مكتبية قابلة للشحن 4000mAh", name_es: "Ventilador de escritorio recargable 4000mAh", name_th: "พัดลมตั้งโต๊ะชาร์จได้ 4000mAh",
-      desc_en: "Cordless desk fan with 4-speed USB-C charging and 12-hour runtime. Great for summer promotions.",
-      desc_ar: "مروحة مكتبية لاسلكية بشحن USB-C وأربع سرعات و12 ساعة تشغيل. رائعة للعروض الصيفية.",
-      desc_es: "Ventilador de escritorio inalámbrico con carga USB-C, 4 velocidades y 12 horas de autonomía.",
-      desc_th: "พัดลมตั้งโต๊ะไร้สาย ชาร์จ USB-C 4 ความเร็ว ใช้งานได้ 12 ชั่วโมง เหมาะสำหรับโปรโมชันหน้าร้อน",
-      specs: [
-        { k: "power", v: "6W" }, { k: "battery", v: "4000mAh" },
-        { k: "runtime", v: "4-12 hours" }, { k: "speeds", v: "4" },
-        { k: "size", v: "165x105x205mm" }, { k: "weight", v: "520g" },
-        { k: "moq", v: "1000 pcs" }, { k: "certification", v: "CE, RoHS, FCC" }
-      ]
-    },
-    {
-      id: "p10", cat: "heater", img: "images/cat-heater.jpg", featured: true, badge_en: "New", badge_ar: "جديد", badge_es: "Nuevo", badge_th: "ใหม่",
-      name_en: "PTC Ceramic Tower Heater 2000W", name_ar: "دفاية سيراميك برجية 2000 واط", name_es: "Calefactor torre cerámico 2000W", name_th: "เครื่องทำความร้อน PTC ทาวเวอร์ 2000W",
-      desc_en: "PTC ceramic heating with 2 power settings, oscillation, remote control and overheat protection.",
-      desc_ar: "تدفئة سيراميك PTC مع مستويين للقدرة، ترواح، ريموت وحماية من الحرارة الزائدة.",
-      desc_es: "Calefacción cerámica PTC con 2 ajustes de potencia, oscilación, mando a distancia y protección contra sobrecalentamiento.",
-      desc_th: "ระบบทำความร้อนเซรามิก PTC ระดับกำลัง 2 ระดับ ส่ายหัว รีโมท และระบบตัดไฟเมื่อร้อนเกิน",
-      specs: [
-        { k: "power", v: "2000W" }, { k: "voltage", v: "220-240V~" },
-        { k: "heating", v: "PTC ceramic" }, { k: "timer", v: "12 hours" },
-        { k: "remote", v: "Yes" }, { k: "oscillation", v: "70°" },
-        { k: "warranty", v: "24 months" }, { k: "moq", v: "300 pcs" },
-        { k: "certification", v: "CE, RoHS, GS" }
-      ]
-    },
-    {
-      id: "p11", cat: "heater", img: "images/cat-heater.jpg", featured: false,
-      name_en: "Oil-filled Radiator Heater 1500W", name_ar: "دفاية زيت 1500 واط", name_es: "Radiador de aceite 1500W", name_th: "ฮีตเตอร์น้ำมัน 1500W",
-      desc_en: "Silent oil-filled radiator with 3 heat settings, thermostat and tip-over switch. Whole-room warmth.",
-      desc_ar: "دفاية زيت صامتة مع 3 مستويات حرارة ومنظم حرارة ومفتاح إيقاف عند السقوط. دفء للغرفة كاملة.",
-      desc_es: "Radiador de aceite silencioso con 3 ajustes, termostato y apagado por vuelco. Calor para toda la habitación.",
-      desc_th: "ฮีตเตอร์น้ำมันไร้เสียง ระดับความร้อน 3 ระดับ เทอร์โมสตัท ตัดไฟอัตโนมัติเมื่อล้ม ให้ความอบอุ่นทั้งห้อง",
-      specs: [
-        { k: "power", v: "1500W" }, { k: "voltage", v: "220-240V~" },
-        { k: "heat", v: "3 settings" }, { k: "timer", v: "24 hours" },
-        { k: "size", v: "7 fins" }, { k: "weight", v: "9.6kg" },
-        { k: "warranty", v: "24 months" }, { k: "moq", v: "200 pcs" },
-        { k: "certification", v: "CE, RoHS, GS" }
-      ]
-    },
-    {
-      id: "p12", cat: "heater", img: "images/cat-heater.jpg", featured: false,
-      name_en: "Compact Fan Heater 1200W", name_ar: "سخان مروحة مضغوط 1200 واط", name_es: "Calefactor de ventilador compacto 1200W", name_th: "เครื่องทำความร้อนพัดลมขนาดเล็ก 1200W",
-      desc_en: "Fast warm air in 3 seconds, tip-over and overheat protection. Ideal for bedrooms and offices.",
-      desc_ar: "هواء دافئ خلال 3 ثوانٍ، وحماية من السقوط والحرارة الزائدة. مثالي لغرف النوم والمكاتب.",
-      desc_es: "Aire caliente en 3 segundos, protección contra vuelco y sobrecalentamiento. Ideal para dormitorios y oficinas.",
-      desc_th: "ลมอุ่นภายใน 3 วินาที ระบบตัดไฟเมื่อล้มและร้อนเกิน เหมาะสำหรับห้องนอนและออฟฟิศ",
-      specs: [
-        { k: "power", v: "1200W" }, { k: "voltage", v: "220-240V~" },
-        { k: "heat", v: "2 settings" }, { k: "noise", v: "≤ 45 dB" },
-        { k: "size", v: "140x110x190mm" }, { k: "warranty", v: "12 months" },
-        { k: "moq", v: "500 pcs" }, { k: "certification", v: "CE, RoHS" }
-      ]
-    },
-    {
-      id: "p13", cat: "razor", img: "images/cat-razor.jpg", featured: true, badge_en: "Hot", badge_ar: "الأكثر طلباً", badge_es: "Popular", badge_th: "ขายดี",
-      name_en: "Rotary 3-Head Shaver IPX7", name_ar: "ماكينة حلاقة دوارة بثلاثة رؤوس IPX7", name_es: "Afeitadora rotativa de 3 cabezales IPX7", name_th: "มีดโกนหนวด 3 หัวหมุน IPX7",
-      desc_en: "Three floating heads, 90-minute runtime, USB-C charging and fully washable. Travel lock included.",
-      desc_ar: "ثلاثة رؤوس عائمة، 90 دقيقة تشغيل، شحن USB-C وقابل للغسل بالكامل. مع قفل سفر.",
-      desc_es: "Tres cabezales flotantes, 90 minutos de autonomía, carga USB-C y totalmente lavable. Incluye bloqueo de viaje.",
-      desc_th: "หัวหมุนลอย 3 หัว ใช้งาน 90 นาที ชาร์จ USB-C ล้างน้ำได้ทั้งเครื่อง พร้อมล็อกสำหรับเดินทาง",
-      specs: [
-        { k: "battery", v: "Lithium 800mAh" }, { k: "runtime", v: "90 min" },
-        { k: "waterproof", v: "IPX7" }, { k: "blades", v: "3 floating" },
-        { k: "charging", v: "USB-C, 1.5h" }, { k: "warranty", v: "12 months" },
-        { k: "moq", v: "500 pcs" }, { k: "certification", v: "CE, RoHS, FCC" }
-      ]
-    },
-    {
-      id: "p14", cat: "razor", img: "images/cat-razor.jpg", featured: false,
-      name_en: "Foil Shaver with Pop-up Trimmer", name_ar: "ماكينة حلاقة بالرقائق مع مقص خفي", name_es: "Afeitadora de lámina con recortadora emergente", name_th: "มีดโกนแบบฟอยล์มีทรีมเมอร์ในตัว",
-      desc_en: "Ultra-thin foil for a close shave plus a pop-up trimmer for sideburns and beard lines.",
-      desc_ar: "رقاقة فائقة النحافة لحلاقة قريبة مع مقص خفي للشعر الجانبي وخطوط اللحية.",
-      desc_es: "Lámina ultrafina para un afeitado apurado más recortadora emergente para patillas y contornos de barba.",
-      desc_th: "ฟอยล์บางเฉียบโกนได้สนิท พร้อมทรีมเมอร์ในตัวสำหรับจอนและขอบเครา",
-      specs: [
-        { k: "battery", v: "Lithium 600mAh" }, { k: "runtime", v: "60 min" },
-        { k: "waterproof", v: "IPX5" }, { k: "blades", v: "Foil + trimmer" },
-        { k: "charging", v: "USB, 1.5h" }, { k: "warranty", v: "12 months" },
-        { k: "moq", v: "500 pcs" }, { k: "certification", v: "CE, RoHS" }
-      ]
-    },
-    {
-      id: "p15", cat: "razor", img: "images/cat-razor.jpg", featured: false,
-      name_en: "Men's Grooming Kit 6-in-1", name_ar: "طقم حلاقة رجالي 6 في 1", name_es: "Kit de cuidado personal 6 en 1", name_th: "ชุดดูแลหนวดเครา 6-in-1",
-      desc_en: "Six interchangeable attachments for beard, hair, nose and body grooming. Rechargeable with LED display.",
-      desc_ar: "ست ملحقات قابلة للتبديل للحية والشعر والأنف والجسم. قابل للشحن مع شاشة LED.",
-      desc_es: "Seis accesorios intercambiables para barba, cabello, nariz y cuerpo. Recargable con pantalla LED.",
-      desc_th: "หัวเปลี่ยนได้ 6 ชิ้น สำหรับเครา ผม จมูก และร่างกาย ชาร์จได้ พร้อมจอ LED",
-      specs: [
-        { k: "battery", v: "Lithium 900mAh" }, { k: "runtime", v: "120 min" },
-        { k: "waterproof", v: "IPX5" }, { k: "blades", v: "6 attachments" },
-        { k: "display", v: "LED" }, { k: "warranty", v: "12 months" },
-        { k: "moq", v: "500 pcs" }, { k: "certification", v: "CE, RoHS, FCC" }
-      ]
-    }
-  ],
-
-  testimonials: [
-    {
-      id: "t1", name: "Ahmed Al-Rashid", role: "Importer, Home appliance trading", country: "Dubai, UAE", rating: 5,
-      text: "We have been buying induction cookers from this factory for three years. Delivery is always on schedule and the after-sales support is genuinely fast."
-    },
-    {
-      id: "t2", name: "María López", role: "Distributor, Small appliance division", country: "Madrid, Spain", rating: 5,
-      text: "Their team understood our voltage and plug requirements without a single mistake. The OEM packaging came out exactly as designed."
-    },
-    {
-      id: "t3", name: "Thanawat Srisuwan", role: "Category buyer, retail chain", country: "Bangkok, Thailand", rating: 5,
-      text: "Quote requests are answered within hours, not days. Samples reached us in three days. That speed is rare in this industry."
-    },
-    {
-      id: "t4", name: "Michael Weber", role: "Procurement manager", country: "Berlin, Germany", rating: 4,
-      text: "The aging test reports they share with every batch gave us confidence to place our first order. Quality has been consistent since."
-    },
-    {
-      id: "t5", name: "Sarah Mitchell", role: "E-commerce seller", country: "Miami, USA", rating: 5,
-      text: "Started with a small MOQ and grew to full containers. Their ETL-certified hair dryers sell well and return rates are low."
-    },
-    {
-      id: "t6", name: "Omar Hassan", role: "Brand owner", country: "Cairo, Egypt", rating: 5,
-      text: "We launched our own brand with their ODM service. From logo to manual to carton design, everything was handled professionally."
-    }
-  ],
+  testimonials: [],
 
   milestones: [
     {
@@ -465,7 +1258,7 @@ const DEFAULT_DATA = {
     {
       id: "m5", year: "2022",
       title_en: "North America & Oceania", title_ar: "أمريكا الشمالية وأوقيانوسيا", title_es: "Norteamérica y Oceanía", title_th: "อเมริกาเหนือและโอเชียเนีย",
-      desc_en: "ETL and SAA certified for the US, Canada and Australia markets.", desc_ar: "حصلنا على ETL وSAA لأسواق أمريكا وكندا وأستراليا.", desc_es: "Certificación ETL y SAA para los mercados de EE. UU., Canadá y Australia.", desc_th: "ได้รับรอง ETL และ SAA สำหรับตลาดสหรัฐฯ แคนาดา และออสเตรเลีย"
+      desc_en: "CE and RoHS certified; certifications for target markets available on request.", desc_ar: "معتمد CE وRoHS؛ شهادات الأسواق المستهدفة متاحة عند الطلب.", desc_es: "Certificado CE y RoHS; certificaciones para los mercados objetivo disponibles bajo petición.", desc_th: "ได้รับการรับรอง CE และ RoHS; ใบรับรองสำหรับตลาดเป้าหมายสามารถขอได้"
     },
     {
       id: "m6", year: "2025",
@@ -536,14 +1329,10 @@ const DEFAULT_DATA = {
   ],
 
   certs: [
-    { id: "c1", mark: "CE", name: "CE", scope: "EU safety & EMC" },
-    { id: "c2", mark: "RoHS", name: "RoHS", scope: "EU hazardous substances" },
-    { id: "c3", mark: "CB", name: "CB", scope: "IECEE international" },
-    { id: "c4", mark: "ETL", name: "ETL", scope: "US & Canada safety" },
-    { id: "c5", mark: "SAA", name: "SAA", scope: "Australia & NZ" },
-    { id: "c6", mark: "GS", name: "GS", scope: "Germany safety" },
-    { id: "c7", mark: "ISO", name: "ISO 9001", scope: "Quality management" },
-    { id: "c8", mark: "BSCI", name: "BSCI", scope: "Social compliance" }
+    { id: "c1", mark: "CE", name: "CE", scope: "EU LVD 2014/35/EU + EMC 2014/30/EU (2025)" },
+    { id: "c2", mark: "RoHS", name: "RoHS", scope: "EU RoHS 2011/65/EU + (EU) 2015/863 \u00b7 Cert. No. CCI251100448ENCER (Nov 2025)" },
+    { id: "c9", mark: "ErP", name: "ErP", scope: "Standby & off-mode (EC 1275/2008)" },
+    { id: "c10", mark: "UKCA", name: "UKCA", scope: "UK Electrical Equipment (Safety) Regs 2016" }
   ]
 };
 
@@ -561,6 +1350,23 @@ function sb() {
 
 let _cache = { site: null, inquiries: null };
 let _initPromise = null;
+
+function deepMerge(base, extra) {
+  if (extra === null || extra === undefined) return base;
+  if (typeof extra !== "object") return extra;
+  if (Array.isArray(extra)) return extra;
+  var out = {};
+  var k;
+  for (k in base) out[k] = base[k];
+  for (k in extra) {
+    if (out[k] && typeof out[k] === "object" && typeof extra[k] === "object" && !Array.isArray(out[k]) && !Array.isArray(extra[k])) {
+      out[k] = deepMerge(out[k], extra[k]);
+    } else {
+      out[k] = extra[k];
+    }
+  }
+  return out;
+}
 
 function initStore() {
   if (_initPromise) return _initPromise;

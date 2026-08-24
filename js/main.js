@@ -6,6 +6,7 @@
 
 /* ---------------- icons (inline SVG, consistent 24px stroke style) ---------------- */
 const ICONS = {
+  fb: '<svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 21v-7.5h2.5l.5-3h-3V8.7c0-.9.3-1.5 1.6-1.5h1.5V4.5c-.3 0-1.1-.1-2-.1-2.1 0-3.6 1.3-3.6 3.7V10.5H8v3h2.5V21h3z"/></svg>',
   factory: '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 20h20"/><path d="M4 20V9l7 3V9l7 3V4h2v16"/><path d="M7 20v-4h3v4"/><path d="M14 20v-4h3v4"/></svg>',
   shield: '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l8 3.5V11c0 5.2-3.4 9.4-8 11-4.6-1.6-8-5.8-8-11V5.5L12 2z"/><path d="M8.5 11.5l2.5 2.5 4.5-4.5"/></svg>',
   gear: '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.7 1.7 0 00.34 1.87l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.7 1.7 0 00-1.87-.34 1.7 1.7 0 00-1.03 1.56V21a2 2 0 11-4 0v-.09A1.7 1.7 0 008.9 19.4a1.7 1.7 0 00-1.87.34l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.7 1.7 0 00.34-1.87 1.7 1.7 0 00-1.56-1.03H3a2 2 0 110-4h.09A1.7 1.7 0 004.6 8.9a1.7 1.7 0 00-.34-1.87l-.06-.06a2 2 0 112.83-2.83l.06.06a1.7 1.7 0 001.87.34h.01a1.7 1.7 0 001.03-1.56V3a2 2 0 114 0v.09c0 .68.4 1.29 1.03 1.56a1.7 1.7 0 001.87-.34l.06-.06a2 2 0 112.83 2.83l-.06.06a1.7 1.7 0 00-.34 1.87v.01c.27.62.88 1.03 1.56 1.03H21a2 2 0 110 4h-.09c-.68 0-1.29.4-1.56 1.03z"/></svg>',
@@ -47,6 +48,7 @@ let site = store.loadSite();
 let currentFilter = { cat: "all", q: "" };
 
 /* ---------------- helpers ---------------- */
+function fmtWa(n) { const d = (n || "").replace(/[^0-9]/g, ""); if (d.length === 13 && d.startsWith("86")) { return "+86 " + d.slice(2, 5) + " " + d.slice(5, 9) + " " + d.slice(9); } return "+" + d; }
 function waLink(text) {
   const num = (site.settings.whatsapp || "").replace(/[^0-9]/g, "");
   return "https://wa.me/" + num + "?text=" + encodeURIComponent(text || t("wa.defaultMsg"));
@@ -140,6 +142,7 @@ function fillSettings() {
   document.querySelectorAll(".js-address").forEach(function (el) { el.textContent = s.address; });
   document.querySelectorAll(".js-hours").forEach(function (el) { el.textContent = s.hours; });
   document.querySelectorAll(".js-wa-link, [data-wa-link]").forEach(function (el) { el.href = waLink(); });
+  document.querySelectorAll(".js-wa-link.js-phone").forEach(function (el) { el.textContent = fmtWa(s.whatsapp); });
   document.querySelectorAll(".js-wa-number").forEach(function (el) { el.textContent = s.phone; });
   document.querySelectorAll(".js-brand").forEach(function (el) { el.textContent = s.brand; });
   document.querySelectorAll(".js-year").forEach(function (el) { el.textContent = new Date().getFullYear(); });
@@ -310,7 +313,7 @@ function bindProductCards(root) {
 function renderTestimonials() {
   const grid = document.getElementById("testi-grid");
   if (!grid) return;
-  grid.innerHTML = site.testimonials.map(function (tst) {
+  grid.innerHTML = (site.testimonials || []).map(function (tst) {
     const initials = tst.name.split(" ").map(function (w) { return w.charAt(0); }).slice(0, 2).join("").toUpperCase();
     const stars = "★★★★★".slice(0, tst.rating || 5);
     return '<div class="testi-card reveal">' +
@@ -352,7 +355,7 @@ function openProductModal(id) {
   document.addEventListener("keydown", escKey);
 }
 
-function openInquiryModal(id) {
+function openInquiryModal(id, prefillMsg) {
   const p = site.products.find(function (x) { return x.id === id; });
   const modal = document.getElementById("modal");
   modal.innerHTML =
@@ -367,7 +370,7 @@ function openInquiryModal(id) {
     field("email", t("home.quote.email"), "email", true) +
     field("country", t("home.quote.country"), "text", true) +
     field("qty", t("home.quote.qty"), "text", false) +
-    '<div class="field full"><label for="iq-msg">' + esc(t("home.quote.msg")) + '</label><textarea id="iq-msg" name="msg" rows="3"></textarea></div>' +
+    '<div class="field full"><label for="iq-msg">' + esc(t("home.quote.msg")) + '</label><textarea id="iq-msg" name="msg" rows="3">' + esc(prefillMsg || "") + '</textarea></div>' +
     "</div>" +
     '<div class="form-actions">' +
     '<button type="submit" class="btn btn-primary">' + icon("send") + esc(t("home.quote.submit")) + "</button>" +
@@ -438,11 +441,20 @@ function bindInquiryForm(formEl, opts) {
     const hook = site.settings.crmWebhook;
     if (hook) {
       try {
+        const type = site.settings.crmWebhookType || "generic";
+        let url2 = hook;
         let payload = inquiry;
-        if ((site.settings.crmWebhookType || "generic") === "feishu") {
+        if (type === "feishu") {
           payload = { msg_type: "text", content: { text: "[New Inquiry] " + (inquiry.product || "") + " | " + inquiry.name + " | " + inquiry.country + " | " + inquiry.email + " | " + (inquiry.msg || "") } };
+        } else if (type === "pushplus") {
+          url2 = (typeof SUPABASE_URL !== "undefined" ? SUPABASE_URL : "") + "/functions/v1/pushplus-notify";
+          payload = {
+            token: hook,
+            title: "新询盘：" + (inquiry.product || "Home appliances"),
+            content: "客户：" + inquiry.name + "\n国家：" + inquiry.country + "\n邮箱：" + inquiry.email + (inquiry.company ? "\n公司：" + inquiry.company : "") + "\n产品：" + (inquiry.product || "-") + (inquiry.qty ? "\n数量：" + inquiry.qty : "") + (inquiry.msg ? "\n留言：" + inquiry.msg : "")
+          };
         }
-        fetch(hook, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) }).catch(function () {});
+        fetch(url2, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) }).catch(function () {});
       } catch (e) {}
     }
     /* server-side email copy via api/submit.php (optional; silently skipped on failure
@@ -571,9 +583,10 @@ function renderContact() {
   if (cards) {
     cards.innerHTML =
       '<div class="contact-card reveal"><div class="cc-icon">' + icon("pin") + "</div><h3>" + esc(t("contact.card.address")) + '</h3><p class="js-address">' + esc(s.address) + "</p></div>" +
-      '<div class="contact-card reveal"><div class="cc-icon">' + icon("phone") + "</div><h3>" + esc(t("contact.card.phone")) + '</h3><p><a href="' + waLink() + '" target="_blank" rel="noopener" class="js-phone">' + esc(s.phone) + "</a></p></div>" +
+      '<div class="contact-card reveal"><div class="cc-icon">' + icon("phone") + "</div><h3>" + esc(t("contact.card.phone")) + '</h3><p><a href="tel:' + esc(s.phone.replace(/[^0-9+]/g, "")) + '" class="js-phone">' + esc(s.phone) + "</a></p></div>" +
       '<div class="contact-card reveal"><div class="cc-icon">' + icon("mail") + "</div><h3>" + esc(t("contact.card.email")) + '</h3><p><a href="mailto:' + esc(s.email) + '" class="js-email">' + esc(s.email) + "</a></p></div>" +
-      '<div class="contact-card reveal"><div class="cc-icon">' + icon("clock") + "</div><h3>" + esc(t("contact.card.hours")) + '</h3><p class="js-hours">' + esc(s.hours) + "</p></div>";
+      '<div class="contact-card reveal"><div class="cc-icon">' + icon("clock") + "</div><h3>" + esc(t("contact.card.hours")) + '</h3><p class="js-hours">' + esc(s.hours) + "</p></div>" +
+      '<div class="contact-card reveal"><div class="cc-icon">' + icon("fb") + "</div><h3>" + esc(t("contact.card.social")) + '</h3><p class="js-social"><a href="' + esc(s.facebook || "#") + '" target="_blank" rel="noopener">Facebook · Weiqiwude</a><br><a href="' + esc(s.facebookCn || "#") + '" target="_blank" rel="noopener">Facebook · 伟奇伍德</a></p></div>';
   }
   const map = document.getElementById("map-frame");
   if (map) {
@@ -729,8 +742,10 @@ function renderProductPage() {
     '<p class="m-desc" style="font-size:1.02rem;">' + esc(desc) + "</p>" +
     '<h4 style="margin:22px 0 12px;font-size:1.02rem;">' + esc(t("prod.specsTitle")) + "</h4>" +
     '<div class="spec-grid">' + specCells + "</div>" +
+    '<div class="factory-note">' + icon("factory") + "<span>" + esc(t("prod.factoryNote")) + "</span></div>" +
     '<div class="m-cta" style="margin-top:22px;">' +
     '<button class="btn btn-primary btn-lg" data-pd-inquire="' + esc(p.id) + '">' + esc(t("common.inquire")) + "</button>" +
+    '<button class="btn btn-outline btn-lg" data-pd-sample="' + esc(p.id) + '">' + esc(t("prod.reqSample")) + "</button>" +
     '<a class="btn btn-wa btn-lg" href="' + waLink(t("wa.defaultMsg") + " " + name) + '" target="_blank" rel="noopener">' + icon("whatsapp") + " WhatsApp</a>" +
     (sampleLink ? '<a class="btn btn-outline btn-lg" href="' + esc(sampleLink) + '" target="_blank" rel="noopener">' + esc(t("prod.buySample")) + "</a>" : "") +
     "</div>" +
@@ -738,6 +753,8 @@ function renderProductPage() {
     "</div></div>";
   const inqBtn = box.querySelector("[data-pd-inquire]");
   if (inqBtn) inqBtn.addEventListener("click", function () { openInquiryModal(p.id); });
+  const smpBtn = box.querySelector("[data-pd-sample]");
+  if (smpBtn) smpBtn.addEventListener("click", function () { openInquiryModal(p.id, "Sample request: " + name + "\n"); });
   /* SEO: dynamic meta + structured data */
   document.title = name + " | " + (cat ? catName(cat) : "") + " | Wholesale Home Appliance Factory";
   const meta = document.querySelector('meta[name="description"]');
@@ -770,6 +787,25 @@ function renderProductPage() {
   }
 }
 
+/* ---------------- factory tour video (about page) ---------------- */
+function renderFactoryVideo() {
+  const box = document.getElementById("factory-video");
+  if (!box) return;
+  const v = (site.settings.factoryVideo || "").trim();
+  if (!v) return;
+  let html = "";
+  if (/youtube|youtu\.be/i.test(v)) {
+    const m = v.match(/(?:v=|youtu\.be\/)([\w-]{6,})/);
+    if (m) html = '<iframe src="https://www.youtube.com/embed/' + m[1] + '" title="Factory tour" allowfullscreen loading="lazy"></iframe>';
+  } else if (/bilibili/i.test(v)) {
+    const m = v.match(/BV[\w]+/);
+    if (m) html = '<iframe src="https://player.bilibili.com/player.html?bvid=' + m[0] + '&autoplay=0" title="Factory tour" allowfullscreen loading="lazy"></iframe>';
+  } else {
+    html = '<video controls preload="none" src="' + esc(v) + '"></video>';
+  }
+  if (html) box.innerHTML = '<h2 style="margin:0 0 14px;font-size:1.4rem;">' + esc(t("about.video")) + "</h2>" + html;
+}
+
 /* ---------------- page dispatch ---------------- */
 function renderDynamic() {
   const page = document.body.getAttribute("data-page");
@@ -779,7 +815,7 @@ function renderDynamic() {
   } else if (page === "products") {
     renderProductsPage(); renderTestimonials();
   } else if (page === "about") {
-    renderMilestones(); renderQcSteps(); renderCerts(); renderOem();
+    renderMilestones(); renderQcSteps(); renderCerts(); renderOem(); renderFactoryVideo();
   } else if (page === "contact") {
     renderContact();
   } else if (page === "product") {
