@@ -123,6 +123,7 @@ ul { margin: 0; padding: 0; }
 .header .container { display: flex; align-items: center; justify-content: space-between; gap: 20px; min-height: var(--header-h); }
 .logo { display: inline-flex; align-items: center; gap: 10px; color: var(--brown-deep); font-weight: 700; font-size: 1.22rem; letter-spacing: -0.01em; }
 .logo:hover { color: var(--accent); }
+.logo .logo-img { height: 38px; width: auto; display: block; }
 .logo .logo-mark {
   width: 40px; height: 40px; border-radius: 12px; flex: 0 0 auto;
   background: linear-gradient(135deg, var(--accent), var(--brown-deep));

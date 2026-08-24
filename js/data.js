@@ -11,9 +11,9 @@ const DEFAULT_DATA = {
     phone: "+86 183 2165 8916",
     whatsapp: "8613143339397",
     email: "harry_hou@wechgood.com",
-    address: "5th Floor, Building No.12, Tianfulai International Zone, No.39 Changbao West Road, Ronggui, Shunde, Foshan, Guangdong, China",
+    address: "5th Floor, Building No. 12, Phase One of Tianfulai International Zone, No. 39 Changbao West Road, Ronggui Sub-district, Shunde District, Foshan City, Guangdong Province, China",
     hours: "Monday - Saturday, 9:00 - 18:00 (GMT+8)",
-    mapQuery: "Ronggui, Shunde, Foshan, Guangdong, China",
+    mapQuery: "Ronggui, Shunde, Foshan, Guangdong Province, China",
     analyticsId: "",
     tawkId: "",
     fbpixelId: "",
@@ -50,10 +50,10 @@ const DEFAULT_DATA = {
       title_ar: "جودة يمكنك تتبعها حتى المصدر",
       title_es: "Calidad que puedes rastrear hasta el origen",
       title_th: "คุณภาพที่ตรวจสอบย้อนกลับถึงต้นทางได้",
-      sub_en: "Five production lines, 400+ skilled workers and a four-step QC system on every single batch.",
-      sub_ar: "خمسة خطوط إنتاج، أكثر من 400 عامل ماهر، ونظام جودة من أربع خطوات لكل دفعة.",
-      sub_es: "Cinco líneas de producción, más de 400 trabajadores cualificados y un sistema de control de calidad en cuatro pasos en cada lote.",
-      sub_th: "สายการผลิต 5 สาย พนักงานฝีมือดีกว่า 400 คน และระบบ QC 4 ขั้นตอนในทุกชุดการผลิต"
+      sub_en: "Five production lines, 300+ skilled workers and a four-step QC system on every single batch.",
+      sub_ar: "خمسة خطوط إنتاج، أكثر من 300 عامل ماهر، ونظام جودة من أربع خطوات لكل دفعة.",
+      sub_es: "Cinco líneas de producción, más de 300 trabajadores cualificados y un sistema de control de calidad en cuatro pasos en cada lote.",
+      sub_th: "สายการผลิต 5 สาย พนักงานฝีมือดีกว่า 300 คน และระบบ QC 4 ขั้นตอนในทุกชุดการผลิต"
     },
     {
       id: "s3",
@@ -62,10 +62,10 @@ const DEFAULT_DATA = {
       title_ar: "مصنع واحد، خمسة خطوط منتجات",
       title_es: "Una fábrica, cinco líneas de producto",
       title_th: "โรงงานเดียว สายผลิตภัณฑ์ 5 สาย",
-      sub_en: "From kitchen to bathroom to bedroom comfort, your entire home appliance program from a single supplier.",
-      sub_ar: "من المطبخ إلى الحمام إلى راحة غرفة النوم، برنامج أجهزتك المنزلية كاملاً من مورّد واحد.",
-      sub_es: "De la cocina al baño y al confort del dormitorio, todo tu programa de electrodomésticos con un solo proveedor.",
-      sub_th: "ตั้งแต่ห้องครัว ห้องน้ำ ถึงความสบายในห้องนอน โปรแกรมเครื่องใช้ไฟฟ้าทั้งหมดจากซัพพลายเออร์เดียว"
+      sub_en: "A manufacturer with deep-processing capacity that produces PCBs in-house.",
+      sub_ar: "شركة مصنعة بقدرة معالجة عميقة تُنتج لوحات PCB داخليًا.",
+      sub_es: "Un fabricante con capacidad de procesamiento profundo que produce PCB internamente.",
+      sub_th: "ผู้ผลิตที่มีความสามารถในการผลิตแบบเลิกลึกซึ่งผลิต PCB ภายในโรงงาน"
     }
   ],
 
@@ -73,16 +73,16 @@ const DEFAULT_DATA = {
     {
       id: "a1",
       icon: "factory",
-      title_en: "15+ years of manufacturing",
-      title_ar: "أكثر من 15 عاماً من التصنيع",
-      title_es: "Más de 15 años de fabricación",
-      title_th: "ประสบการณ์ผลิตกว่า 15 ปี",
+      title_en: "10+ years of manufacturing",
+      title_ar: "أكثر من 10 عاماً من التصنيع",
+      title_es: "Más de 10 años de fabricación",
+      title_th: "ประสบการณ์ผลิตกว่า 10 ปี",
       desc_en: "A real factory in Foshan, China, built by engineers and export people who have worked with importers since day one.",
       desc_ar: "مصنع حقيقي في فوشان بالصين، أسسه مهندسون وخبراء تصدير عملوا مع المستوردين منذ اليوم الأول.",
       desc_es: "Una fábrica real en Foshan (China), construida por ingenieros y personal de exportación que trabajan con importadores desde el primer día.",
       desc_th: "โรงงานจริงในเมืองฝอซาน ประเทศจีน ก่อตั้งโดยวิศวกรและทีมส่งออกที่ทำงานกับผู้นำเข้ามาตั้งแต่วันแรก",
-      stat1_en: "15+ years", stat1_ar: "+15 عاماً", stat1_es: "+15 años", stat1_th: "15+ ปี",
-      stat2_en: "400+ workers", stat2_ar: "+400 عامل", stat2_es: "+400 trabajadores", stat2_th: "400+ คน"
+      stat1_en: "10+ years", stat1_ar: "+10 عاماً", stat1_es: "+10 años", stat1_th: "10+ ปี",
+      stat2_en: "300+ workers", stat2_ar: "+300 عامل", stat2_es: "+300 trabajadores", stat2_th: "300+ คน"
     },
     {
       id: "a2",
@@ -184,9 +184,9 @@ const DEFAULT_DATA = {
   ],
 
   stats: [
-    { id: "st1", num: "15", suffix: "+", label_en: "Years of manufacturing", label_ar: "سنة تصنيع", label_es: "Años de fabricación", label_th: "ปีผลิต" },
+    { id: "st1", num: "10", suffix: "+", label_en: "Years of manufacturing", label_ar: "سنة تصنيع", label_es: "Años de fabricación", label_th: "ปีผลิต" },
     { id: "st2", num: "40", suffix: "+", label_en: "Countries served", label_ar: "دولة", label_es: "Países servidos", label_th: "ประเทศ" },
-    { id: "st3", num: "500", suffix: "+", label_en: "Product models", label_ar: "موديل", label_es: "Modelos", label_th: "รุ่นสินค้า" },
+    { id: "st3", num: "200", suffix: "+", label_en: "Product models", label_ar: "موديل", label_es: "Modelos", label_th: "รุ่นสินค้า" },
     { id: "st4", num: "12", suffix: "h", label_en: "Reply commitment", label_ar: "ساعة للرد", label_es: "Horas de respuesta", label_th: "ชั่วโมงตอบกลับ" }
   ],
 
@@ -1236,24 +1236,24 @@ const DEFAULT_DATA = {
 
   milestones: [
     {
-      id: "m1", year: "2010",
-      title_en: "Workshop founded", title_ar: "تأسيس الورشة", title_es: "Fundación del taller", title_th: "ก่อตั้งโรงงานเล็ก",
-      desc_en: "Started assembling induction cookers in a 800 m² workshop in Foshan.", desc_ar: "بدأنا تجميع مواقد الحث في ورشة 800 م² في فوشان.", desc_es: "Comenzamos ensamblando cocinas de inducción en un taller de 800 m² en Foshan.", desc_th: "เริ่มประกอบเตาแม่เหล็กไฟฟ้าในโรงงาน 800 ตร.ม. ที่เมืองฝอซาน"
+      id: "m1", year: "2008",
+      title_en: "Xinke founded — PCBA roots", title_ar: "تأسيس Xinke — جذور PCBA", title_es: "Fundación de Xinke — raíces en PCBA", title_th: "ก่อตั้ง Xinke — จุดเริ่มต้น PCBA",
+      desc_en: "Xinke factory established in Foshan as a PCBA manufacturer, the technology backbone of the group.", desc_ar: "تأسس مصنع Xinke في فوشان كمصنع للوحات PCBA، العمود الفقري التقني للمجموعة.", desc_es: "La fábrica Xinke se establece en Foshan como fabricante de PCBA, la columna vertebral tecnológica del grupo.", desc_th: "โรงงาน Xinke ก่อตั้งที่เมืองฝอซานในฐานะผู้ผลิต PCBA ซึ่งเป็นแกนหลักด้านเทคนิคของกลุ่ม"
     },
     {
-      id: "m2", year: "2013",
-      title_en: "First export orders", title_ar: "أول طلبات التصدير", title_es: "Primeros pedidos de exportación", title_th: "ออเดอร์ส่งออกแรก",
-      desc_en: "First containers shipped to Southeast Asia.", desc_ar: "أول حاويات شُحنت إلى جنوب شرق آسيا.", desc_es: "Primeros contenedores enviados al Sudeste Asiático.", desc_th: "ตู้คอนเทนเนอร์แรกส่งออกไปเอเชียตะวันออกเฉียงใต้"
+      id: "m2", year: "2015",
+      title_en: "Wechgood Appliance founded", title_ar: "تأسيس Wechgood", title_es: "Fundación de Wechgood", title_th: "ก่อตั้ง Wechgood",
+      desc_en: "Wechgood established in Foshan to assemble induction cookers for domestic and export markets.", desc_ar: "تأسست Wechgood في فوشان لتجميع مواقد الحث للأسواق المحلية والتصدير.", desc_es: "Wechgood se establece en Foshan para ensamblar cocinas de inducción para los mercados nacional y de exportación.", desc_th: "Wechgood ก่อตั้งที่ฝอซานเพื่อประกอบเตาแม่เหล็กไฟฟ้าสำหรับตลาดภายในและส่งออก"
     },
     {
-      id: "m3", year: "2016",
-      title_en: "EU market entry", title_ar: "دخول السوق الأوروبية", title_es: "Entrada al mercado europeo", title_th: "เข้าสู่ตลาดยุโรป",
-      desc_en: "CE and RoHS certified; began exporting to Germany, France and Poland.", desc_ar: "حصلنا على CE وRoHS وبدأنا التصدير إلى ألمانيا وفرنسا وبولندا.", desc_es: "Certificación CE y RoHS; comenzamos a exportar a Alemania, Francia y Polonia.", desc_th: "ได้รับรอง CE และ RoHS เริ่มส่งออกไปเยอรมนี ฝรั่งเศส และโปแลนด์"
+      id: "m3", year: "2018",
+      title_en: "Own factory & first top-brand partnership", title_ar: "مصنعنا الخاص وأول شراكة مع علامة رائدة", title_es: "Fábrica propia y primera gran alianza", title_th: "โรงงานของเราเองและพันธมิตรแบรนด์แรก",
+      desc_en: "Became a long-term OEM partner of Joyoung and purchased our own 18,000+ m² factory building.", desc_ar: "أصبحنا شريك OEM طويل الأمد لشركة Joyoung واشترينا مبنى مصنعنا الخاص بمساحة 18,000+ م2.", desc_es: "Nos convertimos en socio OEM a largo plazo de Joyoung y compramos nuestro propio edificio de fábrica de más de 18.000 m².", desc_th: "เรากลายเป็นพันธมิตร OEM ระยะยาวของ Joyoung และซื้ออาคารโรงงานของเราเองขนาด 18,000+ ตร.ม."
     },
     {
-      id: "m4", year: "2019",
-      title_en: "New factory campus", title_ar: "مجمع المصنع الجديد", title_es: "Nuevo campus de fábrica", title_th: "โรงงานแห่งใหม่",
-      desc_en: "Moved to a 12,000 m² facility with five production lines.", desc_ar: "انتقلنا إلى منشأة 12,000 م² بخمسة خطوط إنتاج.", desc_es: "Traslado a una planta de 12.000 m² con cinco líneas de producción.", desc_th: "ย้ายเข้าโรงงาน 12,000 ตร.ม. พร้อมสายการผลิต 5 สาย"
+      id: "m4", year: "2021",
+      title_en: "Top-brand OEM/ODM partnerships", title_ar: "شراكات OEM/ODM مع علامات رائدة", title_es: "Alianzas OEM/ODM con grandes marcas", title_th: "พันธมิตร OEM/ODM แบรนด์ชั้นนำ",
+      desc_en: "Serving Mi, Haier, Royalstar, ASD and Airmate as a trusted source factory.", desc_ar: "نخدم Mi وHaier وRoyalstar وASD وAirmate كمصنع مصدر موثوق.", desc_es: "Damos servicio a Mi, Haier, Royalstar, ASD y Airmate como fábrica de origen de confianza.", desc_th: "ให้บริการ Mi, Haier, Royalstar, ASD และ Airmate ในฐานะโรงงานต้นทางที่เชื่อถือได้"
     },
     {
       id: "m5", year: "2022",
@@ -1263,7 +1263,7 @@ const DEFAULT_DATA = {
     {
       id: "m6", year: "2025",
       title_en: "40+ countries served", title_ar: "أكثر من 40 دولة", title_es: "Más de 40 países", title_th: "ให้บริการ 40+ ประเทศ",
-      desc_en: "500+ models shipped to importers and distributors worldwide.", desc_ar: "أكثر من 500 موديل شُحنت إلى مستوردين وموزعين حول العالم.", desc_es: "Más de 500 modelos enviados a importadores y distribuidores en todo el mundo.", desc_th: "ส่งออก 500+ รุ่นให้ผู้นำเข้าและตัวแทนจำหน่ายทั่วโลก"
+      desc_en: "200+ models shipped to importers and distributors worldwide.", desc_ar: "أكثر من 200 موديل شُحنت إلى مستوردين وموزعين حول العالم.", desc_es: "Más de 200 modelos enviados a importadores y distribuidores en todo el mundo.", desc_th: "ส่งออก 200+ รุ่นให้ผู้นำเข้าและตัวแทนจำหน่ายทั่วโลก"
     }
   ],
 
