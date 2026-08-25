@@ -105,11 +105,11 @@ const DEFAULT_DATA = {
       title_ar: "مرونة OEM / ODM",
       title_es: "Flexibilidad OEM / ODM",
       title_th: "ความยืดหยุ่น OEM / ODM",
-      desc_en: "Your logo, your colors, your voltage, your packaging. Private label programs from 300 pcs per model.",
+      desc_en: "Your logo, your colors, your voltage, your packaging. Private label programs from 500 pcs per model.",
       desc_ar: "شعارك، ألوانك، جهدك، تغليفك. برامج علامة خاصة تبدأ من 300 قطعة للموديل.",
-      desc_es: "Tu logotipo, tus colores, tu voltaje, tu embalaje. Programas de marca propia desde 300 unidades por modelo.",
+      desc_es: "Tu logotipo, tus colores, tu voltaje, tu embalaje. Programas de marca propia desde 500 unidades por modelo.",
       desc_th: "โลโก้ของคุณ สีของคุณ แรงดันไฟของคุณ บรรจุภัณฑ์ของคุณ โปรแกรมแบรนด์ส่วนตัวเริ่มต้น 300 ชิ้นต่อรุ่น",
-      stat1_en: "MOQ from 300 pcs", stat1_ar: "الحد الأدنى 300 قطعة", stat1_es: "MOQ desde 300 uds.", stat1_th: "MOQ เริ่ม 300 ชิ้น",
+      stat1_en: "MOQ from 500 pcs", stat1_ar: "الحد الأدنى 500 قطعة", stat1_es: "MOQ desde 500 uds.", stat1_th: "MOQ เริ่ม 500 ชิ้น",
       stat2_en: "Private label", stat2_ar: "علامة خاصة", stat2_es: "Marca propia", stat2_th: "แบรนด์ส่วนตัว"
     }
   ],
@@ -143,9 +143,9 @@ const DEFAULT_DATA = {
       title_ar: "حد أدنى صغير للطلب ومدة تسليم صادقة",
       title_es: "MOQ bajo y plazos honestos",
       title_th: "MOQ ต่ำ ระยะเวลาจัดส่งตรงไปตรงมา",
-      desc_en: "Start with 300 pcs per model and scale up as your market grows.",
+      desc_en: "Start with 500 pcs per model and scale up as your market grows.",
       desc_ar: "ابدأ بـ 300 قطعة لكل موديل وزد الكمية مع نمو سوقك.",
-      desc_es: "Empieza con 300 unidades por modelo y escala según crezca tu mercado.",
+      desc_es: "Empieza con 500 unidades por modelo y escala según crezca tu mercado.",
       desc_th: "เริ่มต้น 300 ชิ้นต่อรุ่น แล้วเพิ่มตามการเติบโตของตลาด"
     },
     {
@@ -989,13 +989,13 @@ const DEFAULT_DATA = {
         "img": "images/products/wp-wq-yd006.jpg",
         "model": "WQ-YD006",
         "name_en": "Tea Extractor & Coffee Maker",
-        "desc_en": "Tea extractor & coffee maker, 1320W, digital control with color screen, capsule coffee head, automatic water supply, 304 stainless steel tea infuser, multi-temperature control, boil-dry protection. MOQ 1000 pcs.",
+        "desc_en": "Tea extractor & coffee maker, 1320W, digital control with color screen, capsule coffee head, automatic water supply, 304 stainless steel tea infuser, multi-temperature control, boil-dry protection. MOQ 500 pcs.",
         "name_ar": "جهاز استخلاص الشاي وصنع القهوة",
-        "desc_ar": "1320 واط، تحكم رقمي بشاشة ملونة، رأس قهوة كبسولات، تعبئة مياه تلقائية، مصفاة شاي من الفولاذ 304، تحكم متعدد الحرارة. الحد الأدنى 1000 قطعة.",
+        "desc_ar": "1320 واط، تحكم رقمي بشاشة ملونة، رأس قهوة كبسولات، تعبئة مياه تلقائية، مصفاة شاي من الفولاذ 304، تحكم متعدد الحرارة. الحد الأدنى 500 قطعة.",
         "name_es": "Extractor de té y cafetera",
-        "desc_es": "1320W, control digital con pantalla a color, cabezal de café en cápsulas, suministro automático de agua, infusor de acero 304, control multi-temperatura. MOQ 1000 uds.",
+        "desc_es": "1320W, control digital con pantalla a color, cabezal de café en cápsulas, suministro automático de agua, infusor de acero 304, control multi-temperatura. MOQ 500 uds.",
         "name_th": "เครื่องสกัดชาและชงกาแฟ",
-        "desc_th": "กำลังไฟ 1320W จอสีแสดงผลแบบดิจิทัล หัวชงกาแฟแบบแคปซูล ระบบเติมน้ำอัตโนมัติ ตะแกรงชาสแตนเลส 304 ควบคุมอุณหภูมิหลายระดับ MOQ 1000 ชิ้น",
+        "desc_th": "กำลังไฟ 1320W จอสีแสดงผลแบบดิจิทัล หัวชงกาแฟแบบแคปซูล ระบบเติมน้ำอัตโนมัติ ตะแกรงชาสแตนเลส 304 ควบคุมอุณหภูมิหลายระดับ MOQ 500 ชิ้น",
         "specs": [
             {
                 "k": "power",
@@ -1008,7 +1008,7 @@ const DEFAULT_DATA = {
             },
             {
                 "k": "moq",
-                "v": "1000 pcs"
+                "v": "500 pcs"
             },
             {
                 "k": "packaging",
@@ -1031,13 +1031,13 @@ const DEFAULT_DATA = {
         "img": "images/products/wp-tea-auto.jpg",
         "model": "Automatic Tea Maker",
         "name_en": "Automatic Tea Maker 1200W",
-        "desc_en": "Automatic tea maker, 1200W fast boiling, reverse-flow spray extraction, pure titanium tea infuser & heating plate, 800ml upper kettle + 600ml fair cup, dual-layer keep warm, dry-burn protection. MOQ 1000 pcs.",
+        "desc_en": "Automatic tea maker, 1200W fast boiling, reverse-flow spray extraction, pure titanium tea infuser & heating plate, 800ml upper kettle + 600ml fair cup, dual-layer keep warm, dry-burn protection. MOQ 500 pcs.",
         "name_ar": "صانع شاي أوتوماتيكي 1200 واط",
-        "desc_ar": "غلي سريع 1200 واط، استخلاص رش عكسي، مصفاة ولوح تسخين من التيتانيوم النقي، غلاية 800 مل + كوب 600 مل، حافظ حرارة مزدوج. الحد الأدنى 1000 قطعة.",
+        "desc_ar": "غلي سريع 1200 واط، استخلاص رش عكسي، مصفاة ولوح تسخين من التيتانيوم النقي، غلاية 800 مل + كوب 600 مل، حافظ حرارة مزدوج. الحد الأدنى 500 قطعة.",
         "name_es": "Máquina de té automática 1200W",
-        "desc_es": "Hervido rápido 1200W, extracción por rociado inverso, infusor de titanio puro, tetera 800 ml + taza 600 ml, doble conservación de calor. MOQ 1000 uds.",
+        "desc_es": "Hervido rápido 1200W, extracción por rociado inverso, infusor de titanio puro, tetera 800 ml + taza 600 ml, doble conservación de calor. MOQ 500 uds.",
         "name_th": "เครื่องชงชาอัตโนมัติ 1200W",
-        "desc_th": "ต้มเร็ว 1200W ระบบสกัดแบบพ่นย้อนกลับ ตะแกรงชาและแผ่นทำความร้อนไทเทเนียมบริสุทธิ์ กาต้มน้ำ 800ml + ถ้วย 600ml เก็บความร้อน 2 ชั้น MOQ 1000 ชิ้น",
+        "desc_th": "ต้มเร็ว 1200W ระบบสกัดแบบพ่นย้อนกลับ ตะแกรงชาและแผ่นทำความร้อนไทเทเนียมบริสุทธิ์ กาต้มน้ำ 800ml + ถ้วย 600ml เก็บความร้อน 2 ชั้น MOQ 500 ชิ้น",
         "specs": [
             {
                 "k": "power",
@@ -1053,7 +1053,7 @@ const DEFAULT_DATA = {
             },
             {
                 "k": "moq",
-                "v": "1000 pcs"
+                "v": "500 pcs"
             },
             {
                 "k": "packaging",
@@ -1319,7 +1319,7 @@ const DEFAULT_DATA = {
     {
       id: "o5", icon: "layers",
       title_en: "Small MOQ to start", title_ar: "حد أدنى صغير للبدء", title_es: "MOQ bajo para empezar", title_th: "MOQ ต่ำสำหรับการเริ่มต้น",
-      desc_en: "From 300 pcs per model for private label, growing with your order history.", desc_ar: "من 300 قطعة لكل موديل للعلامة الخاصة، ويزيد مع تاريخ طلباتك.", desc_es: "Desde 300 unidades por modelo para marca propia, creciendo con tu historial.", desc_th: "เริ่ม 300 ชิ้นต่อรุ่นสำหรับแบรนด์ส่วนตัว เพิ่มตามประวัติออเดอร์"
+      desc_en: "From 500 pcs per model for private label, growing with your order history.", desc_ar: "من 500 قطعة لكل موديل للعلامة الخاصة، ويزيد مع تاريخ طلباتك.", desc_es: "Desde 500 unidades por modelo para marca propia, creciendo con tu historial.", desc_th: "เริ่ม 500 ชิ้นต่อรุ่นสำหรับแบรนด์ส่วนตัว เพิ่มตามประวัติออเดอร์"
     },
     {
       id: "o6", icon: "mold",

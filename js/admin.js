@@ -597,7 +597,7 @@ function renderDashboard() {
     "<li>把 <code>images/</code> 里的占位图换成您的真实工厂与产品照片（尺寸建议：轮播 1600×900，产品 800×800）；</li>" +
     "<li>在「产品管理」完善每个产品的参数与多语言描述；</li>" +
     "<li>在「网站设置」填入 Google Analytics 4 的 Measurement ID（如 G-XXXXXXX），并在 <code>api/submit.php</code> 配置邮箱；</li>" +
-    "<li>修改后台密码，删除默认的 admin123。</li>" +
+    "<li>登录后台后，请及时修改并妥善保管密码。</li>" +
     "</ol></div>" +
     '<div class="adm-card"><h2>数据管理</h2><div class="card-sub">导出 / 导入全部网站内容（JSON），或一键恢复演示数据。</div>' +
     '<div style="display:flex;gap:10px;flex-wrap:wrap;">' +
@@ -676,7 +676,7 @@ function renderSettings() {
     fieldHtml("factoryVideo", "工厂视频链接（YouTube 或 B 站嵌入地址，填写后关于我们页显示验厂视频）", s.factoryVideo) +
     '<div class="adm-form-actions"><button type="submit" class="btn btn-primary">保存设置</button></div>' +
     "</form></div>" +
-    '<div class="adm-card"><h2>修改后台密码</h2><div class="card-sub">默认密码 admin123，请务必修改。</div>' +
+    '<div class="adm-card"><h2>修改后台密码</h2><div class="card-sub">请使用管理员账号登录；密码请妥善保管、定期更换。</div>' +
     '<form class="adm-form" id="pass-form">' +
     fieldHtml("oldpass", "当前密码", "", "password") +
     fieldHtml("newpass", "新密码（至少 6 位）", "", "password") +
@@ -1679,18 +1679,7 @@ initStore().then(function () {
     e.preventDefault();
     const pass = $("#adm-pass").value;
     const email = (site.settings.adminEmail || "").trim() || "admin@novahome-appliance.com";
-    const hardcoded = "NovaAdmin2026!";
-    /* hardcoded password fast-path: enters admin immediately,
-       then silently signs in to Supabase to keep cloud read/write permission */
-    if (pass === hardcoded) {
-      sessionStorage.setItem("hw_admin", "1");
-      showShell();
-      const c = sb();
-      if (c) {
-        c.auth.signInWithPassword({ email: email, password: pass }).catch(function () {});
-      }
-      return;
-    }
+    /* security: no hardcoded password — login requires valid Supabase credentials */
     const c2 = sb();
     if (!c2) {
       const er = $("#login-err");
@@ -1724,11 +1713,6 @@ initStore().then(function () {
   if (checkAuth()) showShell();
   else {
     showLogin();
-    /* auto-login: fill hardcoded password and submit automatically */
-    $("#adm-pass").value = "NovaAdmin2026!";
-    setTimeout(function () {
-      $("#login-form").dispatchEvent(new Event("submit"));
-    }, 300);
   }
   });
 });
