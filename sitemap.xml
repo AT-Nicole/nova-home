@@ -2,48 +2,48 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://www.wechgood.com/index.html</loc>
+    <loc>https://jinhua.tech/index.html</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.wechgood.com/index.html?lang=en"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://www.wechgood.com/index.html?lang=ar"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.wechgood.com/index.html?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="th" href="https://www.wechgood.com/index.html?lang=th"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://jinhua.tech/index.html?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://jinhua.tech/index.html?lang=ar"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://jinhua.tech/index.html?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://jinhua.tech/index.html?lang=th"/>
   </url>
   <url>
-    <loc>https://www.wechgood.com/products.html</loc>
+    <loc>https://jinhua.tech/products.html</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.wechgood.com/products.html?lang=en"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://www.wechgood.com/products.html?lang=ar"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.wechgood.com/products.html?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="th" href="https://www.wechgood.com/products.html?lang=th"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://jinhua.tech/products.html?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://jinhua.tech/products.html?lang=ar"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://jinhua.tech/products.html?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://jinhua.tech/products.html?lang=th"/>
   </url>
   <url>
-    <loc>https://www.wechgood.com/about.html</loc>
+    <loc>https://jinhua.tech/about.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.wechgood.com/about.html?lang=en"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://www.wechgood.com/about.html?lang=ar"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.wechgood.com/about.html?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="th" href="https://www.wechgood.com/about.html?lang=th"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://jinhua.tech/about.html?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://jinhua.tech/about.html?lang=ar"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://jinhua.tech/about.html?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://jinhua.tech/about.html?lang=th"/>
   </url>
   <url>
-    <loc>https://www.wechgood.com/contact.html</loc>
+    <loc>https://jinhua.tech/contact.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.wechgood.com/contact.html?lang=en"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://www.wechgood.com/contact.html?lang=ar"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.wechgood.com/contact.html?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="th" href="https://www.wechgood.com/contact.html?lang=th"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://jinhua.tech/contact.html?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://jinhua.tech/contact.html?lang=ar"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://jinhua.tech/contact.html?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://jinhua.tech/contact.html?lang=th"/>
   </url>
   <url>
-    <loc>https://www.wechgood.com/privacy.html</loc>
+    <loc>https://jinhua.tech/privacy.html</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.wechgood.com/privacy.html?lang=en"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://www.wechgood.com/privacy.html?lang=ar"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.wechgood.com/privacy.html?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="th" href="https://www.wechgood.com/privacy.html?lang=th"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://jinhua.tech/privacy.html?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://jinhua.tech/privacy.html?lang=ar"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://jinhua.tech/privacy.html?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://jinhua.tech/privacy.html?lang=th"/>
   </url>
 </urlset>
