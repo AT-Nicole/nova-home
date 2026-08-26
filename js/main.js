@@ -758,7 +758,7 @@ function renderProductPage() {
   /* SEO: dynamic meta + structured data */
   document.title = name + " | " + (cat ? catName(cat) : "") + " | Wholesale Home Appliance Factory";
   const meta = document.querySelector('meta[name="description"]');
-  if (meta) meta.setAttribute("content", "Wholesale " + name + " from China factory. " + (desc || "").slice(0, 140) + " OEM/ODM, MOQ from 500 pcs, reply within 12 hours.");
+  if (meta) meta.setAttribute("content", "Wholesale " + name + " from China factory. " + (desc || "").slice(0, 140) + " OEM/ODM, MOQ from 500 pcs, reply within 12 Working Hours.");
   const canon = document.querySelector('link[rel="canonical"]');
   if (canon) canon.setAttribute("href", location.href.split("?")[0] + "?p=" + encodeURIComponent(id));
   let ld = document.getElementById("pd-jsonld");

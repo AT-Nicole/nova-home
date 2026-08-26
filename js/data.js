@@ -150,14 +150,14 @@ const DEFAULT_DATA = {
     },
     {
       id: "w4", icon: "clock",
-      title_en: "12-hour response guarantee",
-      title_ar: "ضمان الرد خلال 12 ساعة",
-      title_es: "Respuesta garantizada en 12 horas",
-      title_th: "รับประกันตอบกลับภายใน 12 ชั่วโมง",
-      desc_en: "Every inquiry answered by a real export sales engineer within 12 hours.",
-      desc_ar: "كل استفسار يجيب عنه مهندس مبيعات تصدير حقيقي خلال 12 ساعة.",
-      desc_es: "Cada consulta es respondida por un ingeniero real de ventas de exportación en 12 horas.",
-      desc_th: "ทุกคำถามตอบโดยวิศวกรฝ่ายขายส่งออกตัวจริงภายใน 12 ชั่วโมง"
+      title_en: "12 working-hour response guarantee",
+      title_ar: "ضمان الرد خلال 12 ساعة عمل",
+      title_es: "Respuesta garantizada en 12 horas laborales",
+      title_th: "รับประกันตอบกลับภายใน 12 ชั่วโมงทำการ",
+      desc_en: "Every inquiry answered by a real export sales engineer within 12 working hours.",
+      desc_ar: "كل استفسار يجيب عنه مهندس مبيعات تصدير حقيقي خلال 12 ساعة عمل.",
+      desc_es: "Cada consulta es respondida por un ingeniero real de ventas de exportación en 12 horas laborales.",
+      desc_th: "ทุกคำถามตอบโดยวิศวกรฝ่ายขายส่งออกตัวจริงภายใน 12 ชั่วโมงทำการ"
     },
     {
       id: "w5", icon: "sample",
@@ -187,7 +187,7 @@ const DEFAULT_DATA = {
     { id: "st1", num: "10", suffix: "+", label_en: "Years of manufacturing", label_ar: "سنة تصنيع", label_es: "Años de fabricación", label_th: "ปีผลิต" },
     { id: "st2", num: "40", suffix: "+", label_en: "Countries served", label_ar: "دولة", label_es: "Países servidos", label_th: "ประเทศ" },
     { id: "st3", num: "200", suffix: "+", label_en: "Product models", label_ar: "موديل", label_es: "Modelos", label_th: "รุ่นสินค้า" },
-    { id: "st4", num: "12", suffix: "h", label_en: "Reply commitment", label_ar: "ساعة للرد", label_es: "Horas de respuesta", label_th: "ชั่วโมงตอบกลับ" }
+    { id: "st4", num: "12", suffix: "h", label_en: "Reply within working hours", label_ar: "الرد خلال ساعات العمل", label_es: "Respuesta en horas laborables", label_th: "ตอบกลับภายในชั่วโมงทำการ" }
   ],
 
   categories: [
