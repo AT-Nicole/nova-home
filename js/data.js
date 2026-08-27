@@ -636,18 +636,18 @@ const DEFAULT_DATA = {
         "cat": "induction-cooker",
         "img": "images/products/wp-wq-400.jpg",
         "model": "WQ-400",
-        "name_en": "Built-in Multi-zone Induction Cooker 5500W (4 Burners)",
-        "desc_en": "Built-in 4-zone induction cooker, 5500W total power (1500+2000+1500+2000W), 9 power levels, 180-min timer, touch & knob control, pan detection. 3-zone variant available.",
-        "name_ar": "موقد حثي مدمج متعدد المناطق 5500 واط",
-        "desc_ar": "4 مناطق طهي مستقلة، 5500 واط، 9 مستويات، مؤقت 180 دقيقة، تحكم باللمس والمقبض، كشف الأواني. يتوفر إصدار 3 مناطق.",
-        "name_es": "Cocina de inducción integrada multizona 5500W",
-        "desc_es": "4 zonas independientes, 5500W, 9 niveles, temporizador 180 min, control táctil y perilla, detección de ollas. Variante de 3 zonas disponible.",
-        "name_th": "เตาแม่เหล็กไฟฟ้าแบบบิลท์อิน 4 หัว 5500W",
-        "desc_th": "4 หัวทำความร้อนอิสระ กำลังรวม 5500W ระดับกำลัง 9 ระดับ ตั้งเวลา 180 นาที ระบบตรวจจับหม้อ มีรุ่น 3 หัว",
+        "name_en": "Built-in 4-Zone Induction Cooker (1500+2000+1500+2000W)",
+        "desc_en": "Built-in 4-zone induction cooker with 1500W+2000W+1500W+2000W independent zones, 9 power levels, 180-min timer, touch & knob control, pan detection. 3-zone variant available.",
+        "name_ar": "موقد حثي مدمج 4 مناطق (1500+2000+1500+2000 واط)",
+        "desc_ar": "4 مناطق طهي مستقلة (1500+2000+1500+2000 واط)، 9 مستويات، مؤقت 180 دقيقة، تحكم باللمس والمقبض، كشف الأواني. يتوفر إصدار 3 مناطق.",
+        "name_es": "Cocina de inducción integrada de 4 zonas (1500+2000+1500+2000W)",
+        "desc_es": "4 zonas independientes (1500+2000+1500+2000W), 9 niveles, temporizador 180 min, control táctil y perilla, detección de ollas. Variante de 3 zonas disponible.",
+        "name_th": "เตาแม่เหล็กไฟฟ้าแบบบิลท์อิน 4 หัว (1500+2000+1500+2000W)",
+        "desc_th": "4 หัวทำความร้อนอิสระ กำลัง 1500+2000+1500+2000W ระดับกำลัง 9 ระดับ ตั้งเวลา 180 นาที ระบบตรวจจับหม้อ มีรุ่น 3 หัว",
         "specs": [
             {
                 "k": "power",
-                "v": "5500W (1500+2000+1500+2000W)",
+                "v": "1500W+2000W+1500W+2000W (4 independent zones)",
     "featured": true
             },
             {
@@ -696,7 +696,7 @@ const DEFAULT_DATA = {
             },
             {
                 "k": "variant",
-                "v": "3-zone 1500+2000+2300W available"
+                "v": "3-zone 1500+2000+2300W available (model WQ-400)"
             }
         ],
         "active": true
