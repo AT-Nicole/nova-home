@@ -166,7 +166,6 @@ function renderCarousel() {
       "<p class=\"hero-sub\">" + esc(localizeField(s, "sub")) + "</p>" +
       '<div class="hero-ctas">' +
       '<a class="btn btn-primary btn-lg" href="#quote">' + esc(t("hero.cta1")) + "</a>" +
-      '<a class="btn btn-ghost-light btn-lg" href="products.html">' + esc(t("hero.cta2")) + "</a>" +
       "</div></div></div></div>";
   }).join("");
   const dotsWrap = document.getElementById("hero-dots");
