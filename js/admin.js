@@ -1678,7 +1678,7 @@ initStore().then(function () {
   $("#login-form").addEventListener("submit", function (e) {
     e.preventDefault();
     const pass = $("#adm-pass").value;
-    const email = (site.settings.adminEmail || "").trim() || "admin@novahome-appliance.com";
+    const email = (site.settings.adminEmail || "").trim() || "harry_hou@wechgood.com";
     /* security: no hardcoded password — login requires valid Supabase credentials */
     const c2 = sb();
     if (!c2) {
