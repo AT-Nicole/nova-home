@@ -1332,7 +1332,9 @@ const DEFAULT_DATA = {
     { id: "c1", mark: "CE", name: "CE", scope: "EU LVD 2014/35/EU + EMC 2014/30/EU (2025)" },
     { id: "c2", mark: "RoHS", name: "RoHS", scope: "EU RoHS 2011/65/EU + (EU) 2015/863 \u00b7 Cert. No. CCI251100448ENCER (Nov 2025)" },
     { id: "c9", mark: "ErP", name: "ErP", scope: "Standby & off-mode (EC 1275/2008)" },
-    { id: "c10", mark: "UKCA", name: "UKCA", scope: "UK Electrical Equipment (Safety) Regs 2016" }
+    { id: "c10", mark: "UKCA", name: "UKCA", scope: "UK Electrical Equipment (Safety) Regs 2016" },
+    { id: "c11", mark: "LVD", name: "LVD", scope: "EU Low Voltage Directive 2014/35/EU (2025)" },
+    { id: "c12", mark: "EMC", name: "EMC", scope: "EU EMC Directive 2014/30/EU (2025)" }
   ]
 };
 
