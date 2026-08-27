@@ -29,6 +29,25 @@
     <xhtml:link rel="alternate" hreflang="th" href="https://jinhua.tech/about.html?lang=th"/>
   </url>
   <url>
+    <loc>https://jinhua.tech/blog-induction-vs-infrared.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://jinhua.tech/blog.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://jinhua.tech/faq.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://jinhua.tech/faq.html?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://jinhua.tech/faq.html?lang=ar"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://jinhua.tech/faq.html?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="th" href="https://jinhua.tech/faq.html?lang=th"/>
+  </url>
+  <url>
     <loc>https://jinhua.tech/contact.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>

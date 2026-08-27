@@ -756,7 +756,7 @@ function renderProductPage() {
   const smpBtn = box.querySelector("[data-pd-sample]");
   if (smpBtn) smpBtn.addEventListener("click", function () { openInquiryModal(p.id, "Sample request: " + name + "\n"); });
   /* SEO: dynamic meta + structured data */
-  document.title = name + " | " + (cat ? catName(cat) : "") + " | Wholesale Home Appliance Factory";
+  document.title = name + " | " + (cat ? catName(cat) + " | " : "") + "WECHGOOD";
   const meta = document.querySelector('meta[name="description"]');
   if (meta) meta.setAttribute("content", "Wholesale " + name + " from China factory. " + (desc || "").slice(0, 140) + " OEM/ODM, MOQ from 500 pcs, reply within 12 Working Hours.");
   const canon = document.querySelector('link[rel="canonical"]');
@@ -773,6 +773,9 @@ function renderProductPage() {
     brand: { "@type": "Brand", name: site.settings.brand },
     offers: { "@type": "Offer", availability: "https://schema.org/InStock", priceCurrency: "USD", price: "0.00" }
   });
+  /* D24: hero Get a Quote -> inquiry modal with model context */
+  const heroQ = document.getElementById("pd-hero-quote");
+  if (heroQ) heroQ.addEventListener("click", function (e) { e.preventDefault(); openInquiryModal(p.id); });
   /* related products */
   const relGrid = document.getElementById("pd-related");
   if (relGrid && relatedWrap) {
@@ -846,6 +849,14 @@ document.addEventListener("DOMContentLoaded", function () {
   initChat();
   initFacebookPixel();
   observeReveals();
+  /* D24: contact page ?model= prefill */
+  if (document.body.getAttribute("data-page") === "contact") {
+    const pm = new URLSearchParams(window.location.search).get("model");
+    if (pm) {
+      const msgBox = document.getElementById("ct-msg");
+      if (msgBox && !msgBox.value) msgBox.value = "Hi, I'm interested in " + pm + ".\n";
+    }
+  }
   /* URL param preselect for products */
   if (document.body.getAttribute("data-page") === "products") {
     const params = new URLSearchParams(window.location.search);
