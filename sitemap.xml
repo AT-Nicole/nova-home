@@ -12,6 +12,8 @@
   </url>
   <url>
     <loc>https://jinhua.tech/products.html</loc>
+  <url><loc>https://jinhua.tech/induction-cookers.html</loc></url>
+  <url><loc>https://jinhua.tech/infrared-cookers.html</loc></url>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://jinhua.tech/products.html?lang=en"/>
