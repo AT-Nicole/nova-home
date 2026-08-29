@@ -33,7 +33,7 @@ const DEFAULT_DATA = {
   slides: [
     {
       id: "s1",
-      img: "images/hero-factory.jpg",
+      img: "images/hero-factory.webp",
       title_en: "Power your comfortable daily life",
       title_ar: "أضف الطاقة إلى حياتك اليومية المريحة",
       title_es: "Da energía a tu día a día con comodidad",
@@ -45,7 +45,7 @@ const DEFAULT_DATA = {
     },
     {
       id: "s2",
-      img: "images/hero-line.jpg",
+      img: "images/hero-line.webp",
       title_en: "Quality you can trace back to the source",
       title_ar: "جودة يمكنك تتبعها حتى المصدر",
       title_es: "Calidad que puedes rastrear hasta el origen",
@@ -57,7 +57,7 @@ const DEFAULT_DATA = {
     },
     {
       id: "s3",
-      img: "images/hero-kitchen.jpg",
+      img: "images/hero-kitchen.webp",
       title_en: "One factory, five product lines",
       title_ar: "مصنع واحد، خمسة خطوط منتجات",
       title_es: "Una fábrica, cinco líneas de producto",
@@ -73,45 +73,45 @@ const DEFAULT_DATA = {
     {
       id: "a1",
       icon: "factory",
-      title_en: "10+ years of manufacturing",
-      title_ar: "أكثر من 10 عاماً من التصنيع",
-      title_es: "Más de 10 años de fabricación",
-      title_th: "ประสบการณ์ผลิตกว่า 10 ปี",
-      desc_en: "A real factory in Foshan, China, built by engineers and export people who have worked with importers since day one.",
-      desc_ar: "مصنع حقيقي في فوشان بالصين، أسسه مهندسون وخبراء تصدير عملوا مع المستوردين منذ اليوم الأول.",
-      desc_es: "Una fábrica real en Foshan (China), construida por ingenieros y personal de exportación que trabajan con importadores desde el primer día.",
-      desc_th: "โรงงานจริงในเมืองฝอซาน ประเทศจีน ก่อตั้งโดยวิศวกรและทีมส่งออกที่ทำงานกับผู้นำเข้ามาตั้งแต่วันแรก",
-      stat1_en: "10+ years", stat1_ar: "+10 عاماً", stat1_es: "+10 años", stat1_th: "10+ ปี",
-      stat2_en: "300+ workers", stat2_ar: "+300 عامل", stat2_es: "+300 trabajadores", stat2_th: "300+ คน"
+      title_en: "Proven OEM / ODM Track Record",
+      title_ar: "سجل حافل في OEM / ODM",
+      title_es: "Trayectoria probada en OEM / ODM",
+      title_th: "ผลงาน OEM / ODM ที่พิสูจน์แล้ว",
+      desc_en: "For years, we have acted as a stable, reliable OEM/ODM partner for top-tier Chinese home-appliance brands, including Joyoung, Haier, Xiaomi, Royalstar, Airmate and P&G. More than 10 years of deep collaboration with these market leaders has helped us build solid manufacturing competence.",
+      desc_ar: "لسنوات طويلة، عملنا كشريك OEM/ODM مستقر وموثوق لأشهر العلامات الصينية للأجهزة المنزلية، مثل Joyoung وHaier وXiaomi وRoyalstar وAirmate وP&G. وأكثر من 10 سنوات من التعاون العميق مع قادة السوق منحتنا كفاءة تصنيع راسخة.",
+      desc_es: "Durante años, hemos sido un socio OEM/ODM estable y fiable para las principales marcas chinas de electrodomésticos, incluyendo Joyoung, Haier, Xiaomi, Royalstar, Airmate y P&G. Más de 10 años de colaboración profunda con estos líderes del mercado nos han permitido desarrollar una sólida capacidad de fabricación.",
+      desc_th: "ตลอดหลายปีที่ผ่านมา เราเป็นพันธมิตร OEM/ODM ที่มั่นคงและเชื่อถือได้ของแบรนด์เครื่องใช้ไฟฟ้าในบ้านชั้นนำของจีน อาทิ Joyoung, Haier, Xiaomi, Royalstar, Airmate และ P&G ประสบการณ์ร่วมมือกับผู้นำตลาดกว่า 10 ปี ช่วยให้เรามีความสามารถในการผลิตที่มั่นคง",
+      stat1_en: "10+ years cooperation", stat1_ar: "+10 سنوات تعاون", stat1_es: "+10 años de cooperación", stat1_th: "ร่วมมือกว่า 10 ปี",
+      stat2_en: "Top-brand supplier", stat2_ar: "مورّد لعلامات رائدة", stat2_es: "Proveedor de marcas líderes", stat2_th: "ซัพพลายเออร์แบรนด์ชั้นนำ"
     },
     {
       id: "a2",
-      icon: "shield",
-      title_en: "Certified for your market",
-      title_ar: "معتمد لسوقك",
-      title_es: "Certificado para tu mercado",
-      title_th: "ได้มาตรฐานสำหรับตลาดของคุณ",
-      desc_en: "CE, RoHS, ErP and UKCA. Products are tested to the standards of the markets we ship to.",
-      desc_ar: "CE وRoHS وErP وUKCA. المنتجات مُختبَرة وفق معايير الأسواق التي نشحن إليها.",
-      desc_es: "CE, RoHS, ErP y UKCA. Los productos se prueban según los estándares de los mercados a los que enviamos.",
-      desc_th: "CE, RoHS, ErP และ UKCA ผลิตภัณฑ์ได้รับการทดสอบตามมาตรฐานของตลาดที่เราส่งออก",
-      stat1_en: "CE · RoHS · UKCA", stat1_ar: "CE · RoHS · UKCA", stat1_es: "CE · RoHS · UKCA", stat1_th: "CE · RoHS · UKCA",
-      stat2_en: "ErP Certified", stat2_ar: "ErP Certified", stat2_es: "ErP Certified", stat2_th: "ErP Certified"
+      icon: "gear",
+      title_en: "Strong R&D & In-House Core-Component Production",
+      title_ar: "بحث وتطوير قوي وإنتاج داخلي للمكونات الأساسية",
+      title_es: "I+D potente y producción interna de componentes clave",
+      title_th: "R&D แข็งแกร่ง ผลิตชิ้นส่วนหลักในโรงงานเอง",
+      desc_en: "We own strong R&D and innovation capabilities. Core components including PCBA and heating plates are produced in-house, enabling better control over performance, lead-time and quality. We hold CE, RoHS, ErP and UKCA, with products tested to meet target-market standards.",
+      desc_ar: "نمتلك قدرات قوية في البحث والتطوير والابتكار. تُنتج المكونات الأساسية مثل لوحات PCBA وأطباق التسخين داخل مصنعنا، مما يمنحنا تحكمًا أفضل في الأداء ومدة التسليم والجودة. ونحمل شهادات CE وRoHS وErP وUKCA، مع اختبار المنتجات وفق معايير الأسواق المستهدفة.",
+      desc_es: "Contamos con una sólida capacidad de I+D e innovación. Componentes clave como las placas PCBA y las placas de cocción se producen internamente, lo que permite un mejor control del rendimiento, los plazos y la calidad. Contamos con CE, RoHS, ErP y UKCA, con productos probados según las normas de cada mercado de destino.",
+      desc_th: "เรามีความสามารถด้าน R&D และนวัตกรรมที่แข็งแกร่ง ชิ้นส่วนหลักอย่าง PCBA และจานความร้อนผลิตขึ้นในโรงงานเอง ทำให้ควบคุมประสิทธิภาพ ระยะเวลาผลิต และคุณภาพได้ดียิ่งขึ้น พร้อมใบรับรอง CE, RoHS, ErP และ UKCA โดยทดสอบตามมาตรฐานของแต่ละตลาดเป้าหมาย",
+      stat1_en: "PCBA & heating plate in-house", stat1_ar: "PCBA وأطباق تسخين بإنتاجنا", stat1_es: "PCBA y placas de cocción propias", stat1_th: "PCBA และจานความร้อนผลิตเอง",
+      stat2_en: "CE · RoHS · UKCA · ErP", stat2_ar: "CE · RoHS · UKCA · ErP", stat2_es: "CE · RoHS · UKCA · ErP", stat2_th: "CE · RoHS · UKCA · ErP"
     },
     {
       id: "a3",
-      icon: "gear",
-      title_en: "OEM / ODM flexibility",
-      title_ar: "مرونة OEM / ODM",
-      title_es: "Flexibilidad OEM / ODM",
-      title_th: "ความยืดหยุ่น OEM / ODM",
-      desc_en: "Your logo, your colors, your voltage, your packaging. Private label programs from 500 pcs per model.",
-      desc_ar: "شعارك، ألوانك، جهدك، تغليفك. برامج علامة خاصة تبدأ من 300 قطعة للموديل.",
-      desc_es: "Tu logotipo, tus colores, tu voltaje, tu embalaje. Programas de marca propia desde 500 unidades por modelo.",
-      desc_th: "โลโก้ของคุณ สีของคุณ แรงดันไฟของคุณ บรรจุภัณฑ์ของคุณ โปรแกรมแบรนด์ส่วนตัวเริ่มต้น 300 ชิ้นต่อรุ่น",
-      stat1_en: "MOQ from 500 pcs", stat1_ar: "الحد الأدنى 500 قطعة", stat1_es: "MOQ desde 500 uds.", stat1_th: "MOQ เริ่ม 500 ชิ้น",
-      stat2_en: "Private label", stat2_ar: "علامة خاصة", stat2_es: "Marca propia", stat2_th: "แบรนด์ส่วนตัว"
-    }
+      icon: "shield",
+      title_en: "Strict QC & Stable Large-Volume Manufacturing",
+      title_ar: "رقابة صارمة على الجودة وإنتاج ضخم مستقر",
+      title_es: "Control de calidad estricto y producción a gran escala estable",
+      title_th: "QC เข้มงวด ผลิตปริมาณมากได้เสถียร",
+      desc_en: "A complete strict quality-control system is implemented throughout production. We support large-scale, stable mass production, and deliver flexible OEM / ODM & private-label solutions, MOQ starting from 500 pcs per model.",
+      desc_ar: "نظام صارم متكامل لمراقبة الجودة يُطبق في جميع مراحل الإنتاج. ندعم الإنتاج الضخم المستقر على نطاق واسع، ونقدم حلول OEM / ODM والعلامة الخاصة بمرن، بحد أدنى للطلب يبدأ من 500 قطعة لكل موديل.",
+      desc_es: "Un sistema completo y estricto de control de calidad se aplica en toda la producción. Apoyamos la producción masiva estable a gran escala y ofrecemos soluciones flexibles de OEM / ODM y marca propia, con un MOQ desde 500 unidades por modelo.",
+      desc_th: "ระบบควบคุมคุณภาพที่เข้มงวดครบวงจรถูกนำไปใช้ตลอดกระบวนการผลิต รองรับการผลิตปริมาณมากอย่างมั่นคง พร้อมโซลูชัน OEM / ODM และแบรนด์ส่วนตัวที่ยืดหยุ่น MOQ เริ่มต้น 500 ชิ้นต่อรุ่น",
+      stat1_en: "Strict QC system", stat1_ar: "نظام QC صارم", stat1_es: "Sistema QC estricto", stat1_th: "ระบบ QC เข้มงวด",
+      stat2_en: "MOQ from 500 pcs", stat2_ar: "الحد الأدنى 500 قطعة", stat2_es: "MOQ desde 500 uds.", stat2_th: "MOQ เริ่ม 500 ชิ้น"
+    },
   ],
 
   whyUs: [
@@ -144,9 +144,9 @@ const DEFAULT_DATA = {
       title_es: "MOQ bajo y plazos honestos",
       title_th: "MOQ ต่ำ ระยะเวลาจัดส่งตรงไปตรงมา",
       desc_en: "Start with 500 pcs per model and scale up as your market grows.",
-      desc_ar: "ابدأ بـ 300 قطعة لكل موديل وزد الكمية مع نمو سوقك.",
+      desc_ar: "ابدأ بـ 500 قطعة لكل موديل وزد الكمية مع نمو سوقك.",
       desc_es: "Empieza con 500 unidades por modelo y escala según crezca tu mercado.",
-      desc_th: "เริ่มต้น 300 ชิ้นต่อรุ่น แล้วเพิ่มตามการเติบโตของตลาด"
+      desc_th: "เริ่มต้น 500 ชิ้นต่อรุ่น แล้วเพิ่มตามการเติบโตของตลาด"
     },
     {
       id: "w4", icon: "clock",
@@ -193,7 +193,7 @@ const DEFAULT_DATA = {
   categories: [
     {
         "id": "induction-cooker",
-        "img": "images/cat-induction.jpg",
+        "img": "images/cat-induction.webp",
         "name_ar": "مواقد الحث",
         "name_en": "Induction Cookers",
         "name_es": "Cocinas de inducción",
@@ -201,7 +201,7 @@ const DEFAULT_DATA = {
     },
     {
         "id": "infrared-cooker",
-        "img": "images/cat-infrared.jpg",
+        "img": "images/cat-infrared.webp",
         "name_ar": "مواقد الأشعة تحت الحمراء",
         "name_en": "Infrared Cookers",
         "name_es": "Cocinas de infrarrojos",
@@ -209,7 +209,7 @@ const DEFAULT_DATA = {
     },
     {
         "id": "tea-extractor",
-        "img": "images/cat-tea.jpg",
+        "img": "images/cat-tea.webp",
         "name_ar": "أجهزة تحضير الشاي",
         "name_en": "Tea Extractors",
         "name_es": "Extractores de té",
@@ -217,7 +217,7 @@ const DEFAULT_DATA = {
     },
     {
         "id": "coffee-tea-maker",
-        "img": "images/products/wp-wq-yd006.jpg",
+        "img": "images/products/wp-wq-yd006.webp",
         "name_ar": "أجهزة القهوة والشاي 2 في 1",
         "name_en": "2-in-1 Coffee & Tea Makers",
         "name_es": "Cafeteras y teteras 2 en 1",
@@ -229,7 +229,7 @@ const DEFAULT_DATA = {
     {
         "id": "wp-wq-2835a",
         "cat": "induction-cooker",
-        "img": "images/products/wp-wq-2835a.jpg",
+        "img": "images/products/wp-wq-2835a.webp",
         "model": "WQ-2835A",
         "name_en": "2100W Single-Burner Induction Cooker",
         "desc_en": "Universal voltage (AC 220-240V) single-burner induction cooker, 2100W fast heating, 9 power gears, 180-min timer, touch control, A+ microcrystal panel, CE & RoHS certified.",
@@ -295,7 +295,7 @@ const DEFAULT_DATA = {
     {
         "id": "wp-wq-2835b",
         "cat": "induction-cooker",
-        "img": "images/products/wp-wq-2835b.jpg",
+        "img": "images/products/wp-wq-2835b.webp",
         "model": "WQ-2835B",
         "name_en": "2100W Single-Burner Induction Cooker",
         "desc_en": "Universal voltage (AC 220-240V) induction cooker with 2100W fast heating, 9 gears, 180-min timer, touch control, child lock and A+ microcrystal panel.",
@@ -360,7 +360,7 @@ const DEFAULT_DATA = {
     {
         "id": "wp-wq-2835g",
         "cat": "induction-cooker",
-        "img": "images/products/wp-wq-2835g.jpg",
+        "img": "images/products/wp-wq-2835g.webp",
         "model": "WQ-2835G",
         "name_en": "2100W Single-Burner Induction Cooker",
         "desc_en": "220V/50Hz induction cooker, 2100W with 9 gears, touch control, raised heating plate, timer setting and intelligent temperature control.",
@@ -405,7 +405,7 @@ const DEFAULT_DATA = {
     {
         "id": "wp-wq-2835e",
         "cat": "induction-cooker",
-        "img": "images/products/wp-wq-2835e.jpg",
+        "img": "images/products/wp-wq-2835e.webp",
         "model": "WQ-2835E",
         "name_en": "2100W Single-Burner Induction Cooker (EMC)",
         "desc_en": "AC 220-240V single-burner induction cooker, 2100W max power, 9 heating levels, 180-min timer, touch control with A+ round microcrystalline panel, CE & RoHS.",
@@ -462,7 +462,7 @@ const DEFAULT_DATA = {
     {
         "id": "wp-wq-3137",
         "cat": "induction-cooker",
-        "img": "images/products/wp-wq-3137.jpg",
+        "img": "images/products/wp-wq-3137.webp",
         "model": "WQ-3137",
         "name_en": "3500W Commercial Induction Cooker",
         "desc_en": "Commercial induction cooker, 3500W max power, 10 heating gears, 180-min timer, touch & knob control, A+ microcrystal panel, lightweight 2.5KG.",
@@ -524,7 +524,7 @@ const DEFAULT_DATA = {
     {
         "id": "wp-wq-3137c",
         "cat": "induction-cooker",
-        "img": "images/products/wp-wq-3137c.jpg",
+        "img": "images/products/wp-wq-3137c.webp",
         "model": "WQ-3137 CONCAVE",
         "name_en": "3500W Commercial Concave Induction Cooker",
         "desc_en": "Commercial concave induction cooker with wok-friendly design, 3500W, 10 gears, 180-min timer, touch & knob control, 2.5KG lightweight.",
@@ -581,7 +581,7 @@ const DEFAULT_DATA = {
     {
         "id": "wp-wq-a730",
         "cat": "induction-cooker",
-        "img": "images/products/wp-wq-a730.jpg",
+        "img": "images/products/wp-wq-a730.webp",
         "model": "WQ-A730",
         "name_en": "3500W Concave Induction Cooker with Wok",
         "desc_en": "Concave induction cooker complete with wok, 3500W, 10 power levels, touch & knob control, 8-hour timer, high & low voltage protection, auto standby.",
@@ -634,7 +634,7 @@ const DEFAULT_DATA = {
     {
         "id": "wp-wq-400",
         "cat": "induction-cooker",
-        "img": "images/products/wp-wq-400.jpg",
+        "img": "images/products/wp-wq-400.webp",
         "model": "WQ-400",
         "name_en": "Built-in 4-Zone Induction Cooker (1500+2000+1500+2000W)",
         "desc_en": "Built-in 4-zone induction cooker with 1500W+2000W+1500W+2000W independent zones, 9 power levels, 180-min timer, touch & knob control, pan detection. 3-zone variant available.",
@@ -704,7 +704,7 @@ const DEFAULT_DATA = {
     {
         "id": "wp-wqy-x11",
         "cat": "infrared-cooker",
-        "img": "images/products/wp-wqy-x11.jpg",
+        "img": "images/products/wp-wqy-x11.webp",
         "model": "WQY-X11",
         "name_en": "3000W Concave Ceramic Cooker",
         "desc_en": "Concave ceramic cooker, 3000W, 10 heating levels, touch & knob control, 8-hour timer, overheat protection, auto standby.",
@@ -753,7 +753,7 @@ const DEFAULT_DATA = {
     {
         "id": "wp-wq-x2",
         "cat": "infrared-cooker",
-        "img": "images/products/wp-wq-x2.jpg",
+        "img": "images/products/wp-wq-x2.webp",
         "model": "WQ-X2",
         "name_en": "2200W Infrared Cooker Electric Ceramic Hob",
         "desc_en": "2200W infrared ceramic hob, inner & outer circle heating, 9 heating levels, 180-min timer, touch + knob dual control, metal frame, suitable for all pots. 2 color options.",
@@ -819,7 +819,7 @@ const DEFAULT_DATA = {
     {
         "id": "wp-wq-x10",
         "cat": "infrared-cooker",
-        "img": "images/products/wp-wq-x10.jpg",
+        "img": "images/products/wp-wq-x10.webp",
         "model": "WQ-X10",
         "name_en": "2200W Infrared Cooker",
         "desc_en": "Universal voltage (AC 220-240V) infrared cooker, 2200W, 9 heating gears, 180-min timer, touch control, A+ microcrystal panel, approx. 2KG.",
@@ -876,7 +876,7 @@ const DEFAULT_DATA = {
     {
         "id": "wp-wq-x9",
         "cat": "infrared-cooker",
-        "img": "images/products/wp-wq-x9.jpg",
+        "img": "images/products/wp-wq-x9.webp",
         "model": "WQ-X9",
         "name_en": "2200W Infrared Cooker Electric Ceramic Hob",
         "desc_en": "2200W infrared ceramic hob, inner & outer circle heating, 9 heating levels, touch + knob control, A+ panel, plastic frame, approx. 2.2KG.",
@@ -937,7 +937,7 @@ const DEFAULT_DATA = {
     {
         "id": "wp-dbl-infrared",
         "cat": "infrared-cooker",
-        "img": "images/products/wp-dbl-infrared.jpg",
+        "img": "images/products/wp-dbl-infrared.webp",
         "model": "2 Burners Infrared",
         "name_en": "3400-3500W 2 Burners Infrared Cooker",
         "desc_en": "Double-burner infrared cooker, 3400-3500W, 10 heating gears, 180-min timer, touch & slide control, safety child lock, polished microcrystal glass, inverter function.",
@@ -986,7 +986,7 @@ const DEFAULT_DATA = {
     {
         "id": "wp-wq-yd006",
         "cat": "coffee-tea-maker",
-        "img": "images/products/wp-wq-yd006.jpg",
+        "img": "images/products/wp-wq-yd006.webp",
         "model": "WQ-YD006",
         "name_en": "Tea Extractor & Coffee Maker",
         "desc_en": "Tea extractor & coffee maker, 1320W, digital control with color screen, capsule coffee head, automatic water supply, 304 stainless steel tea infuser, multi-temperature control, boil-dry protection. MOQ 500 pcs.",
@@ -1028,7 +1028,7 @@ const DEFAULT_DATA = {
     {
         "id": "wp-tea-auto",
         "cat": "tea-extractor",
-        "img": "images/products/wp-tea-auto.jpg",
+        "img": "images/products/wp-tea-auto.webp",
         "model": "Automatic Tea Maker",
         "name_en": "Automatic Tea Maker 1200W",
         "desc_en": "Automatic tea maker, 1200W fast boiling, reverse-flow spray extraction, pure titanium tea infuser & heating plate, 800ml upper kettle + 600ml fair cup, dual-layer keep warm, dry-burn protection. MOQ 500 pcs.",
@@ -1073,7 +1073,7 @@ const DEFAULT_DATA = {
     {
         "id": "wp-tea-steam",
         "cat": "tea-extractor",
-        "img": "images/products/wp-tea-steam.jpg",
+        "img": "images/products/wp-tea-steam.webp",
         "model": "Steam Spray Tea Maker",
         "name_en": "Automatic Tea Maker (Steam Spray)",
         "desc_en": "Steam spray tea brewer & sterilizer, dual power 600W sterilization + 1200W tea extraction, automatic dual-bottom water supply, pure titanium components, 800ml + 600ml, dry-burn protection.",
@@ -1106,7 +1106,7 @@ const DEFAULT_DATA = {
     {
         "id": "wp-builtin-5200",
         "cat": "induction-cooker",
-        "img": "images/products/wp-builtin-5200.jpg",
+        "img": "images/products/wp-builtin-5200.webp",
         "model": "Built-in 5200W",
         "name_en": "5200W Built-in Induction Cooker",
         "desc_en": "Built-in induction cooker, 5200W high power with boost function, 9 heating gears, 180-min timer, touch & slide control, safety child lock, residual heat indicator, overflow protection, noise less than 60 dB.",
@@ -1168,7 +1168,7 @@ const DEFAULT_DATA = {
     {
         "id": "wp-builtin-double",
         "cat": "induction-cooker",
-        "img": "images/products/wp-builtin-double.jpg",
+        "img": "images/products/wp-builtin-double.webp",
         "model": "Built-in Double Burner",
         "name_en": "Built-in Double Burner Induction Cooker 3500W",
         "desc_en": "Built-in double-burner induction cooker, 1500W + 2000W, 9 heating gears, 180-min timer, touch control, A+ microcrystal panel, 4.77KG, cut-out 268x500mm.",
