@@ -1,4 +1,4 @@
-/* ==========================================================================
+﻿/* ==========================================================================
    HomeAppliancePro - Global Stylesheet
    Design system: warm beige base / brown & red-brown accents
    Radius rule: buttons = pill, cards = 18px, inputs = 10px
@@ -310,7 +310,7 @@ ul { margin: 0; padding: 0; }
 .product-card .p-media-link {
   display: block; width: 100%; padding: 0; border: 0; background: none; cursor: pointer;
 }
-.product-card .p-media-link img { width: 100%; aspect-ratio: 4/3; object-fit: cover; transition: transform 0.5s var(--ease); }
+.product-card .p-media-link img { width: 100%; aspect-ratio: 4/3; object-fit: contain; background: #fff; transition: transform 0.5s var(--ease); }
 .product-card .p-media-link:hover img { transform: scale(1.04); }
 .product-card .p-media-link:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; }
 .product-card .p-badge {
@@ -373,7 +373,7 @@ ul { margin: 0; padding: 0; }
 }
 .modal-close:hover { background: var(--accent); transform: scale(1.05); }
 .modal-body { display: grid; grid-template-columns: 1fr 1.1fr; gap: 30px; padding: 30px; }
-.modal-body .m-media img { width: 100%; border-radius: 14px; aspect-ratio: 1/1; object-fit: cover; }
+.modal-body .m-media img { width: 100%; border-radius: 14px; aspect-ratio: 1/1; object-fit: contain; background: #fff; }
 .modal-body .m-cat { font-size: 0.76rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
 .modal-body h3 { font-size: 1.5rem; margin: 6px 0 10px; }
 .modal-body .m-desc { color: var(--ink-2); font-size: 0.95rem; }
@@ -635,7 +635,7 @@ ul { margin: 0; padding: 0; }
 .video-wrap iframe, .video-wrap video { width: 100%; aspect-ratio: 16/9; border: 0; display: block; }
 .pd-layout { display: grid; grid-template-columns: 1fr 1.15fr; gap: 44px; align-items: start; }
 .pd-media { position: sticky; top: 100px; }
-.pd-media img { width: 100%; border-radius: var(--r-card); box-shadow: var(--shadow-2); aspect-ratio: 1/0.92; object-fit: cover; }
+.pd-media img { width: 100%; border-radius: var(--r-card); box-shadow: var(--shadow-2); aspect-ratio: 1/0.92; object-fit: contain; background: #fff; }
 .pd-info h1 { font-size: clamp(1.7rem, 3vw, 2.4rem); margin: 8px 0 14px; }
 .pd-info .spec-grid { grid-template-columns: 1fr 1fr; }
 .pd-info .m-cat { font-size: 0.85rem; }
@@ -679,7 +679,7 @@ ul { margin: 0; padding: 0; }
   .adv-grid .adv-card:first-child { grid-column: auto; }
   .product-grid { grid-template-columns: 1fr; gap: 14px; }
   .product-card .p-name { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-clamp: 2; }
-  .product-card .p-media-link img { aspect-ratio: 16/10; }
+  .product-card .p-media-link img { aspect-ratio: 16/10; object-fit: contain; background: #fff; }
   .cat-grid { grid-template-columns: 1fr 1fr; }
   .testi-grid { grid-template-columns: 1fr; }
   .qc-grid { grid-template-columns: 1fr; }
