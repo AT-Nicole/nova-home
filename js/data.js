@@ -17,6 +17,7 @@ const DEFAULT_DATA = {
     analyticsId: "",
     tawkId: "",
     fbpixelId: "",
+    klaviyoId: "",
     aiApiKey: "",
     aiApiBase: "https://open.bigmodel.cn/api/paas/v4",
     aiModel: "glm-4v-plus",
