@@ -667,6 +667,7 @@ function renderSettings() {
     fieldHtml("analyticsId", "Google Analytics 4 测量 ID（如 G-XXXXXXX，留空则不加载）", s.analyticsId) +
     fieldHtml("tawkId", "Tawk.to 聊天插件 ID（登录 Tawk.to 后 Widget 代码里的 embed.tawk.to/ 后面那串，留空则不加载）", s.tawkId) +
     fieldHtml("fbpixelId", "Facebook Pixel ID（如 123456789012345，用于 Facebook 广告投放追踪，留空则不加载）", s.fbpixelId) +
+    fieldHtml("klaviyoId", "Klaviyo Company ID（6 位大写字母，如 ABCDEF，留空则不加载）", s.klaviyoId) +
     fieldHtml("aiApiKey", "AI 解析 API Key（智谱开放平台或 OpenAI 的 Key，用于 PDF 目录智能录入；仅存于本浏览器）", s.aiApiKey) +
     fieldHtml("aiApiBase", "AI API 地址（智谱默认 https://open.bigmodel.cn/api/paas/v4；OpenAI 填 https://api.openai.com/v1）", s.aiApiBase) +
     fieldHtml("aiModel", "AI 视觉模型（智谱填 glm-4v-plus 或 glm-4v-flash；OpenAI 填 gpt-4o）", s.aiModel) +
@@ -684,7 +685,7 @@ function renderSettings() {
   $("#settings-form").addEventListener("submit", function (e) {
     e.preventDefault();
     const fd = new FormData(this);
-    ["brand", "phone", "whatsapp", "email", "address", "hours", "mapQuery", "analyticsId", "tawkId", "fbpixelId", "aiApiKey", "aiApiBase", "aiModel", "crmWebhook", "crmWebhookType", "samplePayLink", "factoryVideo"].forEach(function (k) {
+    ["brand", "phone", "whatsapp", "email", "address", "hours", "mapQuery", "analyticsId", "klaviyoId", "tawkId", "fbpixelId", "aiApiKey", "aiApiBase", "aiModel", "crmWebhook", "crmWebhookType", "samplePayLink", "factoryVideo"].forEach(function (k) {
       s[k] = (fd.get(k) || "").trim();
     });
     save();
@@ -723,6 +724,7 @@ function renderInquiries() {
         '<div class="inq-meta">' +
         (q.email ? '<span>✉ ' + esc(q.email) + "</span>" : "") +
         (q.phone ? '<span>☎ ' + esc(q.phone) + "</span>" : "") +
+        (q.whatsapp ? '<span>🟢 ' + esc(q.whatsapp) + "</span>" : "") +
         (q.country ? "<span>🌍 " + esc(q.country) + "</span>" : "") +
         (q.product ? "<span>📦 " + esc(q.product) + "</span>" : "") +
         (q.qty ? "<span>🔢 " + esc(q.qty) + "</span>" : "") +
@@ -763,9 +765,9 @@ function renderInquiries() {
 function exportInquiries() {
   const list = store.loadInquiries();
   if (!list.length) { toast("暂无询盘可导出"); return; }
-  const head = "时间,姓名,公司,邮箱,电话,国家,产品,数量,页面,消息";
+  const head = "时间,姓名,公司,邮箱,电话,WhatsApp,国家,产品,数量,页面,消息";
   const rows = list.map(function (q) {
-    return [q.ts, q.name, q.company, q.email, q.phone, q.country, q.product, q.qty, q.page, (q.msg || "").replace(/\n/g, " ")].map(function (v) {
+    return [q.ts, q.name, q.company, q.email, q.phone, q.whatsapp, q.country, q.product, q.qty, q.page, (q.msg || "").replace(/\n/g, " ")].map(function (v) {
       return '"' + String(v == null ? "" : v).replace(/"/g, '""') + '"';
     }).join(",");
   });

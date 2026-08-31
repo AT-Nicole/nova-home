@@ -259,32 +259,47 @@
         <form id="home-quote-form" novalidate>
           <div class="form-grid">
             <div class="field" data-field="name">
-              <label for="hq-name" data-i18n="home.quote.name">Your name</label><span class="req">*</span>
+              <label for="hq-name" data-i18n="home.quote.name" class="reqd">Your name</label>
               <input id="hq-name" name="name" type="text" autocomplete="name">
               <span class="err" data-i18n="common.required">This field is required.</span>
             </div>
             <div class="field" data-field="email">
-              <label for="hq-email" data-i18n="home.quote.email">Email</label><span class="req">*</span>
+              <label for="hq-email" data-i18n="home.quote.email" class="reqd">Email</label>
               <input id="hq-email" name="email" type="email" autocomplete="email">
               <span class="err" data-i18n="common.emailInvalid">Please enter a valid email address.</span>
             </div>
+            <div class="field" data-field="phone">
+              <label for="hq-phone" data-i18n="home.quote.phone" class="reqd">Phone</label>
+              <input id="hq-phone" name="phone" type="tel" autocomplete="tel">
+              <span class="err" data-i18n="common.phoneInvalid">Please enter a valid phone number.</span>
+            </div>
+            <div class="field" data-field="whatsapp">
+              <label for="hq-wa" data-i18n="home.quote.whatsapp" class="reqd">WhatsApp</label>
+              <input id="hq-wa" name="whatsapp" type="tel" autocomplete="tel">
+              <span class="err" data-i18n="common.whatsappInvalid">Please enter a valid WhatsApp number.</span>
+            </div>
+            <div class="field" data-field="company">
+              <label for="hq-company" data-i18n="home.quote.company" class="reqd">Company</label>
+              <input id="hq-company" name="company" type="text" autocomplete="organization">
+              <span class="err" data-i18n="common.required">This field is required.</span>
+            </div>
             <div class="field" data-field="country">
-              <label for="hq-country" data-i18n="home.quote.country">Country / Region</label><span class="req">*</span>
+              <label for="hq-country" data-i18n="home.quote.country" class="reqd">Country / Region</label>
               <input id="hq-country" name="country" type="text" autocomplete="country-name">
               <span class="err" data-i18n="common.required">This field is required.</span>
             </div>
             <div class="field" data-field="product">
-              <label for="hq-product" data-i18n="home.quote.product">Interested product</label>
+              <label for="hq-product" data-i18n="home.quote.product" class="reqd">Interested product</label>
               <select id="hq-product" name="product" class="js-product-select"></select>
               <span class="err" data-i18n="common.required">This field is required.</span>
             </div>
             <div class="field" data-field="qty">
-              <label for="hq-qty" data-i18n="home.quote.qty">Estimated quantity</label>
+              <label for="hq-qty" data-i18n="home.quote.qty" class="reqd">Estimated quantity</label>
               <input id="hq-qty" name="qty" type="text">
               <span class="err" data-i18n="common.qtyInvalid">Please enter a valid quantity.</span>
             </div>
             <div class="field full" data-field="msg">
-              <label for="hq-msg" data-i18n="home.quote.msg">Your requirements (model, voltage, logo, packaging...)</label>
+              <label for="hq-msg" data-i18n="home.quote.msg" class="reqd">Your requirements (model, voltage, logo, packaging...)</label>
               <textarea id="hq-msg" name="msg" rows="4"></textarea>
               <span class="err" data-i18n="common.required">This field is required.</span>
             </div>

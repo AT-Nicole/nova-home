@@ -114,42 +114,47 @@
       <form id="contact-form" novalidate>
         <div class="form-grid">
           <div class="field" data-field="name">
-            <label for="ct-name" data-i18n="contact.form.name">Your name</label><span class="req">*</span>
+            <label for="ct-name" data-i18n="contact.form.name" class="reqd">Your name</label>
             <input id="ct-name" name="name" type="text" autocomplete="name">
             <span class="err" data-i18n="common.required">This field is required.</span>
           </div>
           <div class="field" data-field="email">
-            <label for="ct-email" data-i18n="contact.form.email">Email</label><span class="req">*</span>
+            <label for="ct-email" data-i18n="contact.form.email" class="reqd">Email</label>
             <input id="ct-email" name="email" type="email" autocomplete="email">
             <span class="err" data-i18n="common.emailInvalid">Please enter a valid email address.</span>
           </div>
           <div class="field" data-field="phone">
-            <label for="ct-phone" data-i18n="contact.form.phone">Phone / WhatsApp</label>
+            <label for="ct-phone" data-i18n="contact.form.phone" class="reqd">Phone</label>
             <input id="ct-phone" name="phone" type="tel" autocomplete="tel">
-            <span class="err" data-i18n="common.phoneInvalid">Please enter a valid phone or WhatsApp number.</span>
+            <span class="err" data-i18n="common.phoneInvalid">Please enter a valid phone number.</span>
+          </div>
+          <div class="field" data-field="whatsapp">
+            <label for="ct-wa" data-i18n="contact.form.whatsapp" class="reqd">WhatsApp</label>
+            <input id="ct-wa" name="whatsapp" type="tel" autocomplete="tel">
+            <span class="err" data-i18n="common.whatsappInvalid">Please enter a valid WhatsApp number.</span>
           </div>
           <div class="field" data-field="company">
-            <label for="ct-company" data-i18n="contact.form.company">Company</label>
+            <label for="ct-company" data-i18n="contact.form.company" class="reqd">Company</label>
             <input id="ct-company" name="company" type="text" autocomplete="organization">
             <span class="err" data-i18n="common.required">This field is required.</span>
           </div>
           <div class="field" data-field="country">
-            <label for="ct-country" data-i18n="contact.form.country">Country / Region</label><span class="req">*</span>
+            <label for="ct-country" data-i18n="contact.form.country" class="reqd">Country / Region</label>
             <input id="ct-country" name="country" type="text" autocomplete="country-name">
             <span class="err" data-i18n="common.required">This field is required.</span>
           </div>
           <div class="field" data-field="product">
-            <label for="ct-product" data-i18n="contact.form.product">Interested product</label>
+            <label for="ct-product" data-i18n="contact.form.product" class="reqd">Interested product</label>
             <select id="ct-product" name="product" class="js-product-select"></select>
             <span class="err" data-i18n="common.required">This field is required.</span>
           </div>
           <div class="field" data-field="qty">
-            <label for="ct-qty" data-i18n="contact.form.qty">Estimated quantity</label>
+            <label for="ct-qty" data-i18n="contact.form.qty" class="reqd">Estimated quantity</label>
             <input id="ct-qty" name="qty" type="text">
             <span class="err" data-i18n="common.qtyInvalid">Please enter a valid quantity.</span>
           </div>
           <div class="field full" data-field="msg">
-            <label for="ct-msg" data-i18n="contact.form.msg">Message (model, voltage, logo, packaging, target price...)</label>
+            <label for="ct-msg" data-i18n="contact.form.msg" class="reqd">Message (model, voltage, logo, packaging, target price...)</label>
             <textarea id="ct-msg" name="msg" rows="5"></textarea>
             <span class="err" data-i18n="common.required">This field is required.</span>
           </div>
