@@ -486,27 +486,6 @@ function bindInquiryForm(formEl, opts) {
       try {
         if (window.gtag) gtag("event", "generate_lead", { event_category: "inquiry" });
         if (window.fbq) fbq("track", "Lead");
-        /* Klaviyo: identify + Submitted RFQ */
-        if (window._learnq && data.email) {
-          const nm = (data.name || "").trim().split(/\s+/);
-          _learnq.push(["identify", {
-            "$email": data.email,
-            "$first_name": nm[0] || "",
-            "$last_name": nm.slice(1).join(" "),
-            "Company": data.company || "",
-            "Country": data.country || "",
-            "Phone": data.phone || data.whatsapp || "",
-            "site_lang": localStorage.getItem("hw_lang") || "en"
-          }]);
-          _learnq.push(["track", "Submitted RFQ", {
-            "Product": inquiry.product || "",
-            "Qty": data.qty || "",
-            "Market": data.country || "",
-            "Message": (data.msg || "").slice(0, 500),
-            "Page": inquiry.page || "",
-            "site_lang": localStorage.getItem("hw_lang") || "en"
-          }]);
-        }
       } catch (err) {}
       toast(t("home.quote.success"));
     }
@@ -636,14 +615,14 @@ function initCookieBanner() {
 }
 
 function loadAnalytics() {
-  /* Klaviyo onsite tracking — consent-gated same as GA4; runs even when GA4 is not configured */
-  const kid = site.settings.klaviyoId;
-  if (kid) {
-    window._learnq = window._learnq || [];
-    const ks = document.createElement("script");
-    ks.async = true;
-    ks.src = "https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=" + kid;
-    document.head.appendChild(ks);
+  // Cloudflare Web Analytics: no cookies, loads without consent banner (GDPR friendly)
+  var cfBeaconId = "805fb772b192444e908cbebfd8cc405f";
+  if (cfBeaconId) {
+    var cf = document.createElement("script");
+    cf.defer = true;
+    cf.src = "https://static.cloudflareinsights.com/beacon.min.js";
+    cf.setAttribute("data-cf-beacon", JSON.stringify({ token: cfBeaconId }));
+    document.head.appendChild(cf);
   }
   const id = site.settings.analyticsId;
   if (!id) {
