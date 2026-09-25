@@ -342,7 +342,7 @@ function openProductModal(id) {
   modal.innerHTML =
     '<button class="modal-close" data-i18n-aria="common.close" aria-label="Close">' + icon("close") + "</button>" +
     '<div class="modal-body">' +
-    '<div class="m-media"><img id="m-main-img" src="' + esc(p.img) + '" alt="' + esc(productName(p)) + '"></div>' + thumbs +
+    '<div class="m-media-col"><div class="m-media"><img id="m-main-img" src="' + esc(p.img) + '" alt="' + esc(productName(p)) + '"></div>' + thumbs + '</div>' +
     '<div><div class="m-cat">' + esc(cat ? catName(cat) : "") + "</div>" +
     "<h3>" + esc(productName(p)) + "</h3>" +
     '<p class="m-desc">' + esc(productDesc(p)) + "</p>" +
@@ -766,7 +766,7 @@ function renderProductPage() {
     '</div>' : '';
   box.innerHTML =
     '<div class="pd-layout">' +
-    '<div class="pd-media"><img id="pd-main-img" src="' + esc(p.img) + '" alt="' + esc(name) + '"></div>' + pdThumbs +
+    '<div class="pd-media-col"><div class="pd-media"><img id="pd-main-img" src="' + esc(p.img) + '" alt="' + esc(name) + '"></div>' + pdThumbs + '</div>' +
     '<div class="pd-info">' +
     '<div class="m-cat">' + esc(cat ? catName(cat) : "") + "</div>" +
     "<h1>" + esc(name) + "</h1>" +
