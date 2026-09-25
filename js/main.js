@@ -332,11 +332,17 @@ function openProductModal(id) {
   const specCells = (p.specs || []).map(function (s) {
     return '<div class="spec-cell"><div class="k">' + esc(specLabel(s.k)) + '</div><div class="v">' + esc(s.v) + "</div></div>";
   }).join("");
+  const gallery = (p.gallery && p.gallery.length) ? p.gallery : [];
+  const thumbs = gallery.length ?
+    '<div class="m-thumbs">' +
+      '<img class="m-thumb active" src="' + esc(p.img) + '" data-src="' + esc(p.img) + '" alt="' + esc(productName(p)) + '">' +
+      gallery.map(function (g) { return '<img class="m-thumb" src="' + esc(g) + '" data-src="' + esc(g) + '" alt="' + esc(productName(p)) + '">'; }).join("") +
+    '</div>' : '';
   const modal = document.getElementById("modal");
   modal.innerHTML =
     '<button class="modal-close" data-i18n-aria="common.close" aria-label="Close">' + icon("close") + "</button>" +
     '<div class="modal-body">' +
-    '<div class="m-media"><img src="' + esc(p.img) + '" alt="' + esc(productName(p)) + '"></div>' +
+    '<div class="m-media"><img id="m-main-img" src="' + esc(p.img) + '" alt="' + esc(productName(p)) + '"></div>' + thumbs +
     '<div><div class="m-cat">' + esc(cat ? catName(cat) : "") + "</div>" +
     "<h3>" + esc(productName(p)) + "</h3>" +
     '<p class="m-desc">' + esc(productDesc(p)) + "</p>" +
@@ -349,6 +355,14 @@ function openProductModal(id) {
   modal.classList.add("open");
   modal.querySelector(".modal-close").addEventListener("click", closeModal);
   modal.addEventListener("click", function (e) { if (e.target === modal) closeModal(); });
+  modal.querySelectorAll(".m-thumb").forEach(function (th) {
+    th.addEventListener("click", function () {
+      modal.querySelectorAll(".m-thumb").forEach(function (x) { x.classList.remove("active"); });
+      th.classList.add("active");
+      var main = document.getElementById("m-main-img");
+      if (main) main.src = th.getAttribute("data-src");
+    });
+  });
   const inq = modal.querySelector("[data-inquire]");
   if (inq) inq.addEventListener("click", function () { closeModal(); openInquiryModal(id); });
   document.addEventListener("keydown", escKey);

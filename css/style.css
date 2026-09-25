@@ -710,3 +710,9 @@ ul { margin: 0; padding: 0; }
   .reveal { opacity: 1; transform: none; }
   .hero-slide.active img { animation: none; }
 }
+
+/* product modal gallery thumbs */
+.m-thumbs{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.m-thumb{width:64px;height:64px;object-fit:cover;border:2px solid #e5e0d8;border-radius:8px;cursor:pointer;opacity:.75;transition:.15s}
+.m-thumb:hover{opacity:1}
+.m-thumb.active{border-color:var(--accent,#a05a2c);opacity:1}
