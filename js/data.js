@@ -1492,6 +1492,32 @@ function deepMerge(base, extra) {
   return out;
 }
 
+/* 视觉字段保护：产品的图片字段以代码版 DEFAULT_DATA 为准。
+   云库是 admin 后台 8 月底存的旧产品数据（无 gallery、旧 img），
+   若直接 deepMerge 会覆盖代码侧的图片更新（缩略图闪现即消失的根因）。
+   文案/设置类字段仍以云库优先（后台改的设置要生效）。 */
+function mergeWithVisualGuard(base, remote) {
+  var merged = deepMerge(base, remote);
+  try {
+    var codeProducts = (base && base.products) || [];
+    var remoteProducts = (remote && remote.products) || [];
+    var remoteById = {};
+    remoteProducts.forEach(function (p) { if (p && p.id) remoteById[p.id] = p; });
+    merged.products = codeProducts.map(function (cp) {
+      var rp = remoteById[cp.id];
+      if (!rp) return cp;
+      return Object.assign({}, rp, {
+        img: cp.img,                    // 图片路径：代码优先
+        gallery: cp.gallery || [],      // 图库：代码优先
+        specs: cp.specs && cp.specs.length ? cp.specs : (rp.specs || []),
+        name_en: cp.name_en || rp.name_en,
+        desc_en: cp.desc_en || rp.desc_en
+      });
+    });
+  } catch (e) { /* 保底：合并失败用 deepMerge 结果 */ }
+  return merged;
+}
+
 function initStore() {
   if (_initPromise) return _initPromise;
   _initPromise = (function () {
@@ -1502,7 +1528,7 @@ function initStore() {
       if (!c) return _cache;
       return c.from("site_data").select("data").eq("id", 1).maybeSingle().then(function (r) {
         if (r && r.data && r.data.data && Object.keys(r.data.data).length) {
-          _cache.site = deepMerge(DEFAULT_DATA, r.data.data);
+          _cache.site = mergeWithVisualGuard(DEFAULT_DATA, r.data.data);
         } else {
           c.from("site_data").upsert({ id: 1, data: _cache.site }).then(function () {}, function () {});
         }
