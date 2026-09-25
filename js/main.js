@@ -758,9 +758,15 @@ function renderProductPage() {
     return '<div class="spec-cell"><div class="k">' + esc(specLabel(s.k)) + '</div><div class="v">' + esc(s.v) + "</div></div>";
   }).join("");
   const sampleLink = site.settings.samplePayLink;
+  const gallery = (p.gallery && p.gallery.length) ? p.gallery : [];
+  const pdThumbs = gallery.length ?
+    '<div class="m-thumbs pd-thumbs">' +
+      '<img class="m-thumb active" src="' + esc(p.img) + '" data-src="' + esc(p.img) + '" alt="' + esc(name) + '">' +
+      gallery.map(function (g) { return '<img class="m-thumb" src="' + esc(g) + '" data-src="' + esc(g) + '" alt="' + esc(name) + '">'; }).join("") +
+    '</div>' : '';
   box.innerHTML =
     '<div class="pd-layout">' +
-    '<div class="pd-media"><img src="' + esc(p.img) + '" alt="' + esc(name) + '"></div>' +
+    '<div class="pd-media"><img id="pd-main-img" src="' + esc(p.img) + '" alt="' + esc(name) + '"></div>' + pdThumbs +
     '<div class="pd-info">' +
     '<div class="m-cat">' + esc(cat ? catName(cat) : "") + "</div>" +
     "<h1>" + esc(name) + "</h1>" +
@@ -776,6 +782,14 @@ function renderProductPage() {
     "</div>" +
     (sampleLink ? '<p style="font-size:0.84rem;color:var(--ink-3);margin-top:10px;" data-i18n="prod.sampleNote">Sample fee will be deducted from your first bulk order. Payment handled securely by PayPal/Stripe.</p>' : "") +
     "</div></div>";
+  box.querySelectorAll(".pd-thumbs .m-thumb").forEach(function (th) {
+    th.addEventListener("click", function () {
+      box.querySelectorAll(".pd-thumbs .m-thumb").forEach(function (x) { x.classList.remove("active"); });
+      th.classList.add("active");
+      var main = document.getElementById("pd-main-img");
+      if (main) main.src = th.getAttribute("data-src");
+    });
+  });
   const inqBtn = box.querySelector("[data-pd-inquire]");
   if (inqBtn) inqBtn.addEventListener("click", function () { openInquiryModal(p.id); });
   const smpBtn = box.querySelector("[data-pd-sample]");
