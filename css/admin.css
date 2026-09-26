@@ -262,3 +262,9 @@ table.adm-table .muted { color: var(--ink-3); font-size: 0.82rem; }
   .stats-row { grid-template-columns: 1fr 1fr; gap: 10px; }
   .adm-modal { padding: 18px; }
 }
+
+/* gallery editor */
+.gal-row{display:flex;gap:8px;align-items:center;margin-bottom:8px}
+.gal-row .preview{width:56px;height:56px;object-fit:cover;border-radius:8px;border:1px solid var(--line,#ddd);flex:0 0 auto}
+.gal-row input[type=text]{flex:1;padding:8px 10px;border:1px solid var(--line,#ddd);border-radius:8px;font-size:0.9rem}
+.gal-row input[type=file]{flex:0 0 auto;max-width:150px;font-size:0.78rem}

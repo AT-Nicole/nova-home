@@ -395,6 +395,7 @@ function openCollectionModal(key, id) {
       }
     });
     out.id = item.id;
+    out.editedAt = Date.now();  /* 标记后台明确编辑过 */
     if (editing) {
       const idx = list.findIndex(function (x) { return x.id === id; });
       list[idx] = Object.assign({}, list[idx], out);
@@ -501,6 +502,19 @@ function specRowsHtml(specs) {
   return '<div class="specs-editor"><label style="font-size:0.84rem;font-weight:600;color:var(--brown-deep);display:block;margin-bottom:8px;">规格参数（键值对，键可用英文 key，前台自动翻译标签）</label>' + datalist + rows + "</div>";
 }
 
+
+function galleryEditorHtml(files) {
+  const rows = (files || []).map(function (f, i) {
+    return '<div class="gal-row" data-idx="' + i + '">' +
+      '<img class="preview" src="' + esc(f) + '" onerror="this.style.opacity=0.25">' +
+      '<input type="text" name="gal-url" value="' + esc(f) + '" placeholder="images/gallery/xxx.webp 或 URL">' +
+      '<input type="file" accept="image/*" data-gal-upload>' +
+      '<button type="button" class="spec-del" title="删除">✕</button></div>';
+  }).join("") +
+    '<button type="button" class="btn btn-outline btn-sm" id="gal-add">+ 添加图库图片</button>';
+  return '<div class="field full"><label>图库图片（详情页大图下方缩略图，可多张；第一张为主图外的视角图）</label><div id="gal-rows">' + rows + '</div></div>';
+}
+
 function openProductModal(id) {
   const list = site.products;
   const p = id ? list.find(function (x) { return x.id === id; }) : { id: uid("p"), cat: site.categories[0] ? site.categories[0].id : "", specs: [], featured: false, active: true };
@@ -524,6 +538,9 @@ function openProductModal(id) {
   LANGS.forEach(function (l) {
     html += fieldHtml("desc_" + l, "描述（" + LANG_NAMES[l].split(" ")[0] + "）", p["desc_" + l], "textarea", l);
   });
+  /* gallery 多图 + 尺寸图编辑器 */
+  html += galleryEditorHtml(p.gallery || []) +
+    imageFieldHtml("dimImg", p.dimImg || "").replace("图片（填 URL 或上传本地图，建议 ≤ 300KB）", "尺寸标注图（详情页参数表下方展示；填 URL 或上传，留空则不显示）");
   html += '<div class="field"><label>设为首页推荐</label><span class="switch"><input type="checkbox" name="featured" id="f-featured"' + (p.featured ? " checked" : "") + '><span class="slider"></span></span></div>' +
     '<div class="field"><label>前台显示</label><span class="switch"><input type="checkbox" name="active" id="f-active"' + (p.active !== false ? " checked" : "") + '><span class="slider"></span></span></div>' +
     specRowsHtml(p.specs) +
@@ -540,6 +557,36 @@ function openProductModal(id) {
       const row = e.target.closest(".spec-row");
       if (row && row.getAttribute("data-idx") !== "new") row.remove();
       else if (row) { row.querySelector("input").value = ""; row.querySelectorAll("input")[1].value = ""; }
+      const grow = e.target.closest(".gal-row");
+      if (grow) grow.remove();
+    }
+    if (e.target.id === "gal-add") {
+      const wrap = box.querySelector("#gal-rows");
+      const div = document.createElement("div");
+      div.className = "gal-row";
+      div.innerHTML = '<img class="preview" src="" style="opacity:0.25">' +
+        '<input type="text" name="gal-url" placeholder="images/gallery/xxx.webp 或 URL">' +
+        '<input type="file" accept="image/*" data-gal-upload>' +
+        '<button type="button" class="spec-del" title="删除">✕</button>';
+      wrap.appendChild(div);
+    }
+    if (e.target.closest && e.target.closest(".gal-row") && e.target.classList.contains("spec-del")) {
+      const grow = e.target.closest(".gal-row");
+      if (grow) grow.remove();
+    }
+  });
+  box.addEventListener("change", function (e) {
+    if (e.target.matches("[data-gal-upload]") && e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      if (file.size > 300 * 1024) { toast("图片超过 300KB，请压缩后再传"); e.target.value = ""; return; }
+      const reader = new FileReader();
+      reader.onload = function () {
+        const row = e.target.closest(".gal-row");
+        row.querySelector("input[name=gal-url]").value = reader.result;
+        row.querySelector(".preview").src = reader.result;
+        row.querySelector(".preview").style.opacity = 1;
+      };
+      reader.readAsDataURL(file);
     }
   });
   const form = box.querySelector("form");
@@ -563,6 +610,14 @@ function openProductModal(id) {
       if (ks[i] && ks[i].trim() && vs[i] && vs[i].trim()) specs.push({ k: ks[i].trim(), v: vs[i].trim() });
     }
     out.specs = specs;
+    /* gallery + dimImg 收集 */
+    const gals = [];
+    box.querySelectorAll("#gal-rows .gal-row").forEach(function (row) {
+      const u = (row.querySelector("input[name=gal-url]") || {}).value || "";
+      if (u.trim()) gals.push(u.trim());
+    });
+    out.gallery = gals;
+    out.dimImg = (fd.get("dimImg") || "").trim();
     if (editing) {
       const idx = list.findIndex(function (x) { return x.id === id; });
       list[idx] = Object.assign({}, list[idx], out);
@@ -667,7 +722,6 @@ function renderSettings() {
     fieldHtml("analyticsId", "Google Analytics 4 测量 ID（如 G-XXXXXXX，留空则不加载）", s.analyticsId) +
     fieldHtml("tawkId", "Tawk.to 聊天插件 ID（登录 Tawk.to 后 Widget 代码里的 embed.tawk.to/ 后面那串，留空则不加载）", s.tawkId) +
     fieldHtml("fbpixelId", "Facebook Pixel ID（如 123456789012345，用于 Facebook 广告投放追踪，留空则不加载）", s.fbpixelId) +
-    fieldHtml("klaviyoId", "Klaviyo Company ID（6 位大写字母，如 ABCDEF，留空则不加载）", s.klaviyoId) +
     fieldHtml("aiApiKey", "AI 解析 API Key（智谱开放平台或 OpenAI 的 Key，用于 PDF 目录智能录入；仅存于本浏览器）", s.aiApiKey) +
     fieldHtml("aiApiBase", "AI API 地址（智谱默认 https://open.bigmodel.cn/api/paas/v4；OpenAI 填 https://api.openai.com/v1）", s.aiApiBase) +
     fieldHtml("aiModel", "AI 视觉模型（智谱填 glm-4v-plus 或 glm-4v-flash；OpenAI 填 gpt-4o）", s.aiModel) +
@@ -685,7 +739,7 @@ function renderSettings() {
   $("#settings-form").addEventListener("submit", function (e) {
     e.preventDefault();
     const fd = new FormData(this);
-    ["brand", "phone", "whatsapp", "email", "address", "hours", "mapQuery", "analyticsId", "klaviyoId", "tawkId", "fbpixelId", "aiApiKey", "aiApiBase", "aiModel", "crmWebhook", "crmWebhookType", "samplePayLink", "factoryVideo"].forEach(function (k) {
+    ["brand", "phone", "whatsapp", "email", "address", "hours", "mapQuery", "analyticsId", "tawkId", "fbpixelId", "aiApiKey", "aiApiBase", "aiModel", "crmWebhook", "crmWebhookType", "samplePayLink", "factoryVideo"].forEach(function (k) {
       s[k] = (fd.get(k) || "").trim();
     });
     save();
@@ -1680,7 +1734,8 @@ initStore().then(function () {
   $("#login-form").addEventListener("submit", function (e) {
     e.preventDefault();
     const pass = $("#adm-pass").value;
-    const email = (site.settings.adminEmail || "").trim() || "harry_hou@wechgood.com";
+    /* 登录账号固定为 Supabase auth 账号（adminEmail 是展示用邮箱，非认证账号） */
+    const email = "admin@novahome-appliance.com";
     /* security: no hardcoded password — login requires valid Supabase credentials */
     const c2 = sb();
     if (!c2) {

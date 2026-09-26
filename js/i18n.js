@@ -166,7 +166,7 @@ const I18N = {
     "about.story.p7": "Strong technical expertise, backed by over 10 years of deep cooperation with top-tier brands",
     "about.story.p8": "Advanced product design and innovation capabilities, tailored to global market demands",
     "about.galleryTitle": "Factory Tour",
-    "about.gallerySub": "Walk through our workshop, production lines, labs and QC — the real Wechgood.",
+    "about.prodVideos": "Production Line Videos", "about.gallerySub": "Walk through our workshop, production lines, labs and QC — the real Wechgood.",
     "about.g1": "Factory",
     "about.g2": "Production Line",
     "about.g3": "Assembly",

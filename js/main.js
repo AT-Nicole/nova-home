@@ -348,6 +348,7 @@ function openProductModal(id) {
     '<p class="m-desc">' + esc(productDesc(p)) + "</p>" +
     '<h4 style="margin:18px 0 10px;font-size:1.02rem;">' + esc(t("prod.specsTitle")) + "</h4>" +
     '<div class="spec-grid">' + specCells + "</div>" +
+    (p.dimImg ? '<div class="pd-dim"><img src="' + esc(p.dimImg) + '" alt="' + esc(productName(p)) + ' dimensions" loading="lazy"></div>' : "") +
     '<div class="m-cta">' +
     '<button class="btn btn-primary" data-inquire="' + esc(p.id) + '">' + esc(t("common.inquire")) + "</button>" +
     '<a class="btn btn-wa" href="' + waLink(t("wa.defaultMsg") + " " + productName(p)) + '" target="_blank" rel="noopener">' + icon("whatsapp") + " WhatsApp</a>" +
@@ -773,6 +774,7 @@ function renderProductPage() {
     '<p class="m-desc" style="font-size:1.02rem;">' + esc(desc) + "</p>" +
     '<h4 style="margin:22px 0 12px;font-size:1.02rem;">' + esc(t("prod.specsTitle")) + "</h4>" +
     '<div class="spec-grid">' + specCells + "</div>" +
+    (p.dimImg ? '<div class="pd-dim"><img src="' + esc(p.dimImg) + '" alt="' + esc(name) + ' dimensions" loading="lazy"></div>' : "") +
     '<div class="factory-note">' + icon("factory") + "<span>" + esc(t("prod.factoryNote")) + "</span></div>" +
     '<div class="m-cta" style="margin-top:22px;">' +
     '<button class="btn btn-primary btn-lg" data-pd-inquire="' + esc(p.id) + '">' + esc(t("common.inquire")) + "</button>" +
@@ -806,11 +808,25 @@ function renderProductPage() {
     "@context": "https://schema.org",
     "@type": "Product",
     name: name,
+    sku: p.model || "",
+    mpn: p.model || "",
     description: desc || "",
     image: new URL(p.img, location.href).href,
     category: cat ? catName(cat) : "",
-    brand: { "@type": "Brand", name: site.settings.brand },
-    offers: { "@type": "Offer", availability: "https://schema.org/InStock", priceCurrency: "USD", price: "0.00" }
+    brand: { "@type": "Brand", name: site.settings.brand || "WECHGOOD" },
+    manufacturer: { "@type": "Organization", name: "WECHGOOD (Guangdong Weiqiwude Electric Technology Co., Ltd.)" },
+    /* B2B 询盘型站点：不标虚构价格，用 Offer+businessFunction 表达「可洽购」 */
+    offers: { "@type": "Offer", availability: "https://schema.org/InStock", businessFunction: "http://purl.org/goodrelations/v1#Sell", url: location.href.split("?")[0] + "?p=" + encodeURIComponent(id), seller: { "@type": "Organization", name: "WECHGOOD" } }
+  });
+  /* BreadcrumbList */
+  var ldcrumb = document.getElementById("pd-breadcrumb");
+  if (!ldcrumb) { ldcrumb = document.createElement("script"); ldcrumb.type = "application/ld+json"; ldcrumb.id = "pd-breadcrumb"; document.head.appendChild(ldcrumb); }
+  ldcrumb.textContent = JSON.stringify({
+    "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://jinhua.tech/" },
+      { "@type": "ListItem", position: 2, name: "Products", item: "https://jinhua.tech/products.html" },
+      { "@type": "ListItem", position: 3, name: name, item: location.href.split("?")[0] + "?p=" + encodeURIComponent(id) }
+    ]
   });
   /* D24: hero Get a Quote -> inquiry modal with model context */
   const heroQ = document.getElementById("pd-hero-quote");
