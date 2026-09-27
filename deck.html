@@ -15,7 +15,7 @@ input{width:100%;padding:12px 14px;border-radius:8px;border:1px solid #C9D2E8;fo
 button{width:100%;margin-top:14px;padding:13px;border:none;border-radius:999px;background:linear-gradient(180deg,#FFB347,var(--orange));color:#fff;font-size:15.5px;font-weight:800;cursor:pointer}
 .err{display:none;margin-top:12px;font-size:13px;color:#C0392B}
 .small{font-size:11.5px;color:#8791A9;margin-top:14px;line-height:1.6}
-#viewer{display:none;width:100%;max-width:980px;margin:0 auto}
+#viewer{display:none;width:100%;max-width:980px;margin:0 auto;flex-direction:column;display:none}
 #viewer .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:12px;flex-wrap:wrap}
 #viewer .top h2{min-width:0;flex:1 1 320px}
 #viewer h2{font-size:17px;color:var(--navy2)}
@@ -69,7 +69,7 @@ function unlock(){
     }
     /* 密码正确：建 blob URL 会话内翻页 */
     document.getElementById('gate').style.display='none';
-    document.getElementById('viewer').style.display='flex';
+    document.getElementById('viewer').style.display='block';
     st.style.display='none';
     window._pass=v;
     show(1);
