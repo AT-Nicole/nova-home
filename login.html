@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>登录 · 金骅智能科技</title>
+<meta name="robots" content="noindex,nofollow">
+<style>
+:root{--navy:#1B2A4E;--navy2:#111C38;--orange:#E8862A;--green:#1D9E6E}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:#F2F4FA;color:#22273A;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+.card{background:#fff;border-radius:16px;padding:36px 32px;max-width:400px;width:100%;box-shadow:0 8px 30px rgba(30,40,90,.14)}
+h1{font-size:20px;color:var(--navy2);margin-bottom:4px}
+p.tip{font-size:13px;color:#5A647F;margin-bottom:18px}
+label{display:block;font-size:12px;color:#5A647F;margin:12px 0 5px}
+input{width:100%;padding:12px 14px;border-radius:8px;border:1px solid #C9D2E8;font-size:15px}
+input:focus{outline:2px solid var(--orange);border-color:transparent}
+button{width:100%;margin-top:20px;padding:13px;border:none;border-radius:999px;background:linear-gradient(180deg,#FFB347,var(--orange));color:#fff;font-size:15.5px;font-weight:800;cursor:pointer}
+.err{display:none;margin-top:12px;font-size:13px;color:#C0392B}
+.ok{display:none;margin-top:12px;font-size:13.5px;color:var(--green);font-weight:700}
+.small{font-size:11.5px;color:#8791A9;margin-top:16px;line-height:1.7}
+a{color:#4A5AC3;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>登录</h1>
+  <p class="tip">管理员 / 学员账号通用。登录后回到你要去的页面。</p>
+  <label>邮箱</label>
+  <input id="em" type="email" autocomplete="username">
+  <label>密码</label>
+  <input id="pw" type="password" autocomplete="current-password">
+  <button id="btn" onclick="doLogin()">登录</button>
+  <p class="err" id="err"></p>
+  <p class="ok" id="ok">✅ 登录成功，正在跳转…</p>
+  <p class="small">没有账号？<a href="/#contact">联系创始人开通</a> ｜ <a href="/">回首页</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="js/config.js"></script>
+<script>
+var SBlib = window.supabase || self.supabase;
+var sb = SBlib.createClient('https://zmhvarnrdnsimkkhrlol.supabase.co', window.JH_SB_KEY);
+var next = new URLSearchParams(location.search).get('next') || '';
+var DEST = {'deck':'/deck.html','leads':'/leads.html','admin':'/factory-site/admin.html'};
+
+sb.auth.getSession().then(function(r){
+  if(r.data && r.data.session){ go(); }
+});
+function go(){
+  document.getElementById('ok').style.display='block';
+  setTimeout(function(){ location.href = DEST[next] || '/'; }, 600);
+}
+function doLogin(){
+  var em=document.getElementById('em').value.trim(), pw=document.getElementById('pw').value;
+  var er=document.getElementById('err');
+  er.style.display='none';
+  if(!em||!pw){ er.textContent='邮箱和密码都要填'; er.style.display='block'; return; }
+  var btn=document.getElementById('btn'); btn.disabled=true; btn.textContent='登录中…';
+  sb.auth.signInWithPassword({email:em,password:pw}).then(function(r){
+    if(r.error){
+      btn.disabled=false; btn.textContent='登录';
+      er.textContent='登录失败：'+r.error.message;
+      er.style.display='block'; return;
+    }
+    go();
+  });
+}
+document.getElementById('pw').addEventListener('keydown',function(e){if(e.key==='Enter')doLogin()});
+</script>
+</body>
+</html>
