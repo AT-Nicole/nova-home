@@ -14,17 +14,15 @@ p.tip{font-size:13px;color:#5A647F;margin-bottom:16px}
 input{width:100%;padding:12px 14px;border-radius:8px;border:1px solid #C9D2E8;font-size:15px}
 button{width:100%;margin-top:14px;padding:13px;border:none;border-radius:999px;background:linear-gradient(180deg,#FFB347,var(--orange));color:#fff;font-size:15.5px;font-weight:800;cursor:pointer}
 .err{display:none;margin-top:12px;font-size:13px;color:#C0392B}
-.ok{display:none;margin-top:14px;padding:14px;border-radius:10px;background:#E9F7F0;border:1px solid var(--green)}
-.ok a{display:block;margin:8px 0 0;color:#1D9E6E;font-weight:700;text-decoration:none;font-size:14.5px}
 .small{font-size:11.5px;color:#8791A9;margin-top:14px;line-height:1.6}
-/* 播放器 */
-#viewer{display:none;width:100%;max-width:980px}
+#viewer{display:none;width:100%;max-width:980px;align-items:flex-start;justify-content:center}
 #viewer .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px}
 #viewer h2{font-size:17px;color:var(--navy2)}
 #viewer img{width:100%;border-radius:10px;box-shadow:0 6px 24px rgba(30,40,90,.16);display:block}
 #viewer .navrow{display:flex;justify-content:space-between;align-items:center;margin-top:14px}
 #viewer .navrow button{width:auto;padding:9px 26px;border-radius:8px;background:var(--navy2)}
 #viewer .pg{font-size:13.5px;color:#5A647F;font-weight:700}
+#st{font-size:13px;color:#B3541E;margin-top:10px;display:none}
 </style>
 </head>
 <body>
@@ -35,7 +33,8 @@ button{width:100%;margin-top:14px;padding:13px;border:none;border-radius:999px;b
   <input id="pw" type="password" placeholder="输入密码" autocomplete="current-password">
   <button onclick="unlock()">解锁查看</button>
   <p class="err" id="err">密码不对，再试一次。</p>
-  <p class="small">此页不设外链、不进站点地图。完整 .pptx 文件在 10.4 现场随讲义发放，线上仅作负责人查阅。</p>
+  <p id="st"></p>
+  <p class="small">此页 noindex、无外链。线上存储的是 AES-256-GCM 加密图（密钥=你的密码现场派生，服务器只有密文）——密码不对的人连图片内容都解不开。.pptx 原文件仍只在 10.4 现场发放。</p>
 </div>
 
 <div id="viewer">
@@ -46,36 +45,44 @@ button{width:100%;margin-top:14px;padding:13px;border:none;border-radius:999px;b
   <img id="slide" alt="课件页">
   <div class="navrow">
     <button onclick="go(-1)">← 上一页</button>
-    <span style="font-size:12.5px;color:#8791A9">手机也可左右滑动图片翻页</span>
+    <span style="font-size:12.5px;color:#8791A9">点图片翻下一页 · 刷新后需重新输密码</span>
     <button onclick="go(1)">下一页 →</button>
   </div>
 </div>
 
+<script src="js/deck-crypto.js"></script>
 <script>
-/* 页面无外链、noindex；密码校验在本页内做（仅防随手闯入，非加密保险箱） */
-var PASS_HASH='e8737e09';
-/* slide 图：img/deck-01.png … deck-12.png（与公开试读图不同目录） */
 var N=12, cur=1;
 function unlock(){
   var v=document.getElementById('pw').value;
-  var h=0;
-  for(var i=0;i<v.length;i++){h=((h<<5)-h+v.charCodeAt(i))|0;}
-  if((('0000000'+(h>>>0).toString(16)).slice(-8))===PASS_HASH){
+  var st=document.getElementById('st');
+  document.getElementById('err').style.display='none';
+  st.style.display='block'; st.textContent='解密中…';
+  DeckCrypto.decryptPage(1, v).then(function(ok){
+    if(!ok){ st.style.display='none';
+      document.getElementById('err').style.display='block';
+      document.getElementById('slide').removeAttribute('src');
+      return;
+    }
+    /* 密码正确：建 blob URL 会话内翻页 */
     document.getElementById('gate').style.display='none';
-    document.getElementById('viewer').style.display='block';
+    document.getElementById('viewer').style.display='flex';
+    st.style.display='none';
+    window._pass=v;
     show(1);
-  }else{
-    document.getElementById('err').style.display='block';
-  }
+  });
 }
 document.getElementById('pw').addEventListener('keydown',function(e){if(e.key==='Enter')unlock()});
 function show(n){
   cur=Math.min(N,Math.max(1,n));
-  document.getElementById('slide').src='img/deck-'+String(cur).padStart(2,'0')+'.png';
+  var img=document.getElementById('slide');
+  img.src='img/enc/deck-'+String(cur).padStart(2,'0')+'.png.enc.loading';
+  DeckCrypto.decryptPage(cur, window._pass).then(function(url){
+    if(url) img.src=url;
+  });
   document.getElementById('pg').textContent=cur+' / '+N;
 }
 function go(d){show(cur+d)}
-document.getElementById('slide').addEventListener('click',function(){go(1)});
 </script>
 </body>
 </html>
