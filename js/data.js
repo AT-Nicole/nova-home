@@ -9,7 +9,7 @@ const DEFAULT_DATA = {
     brand: "WECHGOOD",
     slogan: "Power your comfortable daily life",
     phone: "+86 183 2165 8916",
-    whatsapp: "8613143339397",
+    whatsapp: "8618321658916",
     email: "harry_hou@wechgood.com",
     address: "5th Floor, Building No. 12, Phase One of Tianfulai International Zone, No. 39 Changbao West Road, Ronggui Sub-district, Shunde District, Foshan City, Guangdong Province, China",
     hours: "Monday - Saturday, 9:00 - 18:00 (GMT+8)",
