@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>金骅官网 · 报名台账（内部）</title>
+<style>
+  body{font-family:"PingFang SC","Microsoft YaHei",sans-serif;background:#F2F4FA;margin:0;padding:24px;color:#22273A}
+  h1{font-size:20px} .bar{display:flex;gap:12px;align-items:center;margin-bottom:16px;flex-wrap:wrap}
+  input,select,button{padding:8px 12px;border-radius:6px;border:1px solid #C9D2E8;font-size:14px}
+  button{background:#1B2A4E;color:#fff;border:none;cursor:pointer}
+  table{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(30,40,90,.08)}
+  th{background:#EEF1FF;color:#4A5AC3;font-size:13px;text-align:left;padding:10px 12px}
+  td{padding:10px 12px;border-top:1px solid #EEF1F6;font-size:13.5px}
+  .cnt{font-size:13px;color:#5A647F}
+  #msg{font-size:13px;color:#B3541E}
+</style>
+</head>
+<body>
+<h1>金骅官网 · 报名/线索台账</h1>
+<div class="bar">
+  <select id="stat">
+    <option value="all">全部状态</option>
+    <option value="new">new</option>
+    <option value="contacted">contacted</option>
+    <option value="won">won</option>
+    <option value="invalid">invalid</option>
+  </select>
+  <button onclick="load()">刷新</button>
+  <span class="cnt" id="cnt"></span><span id="msg"></span>
+</div>
+<table>
+  <thead><tr><th>时间</th><th>称呼</th><th>微信/手机</th><th>来意</th><th>来源</th><th>状态</th><th>操作</th></tr></thead>
+  <tbody id="rows"><tr><td colspan="7">未登录或加载中…</td></tr></tbody>
+</table>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/config.js"></script>
+<script>
+const sb=window.supabase.createClient('https://zmhvarnrdnsimkkhrlol.supabase.co',window.JH_SB_KEY);
+async function load(){
+  const st=document.getElementById('stat').value;
+  let q=sb.from('jh_leads').select('*').order('created_at',{ascending:false}).limit(200);
+  if(st!=='all')q=q.eq('status',st);
+  const {data,error}=await q;
+  const tb=document.getElementById('rows');
+  if(error){tb.innerHTML='<tr><td colspan=7>读取失败：'+error.message+'（需用站内管理员账号登录 Supabase 后台再回来看）</td></tr>';return}
+  document.getElementById('cnt').textContent='共 '+data.length+' 条';
+  tb.innerHTML=data.map(r=>`<tr>
+    <td>${new Date(r.created_at).toLocaleString('zh-CN')}</td>
+    <td>${esc(r.name)}</td><td><b>${esc(r.contact)}</b></td>
+    <td>${esc(r.intent||'')}</td><td>${esc(r.source||'')}</td>
+    <td>${esc(r.status)}</td>
+    <td><select onchange="setStatus('${r.id}',this.value)">
+      ${['new','contacted','won','invalid'].map(s=>`<option ${s===r.status?'selected':''}>${s}</option>`).join('')}
+    </select></td></tr>`).join('')||'<tr><td colspan=7>暂无报名</td></tr>';
+}
+async function setStatus(id,status){
+  const {error}=await sb.from('jh_leads').update({status}).eq('id',id);
+  document.getElementById('msg').textContent=error?('更新失败：'+error.message):'已更新';
+  if(!error)load();
+}
+function esc(s){return String(s).replace(/[<>&"]/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]))}
+load();setInterval(load,60000);
+</script>
+</body>
+</html>
