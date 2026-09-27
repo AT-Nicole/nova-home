@@ -30,17 +30,19 @@ a{color:#4A5AC3;text-decoration:none}
 <div class="card">
   <h1>登录</h1>
   <p class="tip">管理员 / 学员账号通用。登录后回到你要去的页面。</p>
+  <div id="formwrap">
   <label>邮箱</label>
   <input id="em" type="email" autocomplete="username">
   <label>密码</label>
   <input id="pw" type="password" autocomplete="current-password">
   <button id="btn" onclick="doLogin()">登录</button>
-  <p class="err" id="err"></p>
+    <p class="err" id="err"></p>
+</div>
   <div class="who" id="who"></div>
   <div class="links" id="logged">
     <a class="hot" href="/deck.html">📖 查看完整课件</a>
     <a href="/leads.html">📋 报名台账</a>
-    <a href="/factory-site/admin.html">⚙️ 管理后台</a>
+    <a href="/jh-admin.html">⚙️ 管理后台</a>
     <a class="plain" href="#" onclick="logout()">退出当前账号</a>
   </div>
   <p class="ok" id="ok">✅ 登录成功，正在进入…</p>
@@ -56,15 +58,14 @@ var DEST = {'deck':'/deck.html','leads':'/leads.html','admin':'/factory-site/adm
 
 sb.auth.getSession().then(function(r){
   if(r.data && r.data.session){
-    /* 已登录：停留本页，明示状态，按钮自选去处（不再闪跳） */
-    document.getElementById('who').textContent = '✅ 当前已登录：' + r.data.session.user.email;
+    var em = r.data.session.user.email;
+    document.getElementById('who').textContent = '✅ 当前已登录：' + em;
     document.getElementById('who').style.display = 'block';
     document.getElementById('logged').style.display = 'flex';
-    document.getElementById('em').style.display = 'none';
-    document.getElementById('pw').style.display = 'none';
-    document.querySelector('label[for]').style.display = 'none';
-    var btn = document.getElementById('btn'); btn.style.display = 'none';
-    document.querySelector('.tip').textContent = '你已在本站登录。选择要去的页面，或退出后用其他账号登录。';
+    var fw = document.getElementById('formwrap');
+    if (fw) fw.style.display = 'none';
+    var tip = document.querySelector('.tip');
+    if (tip) tip.textContent = '你已在本站登录。选择要去的页面，或退出后用其他账号登录。';
   }
 });
 function logout(){
