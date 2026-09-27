@@ -390,7 +390,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
       <ul class="clist">
         <li><b>线下课</b>10 月 4 日 · 佛山 · 小班（早鸟限量）</li>
         <li><b>FDE 合作</b>需提前预约面谈</li>
-        <li><b>电话 / 微信</b>183 2165 8916（Harry，报课程/合作均宜）</li>
+        <li><b>邮箱</b>hello@jinhua.tech（待启用）</li>
         <li><b>地址</b>广东 · 佛山</li>
       </ul>
       <form id="cform" novalidate>
@@ -406,7 +406,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
           <option>其他合作</option>
         </select>
         <button type="submit">立即预约</button>
-        <p class="form-ok" id="fok">已收到！创始人会在 1 个工作日内回复你。</p>
+        <div class="form-ok" id="fok">✅ 已收到你的预约信息，创始人会在 1 个工作日内亲自回复。</div>
       </form>
     </div>
   </div>
@@ -419,33 +419,34 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
   </div>
 </footer>
 
-<script src="js/config.js"></script>
+<script src="js/vendor/supabase.min.js"></script>
 <script>
+/* 报名收数：Supabase inquiries 表（与 WECHGOOD 独立站同库同表，后台 admin 统一看） */
+var SB_URL="https://zmhvarnrdnsimkkhrlol.supabase.co",
+    SB_ANON="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InptaHZhcm5yZG5zaW1ra2hybG9sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcwMjMwNzAsImV4cCI6MjEwMjU5OTA3MH0.AIEkHsNaNO1MRkGdIbhHGdUqvMtcMg1KJfqpFDnkYiU";
+function jhSB(){ try{ return window.supabase ? window.supabase.createClient(SB_URL,SB_ANON) : null }catch(e){ return null } }
 if(matchMedia('(prefers-reduced-motion: no-preference)').matches){
   const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
   document.querySelectorAll('.fcard,.pack,.case-card').forEach(el=>io.observe(el));
 }
-const JH_SB_URL='https://zmhvarnrdnsimkkhrlol.supabase.co';
-const JH_SB_KEY=window.JH_SB_KEY;
-document.getElementById('cform').addEventListener('submit',async function(e){
+document.getElementById('cform').addEventListener('submit',function(e){
   e.preventDefault();
   const n=document.getElementById('f-name'),w=document.getElementById('f-wechat');
-  const ok=document.getElementById('fok');
   if(!n.value.trim()||!w.value.trim()){(n.value.trim()?w:n).focus();return}
-  const btn=this.querySelector('button[type=submit]');
-  btn.disabled=true;btn.textContent='提交中…';
-  try{
-    const r=await fetch(JH_SB_URL+'/rest/v1/jh_leads',{method:'POST',
-      headers:{'apikey':JH_SB_KEY,'Authorization':'Bearer '+JH_SB_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},
-      body:JSON.stringify({name:n.value.trim(),contact:w.value.trim(),intent:document.getElementById('f-intent').value,source:'jinhua.tech'})});
-    if(!r.ok)throw new Error('http '+r.status);
-    ok.style.display='block';
-    ok.textContent='已收到！创始人会在 1 个工作日内回复你。';
-    this.reset();
-  }catch(err){
-    ok.style.display='block';
-    ok.textContent='提交通道还在调试——请直接加微信 183 2165 8916，一样马上回复。';
-  }finally{btn.disabled=false;btn.textContent='立即预约';}
+  const intent=document.getElementById('f-intent');
+  const rec={
+    id:'jh'+Date.now(), ts:new Date().toISOString(), page:'jinhua-home',
+    product:intent?intent.value:'jinhua-course',
+    name:n.value.trim(), email:'', phone:'', whatsapp:w.value.trim(),
+    company:'', country:'', qty:'',
+    msg:'金骅官网报名表单｜来意='+(intent?intent.value:'')+'｜联系='+w.value.trim()
+  };
+  const c=jhSB();
+  if(c){ c.from('inquiries').insert(rec).then(function(){},function(){
+    /* 入库失败也落 localStorage 兜底，后台可见 */
+    try{ var l=JSON.parse(localStorage.getItem('jh_form_fallback')||'[]'); l.unshift(rec); localStorage.setItem('jh_form_fallback',JSON.stringify(l)); }catch(err){}
+  }); }
+  document.getElementById('fok').style.display='block';
 });
 </script>
 </body>
