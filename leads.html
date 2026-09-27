@@ -5,61 +5,102 @@
 <title>金骅官网 · 报名台账（内部）</title>
 <style>
   body{font-family:"PingFang SC","Microsoft YaHei",sans-serif;background:#F2F4FA;margin:0;padding:24px;color:#22273A}
-  h1{font-size:20px} .bar{display:flex;gap:12px;align-items:center;margin-bottom:16px;flex-wrap:wrap}
-  input,select,button{padding:8px 12px;border-radius:6px;border:1px solid #C9D2E8;font-size:14px}
+  h1{font-size:20px} h1 small{font-size:12px;color:#5A647F;font-weight:400;margin-left:10px}
+  .bar{display:flex;gap:12px;align-items:center;margin-bottom:16px;flex-wrap:wrap}
+  input,button{padding:8px 12px;border-radius:6px;border:1px solid #C9D2E8;font-size:14px}
   button{background:#1B2A4E;color:#fff;border:none;cursor:pointer}
+  button.ghost{background:#fff;color:#1B2A4E;border:1px solid #C9D2E8}
   table{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(30,40,90,.08)}
   th{background:#EEF1FF;color:#4A5AC3;font-size:13px;text-align:left;padding:10px 12px}
-  td{padding:10px 12px;border-top:1px solid #EEF1F6;font-size:13.5px}
+  td{padding:10px 12px;border-top:1px solid #EEF1F6;font-size:13.5px;vertical-align:top}
+  td small{color:#8791A9}
   .cnt{font-size:13px;color:#5A647F}
   #msg{font-size:13px;color:#B3541E}
+  #login{max-width:420px;background:#fff;border-radius:12px;padding:22px;box-shadow:0 4px 16px rgba(30,40,90,.1)}
+  #login label{display:block;font-size:12px;color:#5A647F;margin:12px 0 4px}
+  #login input{width:100%;box-sizing:border-box}
+  #login button{width:100%;margin-top:16px;padding:11px}
+  .who{font-size:12.5px;color:#5A647F}
+  .del{background:#fff;color:#C0392B;border:1px solid #E8B4AE;font-size:12px;padding:4px 10px}
 </style>
 </head>
 <body>
-<h1>金骅官网 · 报名/线索台账</h1>
-<div class="bar">
-  <select id="stat">
-    <option value="all">全部状态</option>
-    <option value="new">new</option>
-    <option value="contacted">contacted</option>
-    <option value="won">won</option>
-    <option value="invalid">invalid</option>
-  </select>
-  <button onclick="load()">刷新</button>
-  <span class="cnt" id="cnt"></span><span id="msg"></span>
+<h1>金骅官网 · 报名台账<small>数据 = Supabase inquiries 表中金骅官网的提交（page=jinhua-home）</small></h1>
+
+<div id="login">
+  <b>先登录</b>（用独立站后台同一账号）<br>
+  <span class="who">账号：harry_hou@wechgood.com，密码在船东手里</span>
+  <label>邮箱</label><input id="em" type="email" autocomplete="username">
+  <label>密码</label><input id="pw" type="password" autocomplete="current-password">
+  <button onclick="login()">登录并加载台账</button>
+  <p id="lmsg" style="font-size:12.5px;color:#B3541E"></p>
 </div>
-<table>
-  <thead><tr><th>时间</th><th>称呼</th><th>微信/手机</th><th>来意</th><th>来源</th><th>状态</th><th>操作</th></tr></thead>
-  <tbody id="rows"><tr><td colspan="7">未登录或加载中…</td></tr></tbody>
-</table>
+
+<div id="app" style="display:none">
+  <div class="bar">
+    <span class="who" id="who"></span>
+    <button class="ghost" onclick="load()">刷新</button>
+    <button class="ghost" onclick="logout()">退出</button>
+    <span class="cnt" id="cnt"></span><span id="msg"></span>
+  </div>
+  <table>
+    <thead><tr><th>时间</th><th>称呼</th><th>微信/手机</th><th>来意</th><th>留言原文</th><th>操作</th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="js/config.js"></script>
 <script>
-const sb=window.supabase.createClient('https://zmhvarnrdnsimkkhrlol.supabase.co',window.JH_SB_KEY);
-async function load(){
-  const st=document.getElementById('stat').value;
-  let q=sb.from('jh_leads').select('*').order('created_at',{ascending:false}).limit(200);
-  if(st!=='all')q=q.eq('status',st);
-  const {data,error}=await q;
-  const tb=document.getElementById('rows');
-  if(error){tb.innerHTML='<tr><td colspan=7>读取失败：'+error.message+'（需用站内管理员账号登录 Supabase 后台再回来看）</td></tr>';return}
-  document.getElementById('cnt').textContent='共 '+data.length+' 条';
-  tb.innerHTML=data.map(r=>`<tr>
-    <td>${new Date(r.created_at).toLocaleString('zh-CN')}</td>
-    <td>${esc(r.name)}</td><td><b>${esc(r.contact)}</b></td>
-    <td>${esc(r.intent||'')}</td><td>${esc(r.source||'')}</td>
-    <td>${esc(r.status)}</td>
-    <td><select onchange="setStatus('${r.id}',this.value)">
-      ${['new','contacted','won','invalid'].map(s=>`<option ${s===r.status?'selected':''}>${s}</option>`).join('')}
-    </select></td></tr>`).join('')||'<tr><td colspan=7>暂无报名</td></tr>';
+var SB_URL='https://zmhvarnrdnsimkkhrlol.supabase.co';
+var SB_ANON=window.JH_SB_KEY;   /* anon key 复用 config.js，不在页面落字面量 */
+var sb=window.supabase.createClient(SB_URL,SB_ANON);
+var PAGE='jinhua-home';
+
+sb.auth.getSession().then(function(r){
+  if(r.data&&r.data.session){show(r.data.session.user.email);}
+});
+
+function login(){
+  var em=document.getElementById('em').value.trim(),pw=document.getElementById('pw').value;
+  if(!em||!pw){document.getElementById('lmsg').textContent='邮箱和密码都要填';return}
+  sb.auth.signInWithPassword({email:em,password:pw}).then(function(r){
+    if(r.error){document.getElementById('lmsg').textContent='登录失败：'+r.error.message;return}
+    show(em);
+  });
 }
-async function setStatus(id,status){
-  const {error}=await sb.from('jh_leads').update({status}).eq('id',id);
-  document.getElementById('msg').textContent=error?('更新失败：'+error.message):'已更新';
-  if(!error)load();
+function logout(){sb.auth.signOut().then(function(){location.reload()})}
+function show(email){
+  document.getElementById('login').style.display='none';
+  document.getElementById('app').style.display='block';
+  document.getElementById('who').textContent='已登录：'+email;
+  load();
 }
-function esc(s){return String(s).replace(/[<>&"]/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]))}
-load();setInterval(load,60000);
+function esc(s){return String(s==null?'':s).replace(/[<>&"]/g,function(c){return{'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]})}
+function load(){
+  sb.from('inquiries').select('id,ts,page,product,name,email,phone,whatsapp,company,country,qty,msg').eq('page',PAGE).order('ts',{ascending:false}).limit(200)
+  .then(function(r){
+    var tb=document.getElementById('rows');
+    if(r.error){tb.innerHTML='<tr><td colspan="6">读取失败：'+esc(r.error.message)+'</td></tr>';return}
+    var d=r.data||[];
+    document.getElementById('cnt').textContent='金骅官网报名共 '+d.length+' 条';
+    tb.innerHTML=d.map(function(x){
+      return '<tr><td>'+esc((x.ts||'').replace('T',' ').slice(0,16))+'</td>'+
+        '<td><b>'+esc(x.name)+'</b><br><small>'+esc(x.country||'')+'</small></td>'+
+        '<td><b>'+esc(x.whatsapp||x.phone||'—')+'</b></td>'+
+        '<td>'+esc(x.product)+'</td>'+
+        '<td>'+esc(x.msg||'')+'<br><small>'+esc(x.email||'')+'</small></td>'+
+        '<td><button class="del" onclick="del(\''+x.id+'\')">删除</button></td></tr>';
+    }).join('')||'<tr><td colspan="6">暂无报名（探针 probe_v4form_20260927 也会出现在这里，可点删除清理）</td></tr>';
+  });
+}
+function del(id){
+  if(!confirm('删除这条记录？'))return;
+  sb.from('inquiries').delete().eq('id',id).then(function(r){
+    document.getElementById('msg').textContent=r.error?('删除失败：'+r.error.message):'已删除';
+    load();
+  });
+}
 </script>
 </body>
 </html>
