@@ -1735,7 +1735,7 @@ initStore().then(function () {
     e.preventDefault();
     const pass = $("#adm-pass").value;
     /* 登录账号固定为 Supabase auth 账号（adminEmail 是展示用邮箱，非认证账号） */
-    const email = "admin@novahome-appliance.com";
+    const email = "harry_hou@wechgood.com";
     /* security: no hardcoded password — login requires valid Supabase credentials */
     const c2 = sb();
     if (!c2) {
