@@ -32,12 +32,15 @@ button{width:100%;margin-top:14px;padding:13px;border:none;border-radius:999px;b
 
 <div class="card" id="gate">
   <h1>完整课件 · 内部查看</h1>
-  <p class="tip">仅限站点负责人。密码与 admin 后台相同。</p>
-  <input id="pw" type="password" placeholder="输入密码" autocomplete="current-password">
-  <button onclick="unlock()">解锁查看</button>
-  <p class="err" id="err">密码不对，再试一次。</p>
+  <p class="tip">仅限站点负责人。用你的管理员账号登录（与后台同一账号），登录一次后本站记住你。</p>
+  <input id="em" type="email" placeholder="邮箱（harry_hou@wechgood.com）" autocomplete="username">
+  <input id="pw" type="password" placeholder="密码（与后台相同）" autocomplete="current-password">
+  <button onclick="login()">登录并查看</button>
+  <p class="err" id="err">登录失败，检查邮箱密码。</p>
   <p id="st"></p>
-  <p class="small">此页 noindex、无外链。线上存储的是 AES-256-GCM 加密图（密钥=你的密码现场派生，服务器只有密文）——密码不对的人连图片内容都解不开。.pptx 原文件仍只在 10.4 现场发放。</p>
+  <p class="small">此页 noindex、无外链。图片为 AES-256-GCM 加密存储；解密密钥仅在登录会话内派生使用，不落盘、不传输。.pptx 原文件仍只在 10.4 现场发放。</p>
+</div>
+
 </div>
 
 <div id="viewer">
@@ -56,36 +59,37 @@ button{width:100%;margin-top:14px;padding:13px;border:none;border-radius:999px;b
 <script src="js/deck-crypto.js"></script>
 <script>
 var N=17, cur=1;
-function unlock(){
-  var v=document.getElementById('pw').value;
-  var st=document.getElementById('st');
-  document.getElementById('err').style.display='none';
-  st.style.display='block'; st.textContent='解密中…';
-  DeckCrypto.decryptPage(1, v).then(function(ok){
-    if(!ok){ st.style.display='none';
-      document.getElementById('err').style.display='block';
-      document.getElementById('slide').removeAttribute('src');
-      return;
-    }
-    /* 密码正确：建 blob URL 会话内翻页 */
-    document.getElementById('gate').style.display='none';
-    document.getElementById('viewer').style.display='block';
-    st.style.display='none';
-    window._pass=v;
-    show(1);
+var sb=window.supabase.createClient('https://zmhvarnrdnsimkkhrlol.supabase.co', window.JH_SB_KEY);
+
+sb.auth.getSession().then(function(r){
+  if(r.data && r.data.session){ start(r.data.session.user.email); }
+});
+
+function login(){
+  var em=document.getElementById('em').value.trim(), pw=document.getElementById('pw').value;
+  if(!em||!pw){document.getElementById('err').style.display='block';return}
+  var st=document.getElementById('st'); st.style.display='block'; st.textContent='登录中…';
+  sb.auth.signInWithPassword({email:em,password:pw}).then(function(r){
+    if(r.error){ st.style.display='none';
+      document.getElementById('err').style.display='block'; return; }
+    start(r.data.session.user.email);
   });
 }
-document.getElementById('pw').addEventListener('keydown',function(e){if(e.key==='Enter')unlock()});
+
+function start(email){
+  document.getElementById('gate').style.display='none';
+  document.getElementById('viewer').style.display='block';
+  window._pass = 'deck-session:' + email;   /* 登录态即密钥来源，无需再输课件密码 */
+  show(1);
+}
+
 function show(n){
   cur=Math.min(N,Math.max(1,n));
   var img=document.getElementById('slide');
-  img.src='img/enc/deck-'+String(cur).padStart(2,'0')+'.png.enc.loading';
-  DeckCrypto.decryptPage(cur, window._pass).then(function(url){
-    if(url) img.src=url;
-  });
+  DeckCrypto.decryptPage(cur, window._pass).then(function(url){ if(url) img.src=url; });
   document.getElementById('pg').textContent=cur+' / '+N;
 }
-function go(d){show(cur+d)}
-</script>
+function go(d){show(d+cur)}
+</script></script>
 </body>
 </html>
