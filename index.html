@@ -435,9 +435,13 @@ document.getElementById('cform').addEventListener('submit',async function(e){
   const btn=this.querySelector('button[type=submit]');
   btn.disabled=true;btn.textContent='提交中…';
   try{
-    const r=await fetch(JH_SB_URL+'/rest/v1/jh_leads',{method:'POST',
+    /* 写入 inquiries 表（与独立站/leads 台账同表；page=jinhua-home 供台账过滤） */
+    const intent=document.getElementById('f-intent').value;
+    const r=await fetch(JH_SB_URL+'/rest/v1/inquiries',{method:'POST',
       headers:{'apikey':JH_SB_KEY,'Authorization':'Bearer '+JH_SB_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},
-      body:JSON.stringify({name:n.value.trim(),contact:w.value.trim(),intent:document.getElementById('f-intent').value,source:'jinhua.tech'})});
+      body:JSON.stringify({id:'jh'+Date.now(),ts:new Date().toISOString(),page:'jinhua-home',product:intent,
+        name:n.value.trim(),email:'',phone:'',whatsapp:w.value.trim(),company:'',country:'',qty:'',
+        msg:'金骅官网报名表单｜来意='+intent+'｜联系='+w.value.trim()})});
     if(!r.ok)throw new Error('http '+r.status);
     ok.style.display='block';
     ok.textContent='已收到！创始人会在 1 个工作日内回复你。';
