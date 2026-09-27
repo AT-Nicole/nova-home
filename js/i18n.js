@@ -289,8 +289,6 @@ const I18N = {
     "oem.policyD": "Standard-platform tooling stays with WECHGOOD; custom tooling for Tier 03 projects is discussed per project. Certificate copies and test reports are available for covered models.",
     "dl.catalogD": "Full product line, specifications and factory overview.",
     "dl.certsD": "CE / RoHS / ErP / LVD / EMC / UKCA for covered models - verify before you buy.",
-    "dl.course": "AI in Foreign Trade - Course Slides (PPT)",
-    "dl.courseD": "The exact course deck from our Foshan workshop: build your own customer-development system with AI - method, case and checklist included.",
   },
 
   /* ============================ ARABIC (RTL) ============================ */
@@ -568,8 +566,6 @@ const I18N = {
     "dl.catalogD": "الخط الكامل من المنتجات، المواصفات والمشاهدة التفصيلية لل مصنع.",
     "dl.certs": "شهادات (PDF)",
     "dl.certsD": "CE / RoHS / ErP / LVD / EMC / UKCA للنماذج المغطاة - تأكد قبل الشراء.",
-    "dl.course": "عرض تقديمي لدورة AI في التجارة الخارجية (PPT)",
-    "dl.courseD": "محتوى الورشة التي أقمناها في فوشان: ابنِ نظام تطوير عملائك بنفسك بمساعدة الذكاء الاصطناعي - المنهج والحالة وقائمة التحقق مشمولة.",
     "dl.btn": "تحميل",
     "nav.faq": "الأسئلة الشائعة",
   },
@@ -849,8 +845,6 @@ const I18N = {
     "dl.catalogD": "Línea completa de productos, especificaciones y resumen de fábrica.",
     "dl.certs": "Certificados (PDF)",
     "dl.certsD": "CE / RoHS / ErP / LVD / EMC / UKCA para los modelos cubiertos - verificar antes de comprar.",
-    "dl.course": "Presentación del curso de IA para comercio exterior (PPT)",
-    "dl.courseD": "El material exacto de nuestro taller en Foshan: construye tu propio sistema de desarrollo de clientes con IA - método, caso real y lista de verificación incluidos.",
     "dl.btn": "Descargar",
     "nav.faq": "Preguntas frecuentes",
   },
@@ -1132,8 +1126,6 @@ const I18N = {
     "oem.policyD": "เครื่องมือต้นแบบของแผนกงานมาตรฐานของ WECHGOOD จะคงอยู่; เครื่องมือต้นแบบเฉพาะโครงการของ Tier 03 จะถูกเจรจากันตามโครงการแต่ละโครงการ ใบรับรองแบบแบบและรายงานทดสอบสามารถเข้าถึงได้สำหรับโมเดลที่ครอบคลุม",
     "dl.catalogD": "สินค้าทั้งหมด รายละเอียดและภาพรวมของโรงงาน",
     "dl.certsD": "CE / RoHS / ErP / LVD / EMC / UKCA สำหรับโมเดลที่ครอบคลุม - ตรวจสอบก่อนการซื้อ",
-    "dl.course": "สไลด์คอร์ส AI เพื่อการค้าระหว่างประเทศ (PPT)",
-    "dl.courseD": "เนื้อหาเวิร์กช็อปที่จัดที่ฝูชาน: สร้างระบบหาลูกค้าของคุณเองด้วย AI - ครบทั้งวิธี กรณีศึกษา และเช็คลิสต์",
   }
 };
 
