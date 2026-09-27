@@ -7,19 +7,22 @@
 <style>
 :root{--navy:#1B2A4E;--navy2:#111C38;--orange:#E8862A;--green:#1D9E6E}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:#F2F4FA;color:#22273A;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
-.card{background:#fff;border-radius:16px;padding:34px 30px;max-width:400px;width:100%;box-shadow:0 8px 30px rgba(30,40,90,.14)}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:#F2F4FA;color:#22273A;min-height:100vh;padding:24px 18px}
+.card{background:#fff;border-radius:16px;padding:34px 30px;max-width:400px;width:100%;margin:8vh auto;box-shadow:0 8px 30px rgba(30,40,90,.14)}
 h1{font-size:19px;color:var(--navy2);margin-bottom:6px}
 p.tip{font-size:13px;color:#5A647F;margin-bottom:16px}
 input{width:100%;padding:12px 14px;border-radius:8px;border:1px solid #C9D2E8;font-size:15px}
 button{width:100%;margin-top:14px;padding:13px;border:none;border-radius:999px;background:linear-gradient(180deg,#FFB347,var(--orange));color:#fff;font-size:15.5px;font-weight:800;cursor:pointer}
 .err{display:none;margin-top:12px;font-size:13px;color:#C0392B}
 .small{font-size:11.5px;color:#8791A9;margin-top:14px;line-height:1.6}
-#viewer{display:none;width:100%;max-width:980px;align-items:flex-start;justify-content:center}
-#viewer .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px}
+#viewer{display:none;width:100%;max-width:980px;margin:0 auto}
+#viewer .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:12px;flex-wrap:wrap}
+#viewer .top h2{min-width:0;flex:1 1 320px}
 #viewer h2{font-size:17px;color:var(--navy2)}
 #viewer img{width:100%;border-radius:10px;box-shadow:0 6px 24px rgba(30,40,90,.16);display:block}
-#viewer .navrow{display:flex;justify-content:space-between;align-items:center;margin-top:14px}
+#viewer .navrow{display:flex;justify-content:space-between;align-items:center;margin-top:14px;gap:12px;flex-wrap:wrap}
+#viewer .navrow>span{flex:1 1 240px;text-align:center}
+@media(max-width:640px){#viewer .navrow>span{order:3;flex-basis:100%}}
 #viewer .navrow button{width:auto;padding:9px 26px;border-radius:8px;background:var(--navy2)}
 #viewer .pg{font-size:13.5px;color:#5A647F;font-weight:700}
 #st{font-size:13px;color:#B3541E;margin-top:10px;display:none}
@@ -39,7 +42,7 @@ button{width:100%;margin-top:14px;padding:13px;border:none;border-radius:999px;b
 
 <div id="viewer">
   <div class="top">
-    <h2>外贸×AI 线下课课件 v2 · 三原则版（12 页）</h2>
+    <h2>外贸×AI 线下课课件 v2 · 三原则版（16 页 · 含 4 页当堂实操）</h2>
     <span class="pg" id="pg"></span>
   </div>
   <img id="slide" alt="课件页">
@@ -52,7 +55,7 @@ button{width:100%;margin-top:14px;padding:13px;border:none;border-radius:999px;b
 
 <script src="js/deck-crypto.js"></script>
 <script>
-var N=12, cur=1;
+var N=16, cur=1;
 function unlock(){
   var v=document.getElementById('pw').value;
   var st=document.getElementById('st');
