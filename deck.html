@@ -56,12 +56,13 @@ button{width:100%;margin-top:14px;padding:13px;border:none;border-radius:999px;b
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="js/config.js"></script>
 <script src="js/deck-crypto.js"></script>
 <script>
 var N=17, cur=1;
-var sb=window.supabase.createClient('https://zmhvarnrdnsimkkhrlol.supabase.co', window.JH_SB_KEY);
+var SBlib = window.supabase || self.supabase;
+var sb = SBlib.createClient('https://zmhvarnrdnsimkkhrlol.supabase.co', window.JH_SB_KEY);
 
 sb.auth.getSession().then(function(r){
   if(r.data && r.data.session){ start(r.data.session.user.email); }
