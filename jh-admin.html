@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>金骅 · 管理台（内部）</title>
+<meta name="robots" content="noindex,nofollow">
+<style>
+  body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:#F2F4FA;margin:0;padding:24px;color:#22273A}
+  h1{font-size:20px} h1 small{font-size:12px;color:#5A647F;font-weight:400;margin-left:10px}
+  .bar{display:flex;gap:12px;align-items:center;margin-bottom:16px;flex-wrap:wrap}
+  input,button{padding:8px 12px;border-radius:6px;border:1px solid #C9D2E8;font-size:14px}
+  button{background:#1B2A4E;color:#fff;border:none;cursor:pointer}
+  button.ghost{background:#fff;color:#1B2A4E;border:1px solid #C9D2E8}
+  table{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(30,40,90,.08);margin-bottom:24px}
+  th{background:#EEF1FF;color:#4A5AC3;font-size:13px;text-align:left;padding:10px 12px}
+  td{padding:10px 12px;border-top:1px solid #EEF1F6;font-size:13.5px;vertical-align:top}
+  td small{color:#8791A9}
+  .cnt{font-size:13px;color:#5A647F}
+  #msg{font-size:13px;color:#B3541E}
+  #login{max-width:400px;background:#fff;border-radius:12px;padding:22px;box-shadow:0 4px 16px rgba(30,40,90,.1)}
+  #login label{display:block;font-size:12px;color:#5A647F;margin:12px 0 4px}
+  #login input{width:100%;box-sizing:border-box}
+  #login button{width:100%;margin-top:16px;padding:11px}
+  .who{font-size:12.5px;color:#5A647F}
+  h2{font-size:15px;color:#4A5AC3;margin:22px 0 8px}
+  .del{background:#fff;color:#C0392B;border:1px solid #E8B4AE;font-size:12px;padding:4px 10px}
+</style>
+</head>
+<body>
+<h1>金骅 · 管理台<small>报名数据 = inquiries 表中 page=jinhua-home 的提交</small></h1>
+
+<div id="login">
+  <b>管理员登录</b><br>
+  <span class="who">与课件页/台账同一账号：harry_hou@wechgood.com</span>
+  <label>邮箱</label><input id="em" type="email" autocomplete="username">
+  <label>密码</label><input id="pw" type="password" autocomplete="current-password">
+  <button onclick="login()">登录</button>
+  <p id="lmsg" style="font-size:12.5px;color:#B3541E"></p>
+</div>
+
+<div id="app" style="display:none">
+  <div class="bar">
+    <span class="who" id="who"></span>
+    <button class="ghost" onclick="load()">刷新</button>
+    <button class="ghost" onclick="location.href='/login.html'">统一登录页</button>
+    <button class="ghost" onclick="sb.auth.signOut().then(()=>location.reload())">退出</button>
+    <span class="cnt" id="cnt"></span><span id="msg"></span>
+  </div>
+
+  <h2>📥 课程报名 / 咨询线索</h2>
+  <table>
+    <thead><tr><th>时间</th><th>称呼</th><th>微信/手机</th><th>来意</th><th>留言</th><th>操作</th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table>
+
+  <h2>🌐 独立站询盘（只读参考）</h2>
+  <table>
+    <thead><tr><th>时间</th><th>姓名</th><th>联系</th><th>产品</th><th>留言</th></tr></thead>
+    <tbody id="rows-factory"></tbody>
+  </table>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="js/config.js"></script>
+<script>
+var SBlib = window.supabase || self.supabase;
+var sb = SBlib.createClient('https://zmhvarnrdnsimkkhrlol.supabase.co', window.JH_SB_KEY);
+
+sb.auth.getSession().then(function(r){
+  if(r.data && r.data.session){ show(r.data.session.user.email); }
+});
+function login(){
+  var em=document.getElementById('em').value.trim(), pw=document.getElementById('pw').value;
+  if(!em||!pw){document.getElementById('lmsg').textContent='邮箱和密码都要填';return}
+  sb.auth.signInWithPassword({email:em,password:pw}).then(function(r){
+    if(r.error){document.getElementById('lmsg').textContent='登录失败：'+r.error.message;return}
+    show(em);
+  });
+}
+function show(email){
+  document.getElementById('login').style.display='none';
+  document.getElementById('app').style.display='block';
+  document.getElementById('who').textContent='已登录：'+email;
+  loadJinhua(); loadFactory();
+}
+function esc(s){return String(s==null?'':s).replace(/[<>&"]/g,function(c){return{'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]})}
+function loadJinhua(){
+  sb.from('inquiries').select('id,ts,page,product,name,email,phone,whatsapp,msg').eq('page','jinhua-home').order('ts',{ascending:false}).limit(200)
+  .then(function(r){
+    var tb=document.getElementById('rows');
+    if(r.error){tb.innerHTML='<tr><td colspan="6">读取失败：'+esc(r.error.message)+'</td></tr>';return}
+    var d=r.data||[];
+    document.getElementById('cnt').textContent='金骅线索 '+d.length+' 条';
+    tb.innerHTML=d.map(function(x){
+      return '<tr><td>'+esc((x.ts||'').replace('T',' ').slice(0,16))+'</td>'+
+        '<td><b>'+esc(x.name)+'</b></td>'+
+        '<td><b>'+esc(x.whatsapp||x.phone||'—')+'</b></td>'+
+        '<td>'+esc(x.product)+'</td>'+
+        '<td>'+esc(x.msg||'')+'<br><small>'+esc(x.email||'')+'</small></td>'+
+        '<td><button class="del" onclick="del(\''+x.id+'\')">删除</button></td></tr>';
+    }).join('')||'<tr><td colspan="6">暂无线索</td></tr>';
+  });
+}
+function loadFactory(){
+  sb.from('inquiries').select('id,ts,name,email,phone,whatsapp,product,qty,msg').neq('page','jinhua-home').order('ts',{ascending:false}).limit(50)
+  .then(function(r){
+    var tb=document.getElementById('rows-factory');
+    if(r.error){tb.innerHTML='<tr><td colspan="5">读取失败：'+esc(r.error.message)+'</td></tr>';return}
+    tb.innerHTML=(r.data||[]).map(function(x){
+      return '<tr><td>'+esc((x.ts||'').replace('T',' ').slice(0,16))+'</td>'+
+        '<td><b>'+esc(x.name)+'</b></td>'+
+        '<td>'+esc(x.whatsapp||x.phone||x.email||'—')+'</td>'+
+        '<td>'+esc(x.product||'')+' <small>'+esc(x.qty||'')+'</small></td>'+
+        '<td>'+esc(x.msg||'')+'</td></tr>';
+    }).join('')||'<tr><td colspan="5">暂无</td></tr>';
+  });
+}
+function del(id){
+  if(!confirm('删除这条记录？'))return;
+  sb.from('inquiries').delete().eq('id',id).then(function(r){
+    document.getElementById('msg').textContent=r.error?('删除失败：'+r.error.message):'已删除';
+    loadJinhua();
+  });
+}
+</script>
+</body>
+</html>
