@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>完整课件 · 金骅内部</title>
+<meta name="robots" content="noindex,nofollow">
+<style>
+:root{--navy:#1B2A4E;--navy2:#111C38;--orange:#E8862A;--green:#1D9E6E}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:#F2F4FA;color:#22273A;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+.card{background:#fff;border-radius:16px;padding:34px 30px;max-width:400px;width:100%;box-shadow:0 8px 30px rgba(30,40,90,.14)}
+h1{font-size:19px;color:var(--navy2);margin-bottom:6px}
+p.tip{font-size:13px;color:#5A647F;margin-bottom:16px}
+input{width:100%;padding:12px 14px;border-radius:8px;border:1px solid #C9D2E8;font-size:15px}
+button{width:100%;margin-top:14px;padding:13px;border:none;border-radius:999px;background:linear-gradient(180deg,#FFB347,var(--orange));color:#fff;font-size:15.5px;font-weight:800;cursor:pointer}
+.err{display:none;margin-top:12px;font-size:13px;color:#C0392B}
+.ok{display:none;margin-top:14px;padding:14px;border-radius:10px;background:#E9F7F0;border:1px solid var(--green)}
+.ok a{display:block;margin:8px 0 0;color:#1D9E6E;font-weight:700;text-decoration:none;font-size:14.5px}
+.small{font-size:11.5px;color:#8791A9;margin-top:14px;line-height:1.6}
+/* 播放器 */
+#viewer{display:none;width:100%;max-width:980px}
+#viewer .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px}
+#viewer h2{font-size:17px;color:var(--navy2)}
+#viewer img{width:100%;border-radius:10px;box-shadow:0 6px 24px rgba(30,40,90,.16);display:block}
+#viewer .navrow{display:flex;justify-content:space-between;align-items:center;margin-top:14px}
+#viewer .navrow button{width:auto;padding:9px 26px;border-radius:8px;background:var(--navy2)}
+#viewer .pg{font-size:13.5px;color:#5A647F;font-weight:700}
+</style>
+</head>
+<body>
+
+<div class="card" id="gate">
+  <h1>完整课件 · 内部查看</h1>
+  <p class="tip">仅限站点负责人。密码与 admin 后台相同。</p>
+  <input id="pw" type="password" placeholder="输入密码" autocomplete="current-password">
+  <button onclick="unlock()">解锁查看</button>
+  <p class="err" id="err">密码不对，再试一次。</p>
+  <p class="small">此页不设外链、不进站点地图。完整 .pptx 文件在 10.4 现场随讲义发放，线上仅作负责人查阅。</p>
+</div>
+
+<div id="viewer">
+  <div class="top">
+    <h2>外贸×AI 线下课课件 v2 · 三原则版（12 页）</h2>
+    <span class="pg" id="pg"></span>
+  </div>
+  <img id="slide" alt="课件页">
+  <div class="navrow">
+    <button onclick="go(-1)">← 上一页</button>
+    <span style="font-size:12.5px;color:#8791A9">手机也可左右滑动图片翻页</span>
+    <button onclick="go(1)">下一页 →</button>
+  </div>
+</div>
+
+<script>
+/* 页面无外链、noindex；密码校验在本页内做（仅防随手闯入，非加密保险箱） */
+var PASS_HASH='e8737e09';
+/* slide 图：img/deck-01.png … deck-12.png（与公开试读图不同目录） */
+var N=12, cur=1;
+function unlock(){
+  var v=document.getElementById('pw').value;
+  var h=0;
+  for(var i=0;i<v.length;i++){h=((h<<5)-h+v.charCodeAt(i))|0;}
+  if((('0000000'+(h>>>0).toString(16)).slice(-8))===PASS_HASH){
+    document.getElementById('gate').style.display='none';
+    document.getElementById('viewer').style.display='block';
+    show(1);
+  }else{
+    document.getElementById('err').style.display='block';
+  }
+}
+document.getElementById('pw').addEventListener('keydown',function(e){if(e.key==='Enter')unlock()});
+function show(n){
+  cur=Math.min(N,Math.max(1,n));
+  document.getElementById('slide').src='img/deck-'+String(cur).padStart(2,'0')+'.png';
+  document.getElementById('pg').textContent=cur+' / '+N;
+}
+function go(d){show(cur+d)}
+document.getElementById('slide').addEventListener('click',function(){go(1)});
+</script>
+</body>
+</html>
