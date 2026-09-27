@@ -1,0 +1,2 @@
+// Supabase 公开 anon key（与 nova-home 独立站同库；anon 角色只能写 jh_leads 报名表，公开可见属正常）
+window.JH_SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InptaHZhcm5yZG5zaW1ra2hybG9sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcwMjMwNzAsImV4cCI6MjEwMjU5OTA3MH0.AIEkHsNaNO1MRkGdIbhHGdUqvMtcMg1KJfqpFDnkYiU';
