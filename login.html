@@ -17,6 +17,11 @@ input:focus{outline:2px solid var(--orange);border-color:transparent}
 button{width:100%;margin-top:20px;padding:13px;border:none;border-radius:999px;background:linear-gradient(180deg,#FFB347,var(--orange));color:#fff;font-size:15.5px;font-weight:800;cursor:pointer}
 .err{display:none;margin-top:12px;font-size:13px;color:#C0392B}
 .ok{display:none;margin-top:12px;font-size:13.5px;color:var(--green);font-weight:700}
+.who{display:none;margin:14px 0 4px;font-size:14px;color:var(--navy2);font-weight:700}
+.links{display:none;margin-top:12px;flex-direction:column;gap:8px}
+.links a{display:block;text-align:center;padding:11px;border-radius:8px;background:#EEF1FF;color:#4A5AC3;font-weight:700;font-size:14px}
+.links a.hot{background:linear-gradient(180deg,#FFB347,var(--orange));color:#fff}
+.links a.plain{background:#F2F4FA;color:#5A647F;font-weight:400;font-size:12.5px}
 .small{font-size:11.5px;color:#8791A9;margin-top:16px;line-height:1.7}
 a{color:#4A5AC3;text-decoration:none}
 </style>
@@ -31,7 +36,14 @@ a{color:#4A5AC3;text-decoration:none}
   <input id="pw" type="password" autocomplete="current-password">
   <button id="btn" onclick="doLogin()">登录</button>
   <p class="err" id="err"></p>
-  <p class="ok" id="ok">✅ 登录成功，正在跳转…</p>
+  <div class="who" id="who"></div>
+  <div class="links" id="logged">
+    <a class="hot" href="/deck.html">📖 查看完整课件</a>
+    <a href="/leads.html">📋 报名台账</a>
+    <a href="/factory-site/admin.html">⚙️ 管理后台</a>
+    <a class="plain" href="#" onclick="logout()">退出当前账号</a>
+  </div>
+  <p class="ok" id="ok">✅ 登录成功，正在进入…</p>
   <p class="small">没有账号？<a href="/#contact">联系创始人开通</a> ｜ <a href="/">回首页</a></p>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
@@ -43,8 +55,21 @@ var next = new URLSearchParams(location.search).get('next') || '';
 var DEST = {'deck':'/deck.html','leads':'/leads.html','admin':'/factory-site/admin.html'};
 
 sb.auth.getSession().then(function(r){
-  if(r.data && r.data.session){ go(); }
+  if(r.data && r.data.session){
+    /* 已登录：停留本页，明示状态，按钮自选去处（不再闪跳） */
+    document.getElementById('who').textContent = '✅ 当前已登录：' + r.data.session.user.email;
+    document.getElementById('who').style.display = 'block';
+    document.getElementById('logged').style.display = 'flex';
+    document.getElementById('em').style.display = 'none';
+    document.getElementById('pw').style.display = 'none';
+    document.querySelector('label[for]').style.display = 'none';
+    var btn = document.getElementById('btn'); btn.style.display = 'none';
+    document.querySelector('.tip').textContent = '你已在本站登录。选择要去的页面，或退出后用其他账号登录。';
+  }
 });
+function logout(){
+  sb.auth.signOut().then(function(){ location.reload(); });
+}
 function go(){
   document.getElementById('ok').style.display='block';
   setTimeout(function(){ location.href = DEST[next] || '/'; }, 600);
