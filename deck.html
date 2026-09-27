@@ -56,6 +56,8 @@ button{width:100%;margin-top:14px;padding:13px;border:none;border-radius:999px;b
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/config.js"></script>
 <script src="js/deck-crypto.js"></script>
 <script>
 var N=17, cur=1;
@@ -71,7 +73,9 @@ function login(){
   var st=document.getElementById('st'); st.style.display='block'; st.textContent='登录中…';
   sb.auth.signInWithPassword({email:em,password:pw}).then(function(r){
     if(r.error){ st.style.display='none';
-      document.getElementById('err').style.display='block'; return; }
+      var er=document.getElementById('err');
+      er.style.display='block';
+      er.textContent='登录失败：'+r.error.message; return; }
     start(r.data.session.user.email);
   });
 }
