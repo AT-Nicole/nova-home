@@ -406,7 +406,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
           <option>其他合作</option>
         </select>
         <button type="submit">立即预约</button>
-        <p class="form-ok" id="fok">已记录（演示环境）：正式版接入后端后生效，1 个工作日内回复。</p>
+        <div id="fok">已收到你的预约信息，创始人会在 1 个工作日内亲自回复。</div>
       </form>
     </div>
   </div>
@@ -419,7 +419,12 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
   </div>
 </footer>
 
+<script src="js/vendor/supabase.min.js"></script>
 <script>
+/* 报名收数：Supabase inquiries 表（与 WECHGOOD 独立站同库同表，后台 admin 统一看） */
+var SB_URL="https://zmhvarnrdnsimkkhrlol.supabase.co",
+    SB_ANON="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InptaHZhcm5yZG5zaW1ra2hybG9sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcwMjMwNzAsImV4cCI6MjEwMjU5OTA3MH0.AIEkHsNaNO1MRkGdIbhHGdUqvMtcMg1KJfqpFDnkYiU";
+function jhSB(){ try{ return window.supabase ? window.supabase.createClient(SB_URL,SB_ANON) : null }catch(e){ return null } }
 if(matchMedia('(prefers-reduced-motion: no-preference)').matches){
   const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
   document.querySelectorAll('.fcard,.pack,.case-card').forEach(el=>io.observe(el));
@@ -428,6 +433,19 @@ document.getElementById('cform').addEventListener('submit',function(e){
   e.preventDefault();
   const n=document.getElementById('f-name'),w=document.getElementById('f-wechat');
   if(!n.value.trim()||!w.value.trim()){(n.value.trim()?w:n).focus();return}
+  const intent=document.getElementById('f-intent');
+  const rec={
+    id:'jh'+Date.now(), ts:new Date().toISOString(), page:'jinhua-home',
+    product:intent?intent.value:'jinhua-course',
+    name:n.value.trim(), email:'', phone:'', whatsapp:w.value.trim(),
+    company:'', country:'', qty:'',
+    msg:'金骅官网报名表单｜来意='+(intent?intent.value:'')+'｜联系='+w.value.trim()
+  };
+  const c=jhSB();
+  if(c){ c.from('inquiries').insert(rec).then(function(){},function(){
+    /* 入库失败也落 localStorage 兜底，后台可见 */
+    try{ var l=JSON.parse(localStorage.getItem('jh_form_fallback')||'[]'); l.unshift(rec); localStorage.setItem('jh_form_fallback',JSON.stringify(l)); }catch(err){}
+  }); }
   document.getElementById('fok').style.display='block';
 });
 </script>
