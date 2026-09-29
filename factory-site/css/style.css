@@ -306,11 +306,11 @@ ul { margin: 0; padding: 0; }
   transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
 }
 .product-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-2); }
-.product-card .p-media { position: relative; background: #F1E8D6; }
+.product-card .p-media { position: relative; background: #fff; }
 .product-card .p-media-link {
   display: block; width: 100%; padding: 0; border: 0; background: none; cursor: pointer;
 }
-.product-card .p-media-link img { width: 100%; aspect-ratio: 4/3; object-fit: contain; background: #fff; transition: transform 0.5s var(--ease); }
+.product-card .p-media-link img { width: 100%; aspect-ratio: 1/1; object-fit: contain; background: #fff; transition: transform 0.5s var(--ease); }
 .product-card .p-media-link:hover img { transform: scale(1.04); }
 .product-card .p-media-link:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; }
 .product-card .p-badge {
@@ -643,7 +643,7 @@ ul { margin: 0; padding: 0; }
 .pd-thumbs { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
 .pd-thumbs .m-thumb { width: 72px; height: 72px; }
 .pd-media { position: sticky; top: 100px; }
-.pd-media img { width: 100%; border-radius: var(--r-card); box-shadow: var(--shadow-2); aspect-ratio: 1/0.92; object-fit: contain; background: #fff; }
+.pd-media img { width: 100%; border-radius: var(--r-card); box-shadow: var(--shadow-2); aspect-ratio: 1/1; object-fit: contain; background: #fff; }
 .pd-info h1 { font-size: clamp(1.7rem, 3vw, 2.4rem); margin: 8px 0 14px; }
 .pd-info .spec-grid { grid-template-columns: 1fr 1fr; }
 .pd-info .m-cat { font-size: 0.85rem; }
@@ -687,7 +687,7 @@ ul { margin: 0; padding: 0; }
   .adv-grid .adv-card:first-child { grid-column: auto; }
   .product-grid { grid-template-columns: 1fr; gap: 14px; }
   .product-card .p-name { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-clamp: 2; }
-  .product-card .p-media-link img { aspect-ratio: 16/10; object-fit: contain; background: #fff; }
+  .product-card .p-media-link img { aspect-ratio: 1/1; object-fit: contain; background: #fff; }
   .cat-grid { grid-template-columns: 1fr 1fr; }
   .testi-grid { grid-template-columns: 1fr; }
   .qc-grid { grid-template-columns: 1fr; }
