@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /admin.html
 
-Sitemap: https://jinhua.tech/sitemap.xml
+Sitemap: https://wechgood.cn/sitemap.xml
