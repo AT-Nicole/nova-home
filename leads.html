@@ -2,12 +2,13 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
+<meta name="robots" content="noindex,nofollow">
 <title>金骅官网 · 报名台账（内部）</title>
 <style>
   body{font-family:"PingFang SC","Microsoft YaHei",sans-serif;background:#F2F4FA;margin:0;padding:24px;color:#22273A}
   h1{font-size:20px} h1 small{font-size:12px;color:#5A647F;font-weight:400;margin-left:10px}
   .bar{display:flex;gap:12px;align-items:center;margin-bottom:16px;flex-wrap:wrap}
-  input,button{padding:8px 12px;border-radius:6px;border:1px solid #C9D2E8;font-size:14px}
+  input,button,select{padding:8px 12px;border-radius:6px;border:1px solid #C9D2E8;font-size:14px}
   button{background:#1B2A4E;color:#fff;border:none;cursor:pointer}
   button.ghost{background:#fff;color:#1B2A4E;border:1px solid #C9D2E8}
   table{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(30,40,90,.08)}
@@ -22,10 +23,12 @@
   #login button{width:100%;margin-top:16px;padding:11px}
   .who{font-size:12.5px;color:#5A647F}
   .del{background:#fff;color:#C0392B;border:1px solid #E8B4AE;font-size:12px;padding:4px 10px}
+  .st{padding:5px 8px;font-size:12.5px}
+  code{background:#EEF1FF;padding:1px 5px;border-radius:4px;font-size:12.5px}
 </style>
 </head>
 <body>
-<h1>金骅官网 · 报名台账<small>数据 = Supabase inquiries 表中金骅官网的提交（page=jinhua-home）</small></h1>
+<h1>金骅官网 · 报名台账<small>数据 = Supabase <code>jh_leads</code> 表（jinhua.tech 报名表单直写）</small></h1>
 
 <div id="login">
   <b>先登录</b>（推荐从 <a href="/login.html?next=leads" style="color:#4A5AC3">统一登录页</a> 进入，登录后自动跳回本页）<br>
@@ -40,11 +43,12 @@
   <div class="bar">
     <span class="who" id="who"></span>
     <button class="ghost" onclick="load()">刷新</button>
+    <button class="ghost" onclick="csv()">导出 CSV（签到用）</button>
     <button class="ghost" onclick="logout()">退出</button>
     <span class="cnt" id="cnt"></span><span id="msg"></span>
   </div>
   <table>
-    <thead><tr><th>时间</th><th>称呼</th><th>微信/手机</th><th>来意</th><th>留言原文</th><th>操作</th></tr></thead>
+    <thead><tr><th>时间</th><th>称呼</th><th>微信/手机</th><th>来意</th><th>来源</th><th>状态</th><th>操作</th></tr></thead>
     <tbody id="rows"></tbody>
   </table>
 </div>
@@ -55,7 +59,9 @@
 var SB_URL='https://zmhvarnrdnsimkkhrlol.supabase.co';
 var SB_ANON=window.JH_SB_KEY;   /* anon key 复用 config.js，不在页面落字面量 */
 var sb=window.supabase.createClient(SB_URL,SB_ANON);
-var PAGE='jinhua-home';
+var TABLE='jh_leads';
+var STATUS=[['new','新'],['contacted','已联系'],['won','已报名'],['invalid','无效']];
+var COLS='id,created_at,name,contact,intent,source,status,note';
 
 sb.auth.getSession().then(function(r){
   if(r.data&&r.data.session){show(r.data.session.user.email);}
@@ -77,29 +83,63 @@ function show(email){
   load();
 }
 function esc(s){return String(s==null?'':s).replace(/[<>&"]/g,function(c){return{'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]})}
+
+var CACHE=[];
 function load(){
-  sb.from('inquiries').select('id,ts,page,product,name,email,phone,whatsapp,company,country,qty,msg').eq('page',PAGE).order('ts',{ascending:false}).limit(200)
+  sb.from(TABLE).select(COLS).order('created_at',{ascending:false}).limit(500)
   .then(function(r){
     var tb=document.getElementById('rows');
-    if(r.error){tb.innerHTML='<tr><td colspan="6">读取失败：'+esc(r.error.message)+'</td></tr>';return}
-    var d=r.data||[];
-    document.getElementById('cnt').textContent='金骅官网报名共 '+d.length+' 条';
+    if(r.error){
+      var m=r.error.message||'';
+      var help=/PGRST205|schema cache|Could not find|does not exist/i.test(m)
+        ? '<br><b>⚠️ 表 jh_leads 还没建 —— 报名数据一条都没进来。</b><br>请到 Supabase Dashboard → SQL Editor 执行 <code>delivery/20260927-金骅官网报名表建卡-SQL.sql</code>，建完刷新本页。'
+        : '<br>（若提示权限，请确认已用管理员账号登录）';
+      tb.innerHTML='<tr><td colspan="7">读取失败：'+esc(m)+help+'</td></tr>';
+      document.getElementById('cnt').textContent='0 条';
+      return;
+    }
+    var d=r.data||[];CACHE=d;
+    document.getElementById('cnt').textContent='报名共 '+d.length+' 条';
     tb.innerHTML=d.map(function(x){
-      return '<tr><td>'+esc((x.ts||'').replace('T',' ').slice(0,16))+'</td>'+
-        '<td><b>'+esc(x.name)+'</b><br><small>'+esc(x.country||'')+'</small></td>'+
-        '<td><b>'+esc(x.whatsapp||x.phone||'—')+'</b></td>'+
-        '<td>'+esc(x.product)+'</td>'+
-        '<td>'+esc(x.msg||'')+'<br><small>'+esc(x.email||'')+'</small></td>'+
+      var opts=STATUS.map(function(s){
+        return '<option value="'+s[0]+'"'+(x.status===s[0]?' selected':'')+'>'+s[1]+'</option>';
+      }).join('');
+      return '<tr><td>'+esc((x.created_at||'').replace('T',' ').slice(0,16))+'</td>'+
+        '<td><b>'+esc(x.name)+'</b></td>'+
+        '<td><b>'+esc(x.contact||'—')+'</b></td>'+
+        '<td>'+esc(x.intent||'')+'</td>'+
+        '<td><small>'+esc(x.source||'')+'</small></td>'+
+        '<td><select class="st" onchange="setStatus(\''+x.id+'\',this.value,this)">'+opts+'</select></td>'+
         '<td><button class="del" onclick="del(\''+x.id+'\')">删除</button></td></tr>';
-    }).join('')||'<tr><td colspan="6">暂无报名（探针 probe_v4form_20260927 也会出现在这里，可点删除清理）</td></tr>';
+    }).join('')||'<tr><td colspan="7">暂无报名</td></tr>';
+  });
+}
+function setStatus(id,v,el){
+  el.disabled=true;
+  sb.from(TABLE).update({status:v}).eq('id',id).then(function(r){
+    el.disabled=false;
+    document.getElementById('msg').textContent=r.error?('改状态失败：'+r.error.message):'状态已更新';
   });
 }
 function del(id){
   if(!confirm('删除这条记录？'))return;
-  sb.from('inquiries').delete().eq('id',id).then(function(r){
+  sb.from(TABLE).delete().eq('id',id).then(function(r){
     document.getElementById('msg').textContent=r.error?('删除失败：'+r.error.message):'已删除';
     load();
   });
+}
+function csv(){
+  if(!CACHE.length){document.getElementById('msg').textContent='没有可导出的数据';return}
+  var head=['时间','称呼','微信/手机','来意','来源','状态','备注'];
+  var label={};STATUS.forEach(function(s){label[s[0]]=s[1]});
+  var lines=[head.join(',')].concat(CACHE.map(function(x){
+    return [(x.created_at||'').replace('T',' ').slice(0,16),x.name,x.contact,x.intent,x.source,label[x.status]||x.status,x.note]
+      .map(function(v){return '"'+String(v==null?'':v).replace(/"/g,'""')+'"'}).join(',');
+  }));
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob(['\ufeff'+lines.join('\n')],{type:'text/csv;charset=utf-8'}));
+  a.download='金骅报名台账_'+new Date().toISOString().slice(0,10)+'.csv';
+  a.click();
 }
 </script>
 </body>

@@ -8,7 +8,7 @@
   body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:#F2F4FA;margin:0;padding:24px;color:#22273A}
   h1{font-size:20px} h1 small{font-size:12px;color:#5A647F;font-weight:400;margin-left:10px}
   .bar{display:flex;gap:12px;align-items:center;margin-bottom:16px;flex-wrap:wrap}
-  input,button{padding:8px 12px;border-radius:6px;border:1px solid #C9D2E8;font-size:14px}
+  input,button,select{padding:8px 12px;border-radius:6px;border:1px solid #C9D2E8;font-size:14px}
   button{background:#1B2A4E;color:#fff;border:none;cursor:pointer}
   button.ghost{background:#fff;color:#1B2A4E;border:1px solid #C9D2E8}
   table{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(30,40,90,.08);margin-bottom:24px}
@@ -24,10 +24,12 @@
   .who{font-size:12.5px;color:#5A647F}
   h2{font-size:15px;color:#4A5AC3;margin:22px 0 8px}
   .del{background:#fff;color:#C0392B;border:1px solid #E8B4AE;font-size:12px;padding:4px 10px}
+  .st{padding:5px 8px;font-size:12.5px}
+  code{background:#EEF1FF;padding:1px 5px;border-radius:4px;font-size:12.5px}
 </style>
 </head>
 <body>
-<h1>金骅 · 管理台<small>报名数据 = inquiries 表中 page=jinhua-home 的提交</small></h1>
+<h1>金骅 · 管理台<small>报名数据 = Supabase <code>jh_leads</code> 表</small></h1>
 
 <div id="login">
   <b>管理员登录</b><br>
@@ -41,15 +43,15 @@
 <div id="app" style="display:none">
   <div class="bar">
     <span class="who" id="who"></span>
-    <button class="ghost" onclick="load()">刷新</button>
+    <button class="ghost" onclick="loadJinhua();loadFactory()">刷新</button>
     <button class="ghost" onclick="location.href='/login.html'">统一登录页</button>
     <button class="ghost" onclick="sb.auth.signOut().then(()=>location.reload())">退出</button>
     <span class="cnt" id="cnt"></span><span id="msg"></span>
   </div>
 
-  <h2>📥 课程报名 / 咨询线索</h2>
+  <h2>📥 课程报名 / 咨询线索（jh_leads）</h2>
   <table>
-    <thead><tr><th>时间</th><th>称呼</th><th>微信/手机</th><th>来意</th><th>留言</th><th>操作</th></tr></thead>
+    <thead><tr><th>时间</th><th>称呼</th><th>微信/手机</th><th>来意</th><th>来源</th><th>状态</th><th>操作</th></tr></thead>
     <tbody id="rows"></tbody>
   </table>
 
@@ -65,6 +67,8 @@
 <script>
 var SBlib = window.supabase || self.supabase;
 var sb = SBlib.createClient('https://zmhvarnrdnsimkkhrlol.supabase.co', window.JH_SB_KEY);
+var TABLE='jh_leads';
+var STATUS=[['new','新'],['contacted','已联系'],['won','已报名'],['invalid','无效']];
 
 sb.auth.getSession().then(function(r){
   if(r.data && r.data.session){ show(r.data.session.user.email); }
@@ -84,21 +88,48 @@ function show(email){
   loadJinhua(); loadFactory();
 }
 function esc(s){return String(s==null?'':s).replace(/[<>&"]/g,function(c){return{'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]})}
+
 function loadJinhua(){
-  sb.from('inquiries').select('id,ts,page,product,name,email,phone,whatsapp,msg').eq('page','jinhua-home').order('ts',{ascending:false}).limit(200)
+  sb.from(TABLE).select('id,created_at,name,contact,intent,source,status,note').order('created_at',{ascending:false}).limit(500)
   .then(function(r){
     var tb=document.getElementById('rows');
-    if(r.error){tb.innerHTML='<tr><td colspan="6">读取失败：'+esc(r.error.message)+'</td></tr>';return}
+    if(r.error){
+      var m=r.error.message||'';
+      var help=/PGRST205|schema cache|Could not find|does not exist/i.test(m)
+        ? '<br><b>⚠️ 表 jh_leads 还没建 —— 报名数据一条都没进来。</b><br>请到 Supabase Dashboard → SQL Editor 执行 <code>delivery/20260927-金骅官网报名表建卡-SQL.sql</code>，建完刷新本页。'
+        : '<br>（若提示权限，请确认已用管理员账号登录）';
+      tb.innerHTML='<tr><td colspan="7">读取失败：'+esc(m)+help+'</td></tr>';
+      document.getElementById('cnt').textContent='金骅线索 0 条';
+      return;
+    }
     var d=r.data||[];
     document.getElementById('cnt').textContent='金骅线索 '+d.length+' 条';
     tb.innerHTML=d.map(function(x){
-      return '<tr><td>'+esc((x.ts||'').replace('T',' ').slice(0,16))+'</td>'+
+      var opts=STATUS.map(function(s){
+        return '<option value="'+s[0]+'"'+(x.status===s[0]?' selected':'')+'>'+s[1]+'</option>';
+      }).join('');
+      return '<tr><td>'+esc((x.created_at||'').replace('T',' ').slice(0,16))+'</td>'+
         '<td><b>'+esc(x.name)+'</b></td>'+
-        '<td><b>'+esc(x.whatsapp||x.phone||'—')+'</b></td>'+
-        '<td>'+esc(x.product)+'</td>'+
-        '<td>'+esc(x.msg||'')+'<br><small>'+esc(x.email||'')+'</small></td>'+
+        '<td><b>'+esc(x.contact||'—')+'</b></td>'+
+        '<td>'+esc(x.intent||'')+'</td>'+
+        '<td><small>'+esc(x.source||'')+'</small></td>'+
+        '<td><select class="st" onchange="setStatus(\''+x.id+'\',this.value,this)">'+opts+'</select></td>'+
         '<td><button class="del" onclick="del(\''+x.id+'\')">删除</button></td></tr>';
-    }).join('')||'<tr><td colspan="6">暂无线索</td></tr>';
+    }).join('')||'<tr><td colspan="7">暂无线索</td></tr>';
+  });
+}
+function setStatus(id,v,el){
+  el.disabled=true;
+  sb.from(TABLE).update({status:v}).eq('id',id).then(function(r){
+    el.disabled=false;
+    document.getElementById('msg').textContent=r.error?('改状态失败：'+r.error.message):'状态已更新';
+  });
+}
+function del(id){
+  if(!confirm('删除这条记录？'))return;
+  sb.from(TABLE).delete().eq('id',id).then(function(r){
+    document.getElementById('msg').textContent=r.error?('删除失败：'+r.error.message):'已删除';
+    loadJinhua();
   });
 }
 function loadFactory(){
@@ -113,13 +144,6 @@ function loadFactory(){
         '<td>'+esc(x.product||'')+' <small>'+esc(x.qty||'')+'</small></td>'+
         '<td>'+esc(x.msg||'')+'</td></tr>';
     }).join('')||'<tr><td colspan="5">暂无</td></tr>';
-  });
-}
-function del(id){
-  if(!confirm('删除这条记录？'))return;
-  sb.from('inquiries').delete().eq('id',id).then(function(r){
-    document.getElementById('msg').textContent=r.error?('删除失败：'+r.error.message):'已删除';
-    loadJinhua();
   });
 }
 </script>

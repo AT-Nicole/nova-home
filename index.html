@@ -444,8 +444,9 @@ document.getElementById('cform').addEventListener('submit',async function(e){
     ok.textContent='已收到！创始人会在 1 个工作日内回复你。';
     this.reset();
   }catch(err){
+    console.error('[金骅官网] 报名提交失败，后端未就绪：',err);
     ok.style.display='block';
-    ok.textContent='提交失败也没关系——直接加微信 131 6875 2099（Nicole），马上回复。';
+    ok.textContent='报名通道正在升级——请直接加微信 131 6875 2099（Nicole），马上为你安排席位。';
   }finally{btn.disabled=false;btn.textContent='立即预约';}
 });
 </script>
