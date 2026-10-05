@@ -50,6 +50,31 @@ img{max-width:100%}
 .hero h1 .hl{background:linear-gradient(transparent 62%,#FFD66B 62%);padding:0 4px}
 .hero .lede{margin-top:18px;font-size:16.5px;color:#3D4260;max-width:34em}
 .hero .lede b{color:var(--navy2)}
+.brandline{font-size:13.5px;font-weight:700;color:#4A3E86;letter-spacing:.01em;margin-bottom:12px}
+.brandline b{color:#7A5BC7}
+/* 四条原则 */
+.princ{padding:10px 0 20px}
+.princ h2{font-size:clamp(24px,3.6vw,36px);font-weight:800;color:var(--ink);text-align:center}
+.princ .psub{color:var(--grey);text-align:center;margin-top:10px}
+.plist{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:34px}
+@media(max-width:760px){.plist{grid-template-columns:1fr}}
+.pcard{background:#F7F8FC;border:1px solid var(--hair);border-radius:14px;padding:24px 22px;transition:.2s}
+.pcard:hover{transform:translateY(-4px);box-shadow:0 12px 26px rgba(40,50,100,.1)}
+.pcard .pn{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.14em;color:#fff;background:linear-gradient(135deg,var(--orange),#F7C86B);border-radius:999px;padding:2px 12px}
+.pcard h3{font-size:17px;font-weight:800;margin:12px 0 8px}
+.pcard p{font-size:13.5px;color:var(--grey)}
+.chain{margin-top:26px;text-align:center;font-size:13px;color:#5A6172;background:#FFF7EC;border-radius:999px;padding:12px 20px}
+/* 案例 5 问 */
+.case5q{margin-top:44px;background:#fff;border:1px solid var(--hair);border-radius:16px;padding:30px 28px}
+.case5q h3{font-size:20px;font-weight:800}
+.case5q .q5sub{color:var(--grey);font-size:13.5px;margin-top:8px}
+.q5grid{display:grid;grid-template-columns:1fr;gap:14px;margin-top:22px}
+.q5{border-left:3px solid var(--hair);padding-left:14px}
+.q5 .q5n{font-weight:800;color:var(--orange-d);margin-right:6px}
+.q5 b{font-size:15px}
+.q5 p{font-size:13.5px;color:var(--grey);margin-top:4px}
+.q5ext{margin-top:24px;background:#F7F8FC;border-radius:12px;padding:18px 20px;font-size:13.5px;color:#4A5068}
+.q5ext b{color:var(--navy2)}
 .hero-cta{margin-top:28px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
 .btn-big{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(180deg,#FFB347,var(--orange-d));color:#fff;font-size:18px;font-weight:800;padding:15px 42px;border-radius:999px;box-shadow:0 8px 22px rgba(232,134,42,.42);letter-spacing:.06em;transition:.15s}
 .btn-big:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(232,134,42,.5)}
@@ -214,6 +239,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
   <div class="quota">早鸟限量<small>小班 · 报满即止</small></div>
   <div class="wrap">
     <div>
+      <div class="brandline">金骅AI · <b>AI 赋能专家，让专业能力规模化</b></div>
       <span class="season"><i>10 月学习季</i>佛山 · 10 月 4 日 · 线下小班</span>
       <h1>外贸 × AI 线下课<br>把获客系统<span class="hl">建在自己手里</span></h1>
       <p class="lede">程序员出身的外贸人主讲：一天讲透 AI 开发信公式、跟进铁律、发送前自查。现场演示<b>每天真在跑的 AI 客户开发系统</b>——我们只做成功的搬运工，把跑通的方法搬进你的生意。报名即送<b>开发信模板精简卡</b>。</p>
@@ -296,6 +322,19 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
   </div>
 </div>
 
+<!-- 四条原则（方法论 v1 · 2026-10-05） -->
+<div class="princ wrap" id="principles">
+  <h2>金骅AI 的四条原则</h2>
+  <p class="psub">工作原则，不是口号 —— 评审任何新行业、接任何一单，都先过这四道闸门</p>
+  <div class="plist">
+    <div class="pcard"><span class="pn">01</span><h3>问题比技术重要</h3><p>AI 能力越来越普及，真正稀缺的是发现问题、定义问题、做出判断。</p></div>
+    <div class="pcard"><span class="pn">02</span><h3>专家比工具重要</h3><p>专家负责「做什么、为什么这么做」，AI 负责「怎么更快、怎么规模化地做」。</p></div>
+    <div class="pcard"><span class="pn">03</span><h3>真实业务比概念重要</h3><p>从真实客户、真实询盘、真实订单、真实门店里找 AI 的切入点 —— 离真实问题越近，优势越大。</p></div>
+    <div class="pcard"><span class="pn">04</span><h3>先跑通，再自动化</h3><p>先人工跑几遍流程，再让 AI 接管确定性工作；不做一上来就全自动的系统。</p></div>
+  </div>
+  <div class="chain">真实专家 → 真实业务 → 发现真实问题 → AI 介入 → 流程跑通 → 知识沉淀 → 产品化 → 规模化</div>
+</div>
+
 <!-- 课程对比表 -->
 <div class="compare wrap" id="compare">
   <h2>老师的高度决定了你的高度</h2>
@@ -365,6 +404,20 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
           <li><span class="d">Day 24</span><span>外贸 9 步流程上板，AI 与人的责任分工到列</span></li>
         </ul>
       </div>
+    </div>
+
+    <!-- 5 问拆解（统一口径） -->
+    <div class="case5q">
+      <h3>按 5 问拆开看 <span class="pill">统一口径</span></h3>
+      <p class="q5sub">我们拆任何行业案例都用这 5 问，不看"他赚了多少钱"这个结果。</p>
+      <div class="q5grid">
+        <div class="q5"><span class="q5n">①</span><b>什么专家</b><p>程序员出身的外贸人（8 年）+ 外贸总监：知道客户在哪、什么算好客户 —— 这些是 AI 决定不了的落地常识。</p></div>
+        <div class="q5"><span class="q5n">②</span><b>原来靠什么赚钱</b><p>人工找客户、手动写开发信；没有看板，失败不留痕；客户靠平台与展会。</p></div>
+        <div class="q5"><span class="q5n">③</span><b>AI 改造了哪一步</b><p>开发信起草、客户看板、发送前预检闸门、询盘台账 —— 四段流程进系统。每封邮件 AI 起草、人审稿后才发，没有群发按钮。</p></div>
+        <div class="q5"><span class="q5n">④</span><b>效率 / 交付变化</b><p>24 天建成 · 115 项自动化测试 · 16 人在看板 · 0 群发。<b>真实询盘与回款按台账逐条记录，没有就写 0。</b></p></div>
+        <div class="q5"><span class="q5n">⑤</span><b>怎么规模化赚钱</b><p>三条线：FDE 进厂陪跑（可控项硬承诺 + 成交分成共担）· 线下课与年度陪跑营 · 体系合伙人。营收同样按台账记。</p></div>
+      </div>
+      <p class="q5ext"><b>外部验证（公开报道）</b>：杭州一位婚庆从业者用 AI 把高端方案从 3–7 天压到 1.5 小时、建模成本从 500–1500 元压到 2 元，随后转做同行培训，一年 7 期、营收 200 万+。她的原话是「<b>AI 只是工具，现场承重、安全搭建这些落地经验，才是核心竞争力</b>」—— 这也正是金骅做「AI 赋能专家」的原因。</p>
     </div>
   </div>
 </div>
