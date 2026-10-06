@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>门店采集表 · 潮汕牛肉饭专家</title>
+<style>
+  :root{--bg:#F4F5F8;--card:#fff;--ink:#1F2430;--muted:#6B7488;--line:#DDE1EA;--brand:#C0392B;--ok:#1D9E6E;--warn:#D98A0B}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"PingFang SC","Microsoft YaHei",sans-serif;-webkit-text-size-adjust:100%}
+  .wrap{max-width:760px;margin:0 auto;padding:14px 14px 60px}
+  h1{font-size:1.32rem;margin:4px 0 6px}
+  .sub{color:var(--muted);font-size:.85rem;line-height:1.6;margin:0 0 14px}
+  h2{font-size:.95rem;margin:22px 0 8px;padding-left:9px;border-left:3px solid var(--brand)}
+  h2 small{color:var(--muted);font-weight:400;font-size:.78rem;margin-left:6px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:10px}
+  label{display:block;font-size:.84rem;color:var(--muted);margin:11px 0 4px}
+  input,select,textarea{width:100%;font:inherit;font-size:16px;padding:10px 11px;border:1px solid var(--line);border-radius:9px;background:#FBFCFE;color:var(--ink)}
+  textarea{min-height:64px;resize:vertical}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+  .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px}
+  .photos label{display:flex;gap:10px;align-items:flex-start;background:#FBFCFE;border:1px solid var(--line);border-radius:9px;padding:11px;margin:7px 0;font-size:.9rem;color:var(--ink);cursor:pointer}
+  .photos input{width:auto;flex:none;margin-top:3px;accent-color:var(--ok);transform:scale(1.25)}
+  .photos small{display:block;color:var(--muted);font-size:.78rem;margin-top:2px}
+  .hint{background:#FFF8E8;border:1px solid #F0D9A8;border-radius:10px;padding:11px 13px;font-size:.85rem;line-height:1.6;color:#7A5A11;margin:8px 0}
+  .hint b{color:#5A3F06}
+  .hot{background:#FDF1EF;border:1px solid #F0C4BD;border-radius:10px;padding:12px 14px;margin:8px 0}
+  .hot b{color:var(--brand)}
+  button{font:inherit;font-size:16px;font-weight:600;border:0;border-radius:10px;padding:13px 18px;background:var(--brand);color:#fff;cursor:pointer;width:100%;margin-top:10px}
+  button.ghost{background:#fff;color:var(--ink);border:1px solid var(--line)}
+  pre{background:#0B1119;color:#E6EDF3;border-radius:10px;padding:13px;font-size:.8rem;line-height:1.6;white-space:pre-wrap;word-break:break-all;max-height:340px;overflow:auto;margin:10px 0 0}
+  .bar{display:flex;gap:8px;margin-top:10px}
+  .bar button{margin-top:0}
+  .src{font-size:.78rem;color:var(--muted);line-height:1.7;margin-top:16px}
+  .flash{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--ok);color:#fff;font-weight:700;border-radius:999px;padding:10px 22px;opacity:0;pointer-events:none;transition:opacity .2s;font-size:.9rem}
+  .flash.on{opacity:1}
+  @media (min-width:640px){.row{grid-template-columns:1fr 1fr}.sub{font-size:.9rem}}
+  /* 手机（店长站在店门口填）：两列也嫌挤 → 一律单列，输入框拉到最大 */
+  @media (max-width:560px){
+    .row,.row3{grid-template-columns:1fr}
+    .wrap{padding:12px 12px 70px}
+    h1{font-size:1.22rem}
+    label{margin:13px 0 5px}
+    button{padding:15px 18px}
+  }
+  /* 写入被拒要显眼（2026-10-05） */
+  .err,.flash.err{background:#FDECEC;border-color:#E5484D;color:#A8071A;font-weight:700}
+</style>
+</head>
+<body>
+<div style="margin:10px 0 4px;padding:9px 12px;border-radius:8px;
+  background:rgba(15,158,134,.07);border:1px solid rgba(15,158,134,.3);font-size:13px;line-height:1.65">
+  <b>现在填哪个？两个都留，都能进金骅看板。</b><br>
+  · <b>小程序「金骅AI」里的采集表</b>（能语音转文字、自动进云数据库）—— <b>还没上线</b>，上线后优先用它<br>
+  · <b>这张表</b>（云端版 <code>api.wechgood.cn/todo/caiji</code>，手机上直接填）—— <b>现在先用这个</b>，不要等<br>
+  <span style="color:#657085">两边数据都会汇总到金骅那边的「② 餐饮专家：有没有新增有效数据」，不会漏。</span>
+</div>
+<div class="wrap">
+  <h1>门店采集表 · 潮汕牛肉饭专家</h1><p data-content-stamp style="margin:8px 0 0;font-size:.82rem;color:#8A90A6">内容更新 2026-10-04 13:04</p>
+  <p class="sub"><b>每考察一家店填一张。</b>拍 6 张照片 + 填下面的数。<br>
+    这一张表是「金骅智能 × 餐饮专家」这条线的<b>原材料</b> —— 攒够 20–30 家，才能长出知识库和选址评分模型。</p>
+
+    <div class="block" style="border-left:4px solid #E8862A;background:#FFF9F1;margin-top:14px">
+    <p style="margin:0"><b>📌 今天（2026-10-05）新增：这张表已经搬进小程序了</b></p>
+    <p style="margin:8px 0 0">小程序「金骅AI」里有了手机版门店采集（<code>pages/collect</code>）：<b>扫码即填 · 语音转文字 · 自动落库</b>（云函数 <code>collectSave</code> → 云数据库集合 <code>collects</code>，按 openid 归属，单条可分享）。</p>
+    <p style="margin:8px 0 0">两种填法，任选其一：<b>① 这张表</b>（发店长，纸质/电脑填）<b>② 小程序里直接填</b>（他自己扫、自己填、自动进库）。<b>建议统一走 ②</b> —— 省掉一遍转录，也不丢照片。</p>
+    <p style="margin:8px 0 0;color:#B45309">数据去向：<code>collects</code> → 攒够 20–30 家 → 长成《潮汕牛肉饭专家知识库 V1》与选址评分模型。<b>没有回收数据，后面的模型就是空的。</b></p>
+  </div>
+
+<div class="hint">
+    <b>填表只要 8 分钟，但有两处千万不能省：</b><br>
+    ① <b>6 张照片必须拍</b>（尤其「菜单价格牌」和「高峰时段」—— 这两个数是后面算账的根）<br>
+    ② 表最后的 <b>「3 个月后实际结果」</b> 现在不用填，但<b>别把那张表丢了</b> —— 没有它，评分模型永远验证不了对错，这份数据就白攒了
+  </div>
+
+  <h2>一 · 这是哪家店 <small>必填</small></h2>
+  <div class="card">
+    <label>店名</label><input id="shop" placeholder="例：XX 潮汕牛肉饭（创维店）">
+    <div class="row">
+      <div><label>考察日期</label><input id="date" type="date"></div>
+      <div><label>考察人</label><input id="who" placeholder="你的名字"></div>
+    </div>
+    <label>地址 / 位置特征</label><input id="addr" placeholder="例：创维大厦 B 座 1 楼，临街，地铁口 300m">
+    <div class="row3">
+      <div><label>商圈类型</label><select id="zone">
+        <option>写字楼</option><option>社区</option><option>商场内</option><option>街边</option><option>学校/医院周边</option><option>其它</option>
+      </select></div>
+      <div><label>面积（㎡）</label><input id="area" type="number" inputmode="numeric" placeholder="80"></div>
+      <div><label>座位数</label><input id="seats" type="number" inputmode="numeric" placeholder="40"></div>
+    </div>
+  </div>
+
+  <h2>二 · 6 张照片 <small>必须拍全，手机原图</small></h2>
+  <div class="card photos">
+    <label><input type="checkbox" data-p="1"><span>① 门头<small>含招牌字、灯箱、门口宽度</small></span></label>
+    <label><input type="checkbox" data-p="2"><span>② 店内全景<small>从门口往里拍，看得见桌数与动线</small></span></label>
+    <label><input type="checkbox" data-p="3"><span>③ 座位区<small>桌椅样式、翻台服务半径</small></span></label>
+    <label><input type="checkbox" data-p="4"><span>④ 周边环境<small>左右邻铺、楼上楼下、人流方向</small></span></label>
+    <label><input type="checkbox" data-p="5"><span>⑤ 菜单 / 价格牌<small><b>最重要</b> —— 每个品类都要拍清价格</small></span></label>
+    <label><input type="checkbox" data-p="6"><span>⑥ 高峰时段客流<small><b>最重要</b> —— 拍排队或满座的样子，记下时间</small></span></label>
+  </div>
+
+  <h2>三 · 硬数据 <small>能问到几个算几个，问不到的写「不知道」，不要猜</small></h2>
+  <div class="card">
+    <div class="row">
+      <div><label>月租金（元）</label><input id="rent" type="number" inputmode="numeric" placeholder="25000"></div>
+      <div><label>转让费（元，没有写 0）</label><input id="transfer" type="number" inputmode="numeric" placeholder="0"></div>
+    </div>
+    <div class="row">
+      <div><label>押付方式</label><input id="pay" placeholder="押二付一 / 押三付三"></div>
+      <div><label>合同年限</label><input id="years" placeholder="3 年"></div>
+    </div>
+    <div class="row">
+      <div><label>水电物业（是否含在租金里）</label><input id="util" placeholder="不含 / 含物业"></div>
+      <div><label>证照（可否办餐饮）</label><select id="license">
+        <option>可以办 / 已有</option><option>不确定</option><option>不能办</option>
+      </select></div>
+    </div>
+    <div class="row">
+      <div><label>周边同类竞品数（500m 内）</label><input id="comp" type="number" inputmode="numeric" placeholder="3"></div>
+      <div><label>估算周边人流（人次/天）</label><input id="flow" placeholder="午市 800 / 晚市 500"></div>
+    </div>
+    <div class="row">
+      <div><label>高峰时段</label><input id="peak" placeholder="12:00-13:00"></div>
+      <div><label>估算高峰出餐速度</label><input id="speed" placeholder="每位 4 分钟"></div>
+    </div>
+    <div class="row">
+      <div><label>菜单价格带</label><input id="price" placeholder="18.8 自助 / 22 招牌饭"></div>
+      <div><label>估算日单量（店主说或数客流）</label><input id="orders" placeholder="180 单"></div>
+    </div>
+    <label>主要客群</label><input id="cust" placeholder="写字楼白领 / 周边居民 / 学生">
+  </div>
+
+  <h2>四 · 专家的现场判断 <small>这一栏是你的专业，AI 代替不了</small></h2>
+  <div class="card">
+    <label>第一印象（一句话）</label><textarea id="impress" placeholder="例：出餐慢导致高峰期客人流失，但价格带卡得准"></textarea>
+    <label>最大的坑</label><textarea id="trap" placeholder="例：后厨动线太窄，两个人转不开身"></textarea>
+    <label>最大的优势</label><textarea id="edge" placeholder="例：位置正对写字楼出口，午市不愁客流"></textarea>
+  </div>
+
+  <h2>五 · 金骅填：评分与决策 <small>这一栏不用专家填</small></h2>
+  <div class="card">
+    <div class="row">
+      <div><label>规则评分（0–100）</label><input id="score" type="number" inputmode="numeric" placeholder="87"></div>
+      <div><label>建议</label><select id="advice">
+        <option>考察（值得去）</option><option>谨慎</option><option>不建议</option>
+      </select></div>
+    </div>
+    <label>评分依据（3 条以内）</label><input id="why" placeholder="例：租金占比 11%；午市客流足；竞品 3 家偏多">
+    <label>最终决策</label><select id="decision">
+      <option>未定</option><option>拿下</option><option>放弃</option><option>再观察</option>
+    </select>
+  </div>
+
+  <div class="hot">
+    <b>六 · 3 个月后回填（今天不用填，但这一栏决定整套东西成不成立）</b>
+    <p style="font-size:.85rem;line-height:1.6;margin:6px 0 0">
+      没有这一栏，我们的评分就只是<b>主观打分</b>，永远不知道准不准 —— 也就永远做不出真正的"AI 选址"。<br>
+      <b>做法：今天填完，把这一页的导出文件存好；三个月后拿出来补下面这几个数。</b>
+    </p>
+    <div class="row" style="margin-top:8px">
+      <div><label>实际日单量</label><input id="r_orders" placeholder="三个月后填"></div>
+      <div><label>实际月营业额（元）</label><input id="r_rev" placeholder="三个月后填"></div>
+    </div>
+    <div class="row">
+      <div><label>是否存活</label><select id="r_alive">
+        <option>三个月后填</option><option>正常经营</option><option>已转让</option><option>已关店</option>
+      </select></div>
+      <div><label>与预测的差异（一句话）</label><input id="r_diff" placeholder="例：实际比预测低 20%，午市到了但晚市空"></div>
+    </div>
+    <label>学到了什么（复盘）</label><textarea id="r_learn" placeholder="三个月后填。这一条最值钱 —— 它是知识库真正的下一版。"></textarea>
+  </div>
+
+  <button id="gen">生成这一条记录（可直接粘进知识库 / 发微信）</button>
+  <div class="bar">
+    <button class="ghost" id="copy">复制</button>
+    <button class="ghost" id="csv">导出 CSV</button>
+    <button class="ghost" id="save">存到本机</button>
+  </div>
+  <pre id="out">填完上面的字段，点「生成这一条记录」。</pre>
+
+  <p class="src">
+    <b>这一页解决什么：</b>此前只有 <code>门店体检单V0.html</code>（单店深度诊断），没有<b>批量、统一、可累积</b>的采集机制。<br>
+    <b>为什么加「3 个月后回填」：</b>选址评分模型必须靠<b>决策 → 实际结果</b>的对照来校准。小样本下"AI 评分"只能是规则加权 + 专家经验；<b>能验证对错，它才配叫 AI；不能验证，它就只是主观打分。</b><br>
+    <b>攒多少才够：</b>同城 20–30 家、含至少 5 家的 3 个月实际结果 —— 这时才谈得上建模。<br>
+    <b>隐私：</b>拍摄时尽量避开顾客正面；价格牌、门头、动线是重点，不需要拍到人。
+  </p>
+</div>
+
+<div class="flash" id="flash"></div>
+
+<script>
+  /* ⚠️ 2026-10-06：页面挂在 jinhua.tech（GitHub Pages），接口在 api.wechgood.cn —— 跨域。
+     跨域带不上 cookie，所以身份改用 URL 里的 ?k= 显式带上（服务端 _ident 优先读 ?k=）。 */
+  function turl(p){
+    var K = (location.search.match(/[?&]k=([^&]+)/) || [])[1] || '';
+    if (!K) return p;
+    return p + (p.indexOf('?') < 0 ? '?' : '&') + 'k=' + K;
+  }
+
+  /* ⚠️ 2026-10-05 修：云端页面以前会在同源失败时"悄悄退回本机 127.0.0.1:8097"。
+     后果很坏：HTTPS 页面调 http://127.0.0.1 会被浏览器拦掉 → API=null →
+     勾选只留在内存/localStorage → **一刷新就恢复原样**；而在我这儿它又能通 →
+     同一个链接在两个环境表现不一样，特别难查。
+     现在：只有 file:// 或本机 host 才允许退回本机；云端页面**只跟自己的域名说话**。 */
+  function apiBases(){
+    var h = location.hostname, p = location.protocol;
+    var isLocal = (p === "file:") || h === "127.0.0.1" || h === "localhost" || h === "";
+    return isLocal ? ["", "http://127.0.0.1:8097"] : ["https://api.wechgood.cn"];
+  }
+
+(function(){
+  "use strict";
+  function $(id){return document.getElementById(id);}
+  function v(id){var e=$(id);return e?(e.value||"").trim():"";}
+  function flash(m){var e=$("flash");e.textContent=m;e.className="flash on";setTimeout(function(){e.className="flash";},1600);}
+  function todayIso(){var d=new Date();return d.toISOString().slice(0,10);}
+  $("date").value=todayIso();
+
+  var PNAME={1:"门头",2:"店内全景",3:"座位区",4:"周边环境",5:"菜单/价格牌",6:"高峰客流"};
+  function photos(){
+    var on=[];
+    document.querySelectorAll(".photos input[type=checkbox]").forEach(function(c){if(c.checked)on.push(PNAME[c.dataset.p]);});
+    return on;
+  }
+  function missingPhotos(){
+    var n=document.querySelectorAll(".photos input[type=checkbox]:checked").length;
+    return n<6 ? (6-n) : 0;
+  }
+
+  function build(){
+    var L=[];
+    L.push("# 门店采集 · "+(v("shop")||"（未填店名）"));
+    L.push("");
+    L.push("| 项 | 值 |");
+    L.push("|---|---|");
+    var rows=[
+      ["考察日期",v("date")],["考察人",v("who")],["地址/位置",v("addr")],
+      ["商圈类型",v("zone")],["面积(㎡)",v("area")],["座位数",v("seats")],
+      ["月租金(元)",v("rent")],["转让费(元)",v("transfer")],["押付方式",v("pay")],["合同年限",v("years")],
+      ["水电物业",v("util")],["证照",v("license")],["500m竞品数",v("comp")],["周边人流",v("flow")],
+      ["高峰时段",v("peak")],["高峰出餐速度",v("speed")],["菜单价格带",v("price")],["估算日单量",v("orders")],["主要客群",v("cust")]
+    ];
+    rows.forEach(function(r){L.push("| "+r[0]+" | "+(r[1]||"待填")+" |");});
+    L.push("");
+    L.push("## 照片（6 张必须拍全）");
+    L.push(photos().length? photos().map(function(x){return "- [x] "+x;}).join("\n") : "- [ ] 一张都没勾");
+    if(missingPhotos()) L.push("\n> ⚠️ 还差 "+missingPhotos()+" 张未拍");
+    L.push("");
+    L.push("## 专家现场判断");
+    L.push("- **第一印象**："+(v("impress")||"待填"));
+    L.push("- **最大的坑**："+(v("trap")||"待填"));
+    L.push("- **最大的优势**："+(v("edge")||"待填"));
+    L.push("");
+    L.push("## 金骅评分与决策");
+    L.push("- 规则评分："+(v("score")||"—")+" / 100");
+    L.push("- 建议："+v("advice"));
+    L.push("- 评分依据："+(v("why")||"—"));
+    L.push("- **最终决策**："+v("decision"));
+    L.push("");
+    L.push("## 3 个月后回填（决定这套东西成不成立）");
+    L.push("- 实际日单量："+(v("r_orders")||"待回填"));
+    L.push("- 实际月营业额："+(v("r_rev")||"待回填"));
+    L.push("- 是否存活："+v("r_alive"));
+    L.push("- 与预测差异："+(v("r_diff")||"待回填"));
+    L.push("- 复盘学到什么："+(v("r_learn")||"待回填"));
+    return L.join("\n");
+  }
+
+  $("gen").addEventListener("click",function(){
+    if(!v("shop")){flash("先填店名");$("shop").focus();return;}
+    $("out").textContent=build();
+    if(missingPhotos()) flash("生成了，但还差 "+missingPhotos()+" 张照片");
+    else flash("生成了");
+  });
+  $("copy").addEventListener("click",function(){
+    var t=$("out").textContent;
+    if(!t||t.indexOf("填完上面")===0){flash("先生成");return;}
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(t).then(function(){flash("已复制，粘给金骅即可");},function(){flash("请手动选中复制");});
+    } else flash("请手动选中复制");
+  });
+  // 2026-10-05 加：存到本机时同时 POST 到登记服务，让金骅那边能统计到（原来只存在浏览器里，老板永远看不到）
+  function pushCaiji(){
+    var shop = v("shop") || "（未填店名）";
+    var key  = shop + "|" + (v("date") || todayIso());
+    var body = { who: '餐饮专家（采集表）', id: key, checked: true, note: JSON.stringify({
+      shop: shop, date: v("date"), area: v("area"), seats: v("seats"), rent: v("rent"),
+      score: v("score"), advice: v("advice"), decision: v("decision") }) };
+    var bases = apiBases();
+    (function tryNext(i){
+      if (i >= bases.length) { flash("已存本机（但登记服务没连上，金骅那边统计不到）"); return; }
+      fetch(turl(bases[i] + "/api/todo/caiji"), { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify(body) })
+        .then(function(r){
+          if (r && r.status === 403) {
+            flash("🚫 同步被拒（403）—— 链接身份不对或已过期，请用发给你的那个链接重开本页", "err");
+            return null;
+          }
+          if (!r || !r.ok) { tryNext(i+1); return null; }
+          return r.json();
+        })
+        .then(function(j){ if (j === null) return; if (j && j.ok) flash("已存本机，并已同步给金骅（" + j.at + "）"); else tryNext(i+1); })
+        .catch(function(){ tryNext(i+1); });
+    })(0);
+  }
+
+  $("save").addEventListener("click",function(){
+    var all=[];try{all=JSON.parse(localStorage.getItem("cb_collect_v1")||"[]");}catch(e){all=[];}
+    all.push({at:new Date().toISOString(),md:build()});
+    try{localStorage.setItem("cb_collect_v1",JSON.stringify(all));flash("已存本机（共 "+all.length+" 条）");}catch(e){flash("存不下，请导出 CSV");}
+    pushCaiji();
+  });
+  $("csv").addEventListener("click",function(){
+    var head=["店名","日期","考察人","商圈","面积","座位","月租","转让费","竞品数","人流","高峰时段","出餐速度","价格带","估算日单量","评分","建议","最终决策","实际日单量","实际月营业额","是否存活","复盘"];
+    var line=[v("shop"),v("date"),v("who"),v("zone"),v("area"),v("seats"),v("rent"),v("transfer"),v("comp"),v("flow"),v("peak"),v("speed"),v("price"),v("orders"),v("score"),v("advice"),v("decision"),v("r_orders"),v("r_rev"),v("r_alive"),v("r_learn")];
+    var csv=[head,line].map(function(r){return r.map(function(x){return '"'+String(x||"").replace(/"/g,'""')+'"';}).join(",");}).join("\n");
+    var a=document.createElement("a");
+    a.href=URL.createObjectURL(new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8"}));
+    a.download="门店采集_"+(v("shop")||"未填")+"_"+(v("date")||todayIso())+".csv";
+    a.click();
+  });
+})();
+</script>
+</body>
+</html>

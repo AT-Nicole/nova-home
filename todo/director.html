@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>总监待办 · WECHGOOD</title>
+<style>
+  :root{
+    --bg:#F5F7FA; --card:#FFFFFF; --line:#E1E6EE;
+    --fg:#1A2233; --muted:#5E6B7D; --accent:#0F9E86; --red:#D4483A; --gold:#A9770E; --green:#7ee081;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);
+       font:15px/1.7 "PingFang SC","SF Pro Text",sans-serif;
+       background-image:radial-gradient(900px 500px at 12% -10%, #EDF9F6, transparent 70%),
+                        radial-gradient(700px 420px at 92% 0%, rgba(240,195,106,.05), transparent 70%);}
+  .wrap{max-width:900px;margin:0 auto;padding:34px 20px 90px}
+  header{border-bottom:1px solid var(--line);padding-bottom:18px;margin-bottom:22px}
+  .kicker{font:12px/1 "SF Mono",Menlo,monospace;letter-spacing:.18em;color:var(--accent);text-transform:uppercase}
+  h1{font-size:26px;margin:10px 0 6px;letter-spacing:-.01em}
+  .sub{color:var(--muted);font-size:14.5px;margin:0}
+  .cd{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+  .pill{font:12.5px/1 "SF Mono",Menlo,monospace;border:1px solid var(--line);border-radius:20px;
+        padding:7px 13px;color:var(--muted)}
+  .pill b{color:var(--gold)}
+  .pill.hot b{color:var(--red)}
+
+  h2{font-size:15px;margin:30px 0 12px;letter-spacing:.04em;color:var(--muted);
+     text-transform:uppercase;font-family:"SF Mono",Menlo,monospace}
+  .item{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--red);
+        border-radius:14px;padding:18px 20px;margin-bottom:14px}
+  .item.p1{border-left-color:var(--gold)}
+  .item.done{opacity:.42;border-left-color:var(--green)}
+  .item.done .ttl{text-decoration:line-through}
+  .row{display:flex;align-items:flex-start;gap:12px}
+  .chk{flex:0 0 auto;width:22px;height:22px;margin-top:3px;accent-color:var(--accent);cursor:pointer}
+  .ttl{font-size:17px;font-weight:600;margin:0 0 4px}
+  .tag{display:inline-block;font:11.5px/1 "SF Mono",Menlo,monospace;padding:3px 9px;border-radius:20px;
+       border:1px solid currentColor;vertical-align:2px;margin-left:8px}
+  .tag.p0{color:var(--red)} .tag.p1{color:var(--gold)}
+  .why{color:var(--muted);font-size:14px;margin:6px 0 0}
+  .how{margin:12px 0 0;padding:12px 14px;background:rgba(62,224,197,.05);
+       border:1px solid rgba(62,224,197,.16);border-radius:10px;font-size:14px}
+  .how b{color:var(--accent)}
+  pre{margin:9px 0 0;padding:12px 14px;background:#0d1219;border:1px solid var(--line);border-radius:9px;
+      font:13px/1.65 "SF Mono",Menlo,monospace;color:#cfe3ee;white-space:pre-wrap;overflow-x:auto}
+  .due{margin-top:11px;font:12.5px/1 "SF Mono",Menlo,monospace;color:var(--muted)}
+  .due b{color:var(--gold)}
+  .copy{margin-top:8px;background:transparent;border:1px solid var(--accent);color:var(--accent);
+        border-radius:7px;padding:5px 12px;font-size:12.5px;cursor:pointer}
+  .copy:hover{background:rgba(62,224,197,.1)}
+  .note{color:var(--muted);font-size:13.5px;background:var(--card);border:1px solid var(--line);
+        border-radius:12px;padding:14px 16px;margin-top:26px}
+  .note b{color:var(--fg)}
+  table{width:100%;border-collapse:collapse;margin-top:10px;font-size:14px}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+  th{color:var(--muted);font-size:12.5px;font-weight:600;font-family:"SF Mono",Menlo,monospace}
+  td.d{font-family:"SF Mono",Menlo,monospace;color:var(--gold);white-space:nowrap}
+  footer{margin-top:34px;padding-top:16px;border-top:1px solid var(--line);
+         color:var(--muted);font-size:12.5px;font-family:"SF Mono",Menlo,monospace}
+  .rec{margin:10px 0 14px;font-size:.86rem;line-height:1.65;border-radius:9px;padding:9px 12px;
+    background:#F6F8FB;border:1px solid rgba(130,190,220,.25);color:#5E6B7D}
+  .rec.ok{border-color:rgba(62,224,197,.45);background:#EDF9F6;color:#1A2233}
+  .rec.warn{border-color:#EBD5A4;background:#FDF6E7;color:#A9770E}
+  .rec code{font-size:.78rem;color:#1A2233}
+  .rec b{color:#1A2233}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="kicker">WECHGOOD · 总监待办<span data-content-stamp style="color:#B4791F"> · 内容更新 2026-10-05 16:03</span></div>
+    <h1>只有你能做的事</h1>
+    <p class="sub">AI 能查、能改、能写 —— 但这几件必须你本人出面（要问工厂、要拍实物、要签字）。<br>
+       做完打勾，进度存在本机浏览器里。</p>
+    <div class="cd">
+      <span class="pill hot">广交会开幕 <b id="cd-fair">—</b></span>
+      <span class="pill">服务器到期 <b>2026-11-03</b></span>
+      <span class="pill">机场套餐 <b>2026-10-24</b></span>
+    </div>
+  </header>
+
+  <h2>待办 · <span id="count">…</span> 件</h2>
+  <p class="rec" id="rec-status">正在连接登记服务…</p>
+  <div id="list"></div>
+
+  <div class="note" style="border-color:rgba(126,224,129,.35)">
+    <b>✅ 本轮已完成（不需要你操作）</b><br>
+    <b>🔧 开发信发送器补上 <code>Date</code> + <code>Message-ID</code>（2026-10-04 15:00）</b> ——
+    查实 6 个发送器里有 5 个漏了这两个头（RFC 5322 必需头，缺失是典型反垃圾特征），
+    已全部补上并用桩替换 SMTP 逐条验证 + 发一封真实测试信读回邮件头确认。<br>
+    影响过的真实邮件：给 Smartwares 的开发信、给 Callum 的回信、提现请求。<b>10-06 起发的 30 封不再带这个特征。</b><br><br>
+    <b>旧工厂站已下线</b> —— jinhua.tech/factory-site/ 的 12 个页面全部改成跳转到 wechgood.com。
+    以后买家和搜索引擎只会找到 wechgood.com。课程站 jinhua.tech 未受影响。
+  </div>
+
+  <h2>日期提醒（<b>其中服务器续费要付钱，已单列为待办</b>；其余到期前会再提你）</h2>
+  <table>
+    <tr><th>日期</th><th>事项</th><th>后果</th></tr>
+    <tr><td class="d">2026-10-15</td><td>广交会开幕</td><td>上面两件必须在之前完成</td></tr>
+    <tr><td class="d">2026-10-24</td><td>机场（山水云）套餐到期</td><td>梯子断 → WhatsApp / 谷歌 / Cloudflare 全上不去</td></tr>
+    <tr><td class="d">2026-11-03</td><td>阿里云新加坡服务器到期 <b>← 要付钱，见上方待办「阿里云服务器续费」</b></td><td>询盘接口 + 报价服务下线，独立站表单失效</td></tr>
+    <tr><td class="d">2027-04-07</td><td>wechgood.com 到期释放</td><td>可尝试抢注（现被锁在夺不回的公司账号里）</td></tr>
+  </table>
+
+  <div class="note">
+    <b>这份清单谁维护？</b> 船长（AI）在发现问题时加进来 —— 只放「AI 做不了、必须人出面」的事。
+    技术活、改代码、查数据这些不会出现在这里。<br><br>
+    <b>和其他台子的关系</b>：<code>今日总控</code> 汇总业务状态（只读）；
+    <code>今日行动台</code> 管 STILLSTERN / WD Plus 的具体拍板；
+    <b>本页只管跨项目的「人出面」待办</b>，不碰业务状态。
+  </div>
+
+  <footer>总监待办 V1 · 2026-10-03 建 · 完成状态存本机 localStorage</footer>
+</div>
+
+<script>
+  /* 2026-10-06：页面在 jinhua.tech，接口在 api.wechgood.cn（跨域）→ 身份用 URL 里的 ?k= 显式带上 */
+  function turl(p){
+    var K = (location.search.match(/[?&]k=([^&]+)/) || [])[1] || '';
+    if (!K) return p;
+    return p + (p.indexOf('?') < 0 ? '?' : '&') + 'k=' + K;
+  }
+
+  /* ⚠️ 2026-10-05 修：云端页面以前会在同源失败时"悄悄退回本机 127.0.0.1:8097"。
+     后果很坏：HTTPS 页面调 http://127.0.0.1 会被浏览器拦掉 → API=null →
+     勾选只留在内存/localStorage → **一刷新就恢复原样**；而在我这儿它又能通 →
+     同一个链接在两个环境表现不一样，特别难查。
+     现在：只有 file:// 或本机 host 才允许退回本机；云端页面**只跟自己的域名说话**。 */
+  function apiBases(){
+    var h = location.hostname, p = location.protocol;
+    var isLocal = (p === "file:") || h === "127.0.0.1" || h === "localhost" || h === "";
+    return isLocal ? ["", "http://127.0.0.1:8097"] : ["https://api.wechgood.cn"];
+  }
+
+const KEY = "wechgood_director_todo_v1";
+
+const ITEMS = [
+  {
+    id: "leadtime-truth",
+    pri: "P0",
+    title: "🔴 确认两个对外承诺的真实数字（交付期 / 响应时间）",
+    why: "<b>2026-10-05 全站口径审计发现的矛盾：</b><br><br><b>① 交付期</b><br>· 站点 11 处 HTML 都写 <code>35-40 days</code><br>· 但 i18n 词典 <code>faq.a4</code> 写的是 <code>35-45 days</code><br>→ 客户在 FAQ 里看到 35-45，在产品页看到 35-40，<b>同一件事两个数字</b><br><br><b>② 响应时间</b><br>· 全站 41 处写 <code>Reply within 12 working hours</code><br>· 只有 privacy 页写 <code>Reply within 12 hours</code><br>→ 「12 working hours」和「12 hours」差 3 倍以上（工作时间 vs 自然时间），<b>这个是承诺强度的问题</b><br><br><b>为什么必须定口径：</b>这两个数字是<b>对客户的承诺</b>。采购商拿它做排期。写宽了显得慢，写窄了做不到就是失信 —— 而且被客户发现前后不一致，比数字本身更伤。",
+    how: "<b>已按「多数派」统一（可随时改）：</b><br>· 交付期统一成 <code>35-40 days</code>（11 处 HTML 用的就是这个）<br>· 响应时间统一成 <code>12 working hours</code>（41 处用的就是这个）<br><br><b>但需要工厂给一个真实数字：</b><br><br><b>① 交付期</b><br>· 常规订单（比如 500 pcs / 单型号）从收到定金起，<b>实际几天出货</b>？<br>· 旺季（广交会前后）会不会更长？要写区间吗？<br>· 是「生产天数」还是「含排产+验货+订舱的总天数」？<br>· 这个数字要能写进报价单和合同，<b>做不到会被索赔</b><br><br><b>② 响应时间</b><br>· 「12 working hours」是指工作时间累计 12 小时（约 1.5 个工作日）<br>· 还是「12 小时内必回」？<br>· 周末和节假日算不算？<br>· <b>建议</b>：如果做不到严格 12 小时内必回，就写「工作日 12 小时内」更安全",
+    copy: "总监你好，网站的交付期和响应时间有两个数字前后不一致，需要你给一个工厂的真实口径，我统一改掉。\n\n**一、交付期**\n现在站点 11 处写的是「35-40 days」，但 FAQ 的词典里写的是「35-45 days」，客户会看到两个数。\n我先按 35-40 统一了，但需要你确认：\n\n1. 常规订单（比如 500 pcs、单型号）从收到定金起，实际几天出货？\n2. 旺季（广交会前后）会不会更长？要不要写区间？\n3. 这个天数是「纯生产天数」，还是「含排产+验货+订舱」的总天数？\n4. 写进报价单和合同的话，哪个数字你敢签？\n\n**二、响应时间**\n现在全站 41 处写「回复时间 12 个工作时」，只有隐私政策页写「12 小时」。\n我已统一成「12 个工作时」，但需要确认：\n\n1. 「12 个工作时」是指工作时间累计 12 小时（约 1.5 个工作日）吗？\n2. 周末、节假日算不算在内？\n3. 如果做不到严格「12 小时内必回」，建议改成「工作日 12 小时内」，更稳。\n\n这两个数字都是对客户的承诺，采购商会拿它排期。写宽了显得慢，写窄了做不到就是失信。麻烦给个准数。",
+    copyLabel: "复制这段话（发给总监）"
+  },
+  {
+    id: "social-links",
+    pri: "P1",
+    title: "🟠 提供公司/个人的真实社媒地址（页脚现在挂的是已停更的公司号）",
+    why: "<b>2026-10-05 船东指出：</b>「公司社媒做的很垃圾，都停更了，用我们自己的社媒地址」。<br><br>页脚 4 个社媒目前指向：<br>· <code>facebook.com/profile.php?id=61590714780155</code>（公司，已停更）<br>· <code>facebook.com/profile.php?id=61590159466072</code>（公司，已停更）<br>· <code>tiktok.com/@weiqiwude</code>（公司，已停更）<br>· <code>linkedin.com/in/harry-hou-wechgood</code>（外贸总监个人号）<br><br><b>为什么这是问题：</b>采购商会点进去看。最后更新停在两年前 → 他会怀疑「这家公司还在运营吗」。<b>停更的社媒比不挂社媒更伤。</b>",
+    how: "<b>① 找船东要他自己在用的社媒地址</b><br>需要这几项（有就填，没有就写「没有」）：<br>· Facebook　<code>https://www.facebook.com/______</code><br>· LinkedIn　<code>https://www.linkedin.com/in/______</code><br>· TikTok　　<code>https://www.tiktok.com/@______</code><br>· Instagram　<code>https://www.instagram.com/______</code><br>· YouTube　　<code>https://www.youtube.com/@______</code><br><br><b>② 原则：只挂「真正在更」的 1-3 个</b><br>对外贸 B2B 的优先级：<br>· WhatsApp　★★★ 必须能用（已修好：<code>wa.me/8613143339397</code>）<br>· LinkedIn　★★★ 欧美采购商真的会看<br>· YouTube　 ★★　工厂视频放这里，比自己站上更有说服力<br>· Facebook　★　　中东/东南亚客户会看<br>· TikTok　　☆　　除非打算认真做内容，否则不如不放<br><br><b>③ 没有的 → 从页脚删掉图标，不要留点不开的链接</b>",
+    copy: "总监你好，网站的页脚现在挂着 4 个社媒链接（2 个 Facebook、1 个 TikTok、1 个 LinkedIn），船东说这些都是公司的旧号、已经停更了，要换成他自己在用的。\n\n麻烦帮我确认一下这几项（有就发链接，没有就说「没有」）：\n\n1. Facebook 主页地址：\n2. LinkedIn 主页地址：\n3. TikTok 主页地址：\n4. Instagram（有吗）：\n5. YouTube（有吗）：\n\n另外说明一下我们的原则：**只挂真正在更新的 1-3 个**。\n采购商点进一个「最后更新停在两年前」的主页，会比看不到社媒更怀疑我们是不是还在正常经营。所以没有在用的，我们会直接从页脚把图标删掉，不留死链。\n\n（顺带告知：WhatsApp 按钮之前全站 11 处都是空的、点不开，已经修好了，现在是 wa.me/8613143339397）",
+    copyLabel: "复制这段话（发给总监）"
+  },
+  {
+    id: "moq-truth",
+    pri: "P0",
+    title: "🔴 确认真实 MOQ（全站已统一成「以报价为准」，等你给数字）",
+    why: "<b>2026-10-04 成交链路体检时发现的严重矛盾：</b><br>· 报价表（唯一权威数据）24 个型号<b>全部写「10 pcs / per model」</b><br>· 而站点 6 个页面 + i18n + data.js 里曾有 <b>约 30 处写着「MOQ 500 pcs」</b><br>· 同时 about 页和 i18n 又写 <b>「MOQ: confirmed on the quote」</b><br><br><b>三个数字并存 → 采购商问「MOQ 大概多少」（第 5 问）时，我们自己都答不一致。</b>小买家看到 500 直接走；细心的买家发现前后矛盾 → 失信任。<br><br>⚠️ <code>data.js</code> 里早有一条注释写着：「OEM 文案以代码为准。云库是旧快照，里面还有<b>未确认的</b> 500 pcs。」—— 说明有人发现过，但没修完。",
+    how: "<b>① 先给一个真实数字（这只有工厂能给）</b><br>三种可能，只有你知道是哪个：<br>· <b>500 pcs 是大货 MOQ</b> → 那报价表里的「10 pcs」是错的（或那是样品量）<br>· <b>10 pcs 是真的</b> → 就按这个写死<br>· <b>两个都对但含义不同</b> → 样品 10、大货 500，<b>必须分开写清楚</b>，不能只写一个数<br><br><b>② 我已经做的（2026-10-04）</b><br>把全站约 <b>39 处「500 pcs」统一改成「以报价为准」</b>（4 种语言一起改），涉及 faq / induction-cookers / infrared-cookers / products / blog×2 / i18n.js / data.js。这是最安全的中间态 —— <b>不会因为写错数字丢客户，也和 about 页一致</b>。<br>装柜量（例如 40HQ 柜 4750 pcs 那种）没动，那不是 MOQ。<br><br><b>③ 拿到真实数字后</b>：告诉我，我把「以报价为准」换成具体数字（一条命令，含 4 语言）。",
+    copy: "麻烦确认一下我们的 MOQ 到底是多少。\n\n现在资料里有三个说法，对不上：\n1）产品报价表里写的是：10 pcs / per model\n2）网站上原来写的是：500 pcs per model\n3）about 页写的是：以报价为准\n\n我先把网站统一成了「以报价为准」，但买家一定会问，所以需要真实数字。\n\n请确认：\n· 样品单最少多少？\n· 大货（贴牌/定制）最少多少？\n· 是不是每个型号一样？\n\n背景：这个数字买方第一句就会问，写错会直接丢单。",
+    due: "广交会 10-15 前（买家当面会问）",
+    effect: "MOQ 数字统一且真实 → 买家问得出确定答案；不会因为写 500 吓跑小买家"
+  },
+  {
+    id: "cert-models",
+    pri: "P0",
+    title: "① 确认 5 份证书覆盖哪些型号（链·第1步）",
+    why: "网站上展示的 CE / EMC / LVD / RoHS / ErP / UKCA 证书，全部只写了 WQ-80xx 系列；而站上在售的是 WQ-28xx / 31xx / X 系列 / YD 系列。买家点开证书会发现型号对不上 —— 这是 B2B 最伤信任的一件事。",
+    how: "把下面这段话发给工厂或认证机构（微信/邮件都行）。他们回一句「覆盖」或「需补测」就够，剩下的我来改网站。",
+    copy: "你好，想确认一下认证覆盖范围。\n\n我们手上有这几份证书：\n· CE（报告号 SYJY20251107021）\n· EMC（SYJY20251107022）\n· UKCA（SYJY20251107023）\n· ErP（TW2306256S）\n· RoHS（CCI251100448ENCER）\n\n证书上写的型号是：WQ-8010、WQ-8020、WQ-8030、WQ-8050、WQ-8060、WQ-8080、AMWQ-001、AMWQ-002。\n\n我们现在在卖的是：WQ-2835A、WQ-2835B、WQ-2835E、WQ-2835G、WQ-3137、WQ-3137 凹面、WQ-A730、WQ-400、WQ-X2、WQ-X9、WQ-X10、WQY-X11、WQ-YD006、HI-3、C21-3150、Built-in 5200W。\n\n请问：\n1. 这批证书覆盖上面这些在售型号吗？\n2. 如果不覆盖，需要补测哪些型号？费用和周期大概多少？\n3. 有没有别的证书文件能覆盖在售型号？",
+    due: "广交会前 <b>10-15</b>，最好 <b>10-10</b> 前拿到答复",
+    effect: "拿到答复后 → 网站认证区表述可定稿，买家问起有底气"
+  },
+  {
+    id: "quote-ready-6-models",
+    pri: "P0",
+    title: "② 锁 6 个主推型号（链·第2步，要等①）",
+    why: "<b>广交会 10-15 开幕（还有 11 天）。买家会来。</b><br><br>而清单实测的状态是：<b>24 个型号的 quote_ready 全是 false，认证映射只有 8/24。</b><br><br>买家站在你面前问「<b>WQ-3137 什么价？有 CE 吗？</b>」—— 你现在答不出确定答案。<b>这一环断了，前面所有流量（来信、进站、约人）全部白费。</b><br><br>这是整条链上唯一「人来了却接不住」的地方。",
+    how: "按《广交会作战清单》的口径，<b>别 24 个全上，先锁 6 个</b>：<br><br><b>① 定 6 个主推型号</b> —— 建议 WQ-2835A（入门）、WQ-3137（主力）、WQ-4310（双灶）+ 2 个红外 + 1 个煮茶器，覆盖不同价位段。<br><br><b>② 逐个核实价格与条款</b>（这项要问工厂/业务，AI 查不到）：FOB 价是否仍有效（产品表里是 <b>2026-08 口径</b>，两个月了）、MOQ（现写 10 pcs/model）、大货交期、包装方式、付款方式。<br><br><b>③ 把这 6 个的认证对上号</b> —— CE / EMC / LVD / RoHS / ErP 各覆盖哪几个型号。<b>这条和上面「确认 5 份证书覆盖范围」是同一件事</b>，一起办，别分两次。<br><br><b>④ 在报价助手里把这 6 个标成 <code>quote_ready</code></b>，然后<b>自己走一遍</b>：输入型号 + 数量 → 出一份 PDF 报价单 → 看着它跑通。<br><br><b>⚠️ 这条要等①</b>：证书覆盖哪些型号没定之前，主推名单纯属猜测 —— 万一选中的都没认证，等于把短板摆在首屏和开发信里。<br><br><b>⑤ 打印一套证书原件带去</b>（文件在 <code>home-appliance-site/certs/</code>：EMC×2、LVD×2、RoHS×2、ErP）。",
+    copy: "你好，广交会快开幕了，有几个型号要赶紧把价格和条款核准，买家当面问的时候我们要答得出来。\n\n麻烦确认这 6 个主推型号：\n① WQ-2835A（入门款）\n② WQ-3137（主力款）\n③ WQ-4310（双灶）\n④ 红外炉（请推荐一个主推）\n⑤ 红外炉（第二款）\n⑥ 煮茶器\n\n每款要四样：\n1. FOB 价（现在还有效吗？表里是 8 月的口径，两个月了）\n2. MOQ（现在写的是 10 pcs/model）\n3. 大货交期（多少天）\n4. 包装方式\n\n另外：这 6 个型号分别有 CE / EMC / LVD / RoHS / ErP 里的哪几个认证？我们证书上写的还是 WQ-80xx 系列，跟现在在卖的对不上，这个也要一起确认。\n\n广交会 10 月 15 号开幕，麻烦这周给我，谢谢。",
+    due: "广交会前 —— 最好 <b>10-10（周六）</b>前拿到，与上面证书那条同一个窗口",
+    effect: "买家问价当场答得出 → 能出正式报价 → 才有机会进「询盘 → 报价 → 成交」。<b>这一步做完，前面所有流量才有意义。</b>"
+  },
+  {
+    id: "hero-product-image",
+    pri: "P0",
+    title: "③ 换首屏主图：放主推里最有代表性的一张（链·第3步，要等②）",
+    why: "<b>【认证 → 主推 → 首屏图】这条链的第 3 步。</b><br><br>现在首屏那张是硬编码的 <code>wp-wq-2835a.webp</code>（WQ-2835A）—— <b>不是主推，是建站时随手选的</b>，没有任何数据或决策依据。<br><br>首屏是访客第一眼看到的东西，等于我们的门面产品。现在三个问题：<br>· 可能是<b>没认证</b>的型号（报价表里 WQ-2835A 认证栏是空的）→ 欧盟买家第一句就问 CE<br>· 那张图<b>背景不干净</b>（灰底 5.5%；四角纯白但照片内部是浅灰渐变）<br>· 只展示<b>一个单头小炉子</b>，而我们是「电磁炉 / 红外炉 / 煮茶器 / 咖啡茶一体机」四条线<br><br><b>船东 2026-10-04 定的顺序：先核实认证 → 再锁主推 → 最后换首屏图。</b>",
+    how: "<b>等②定完 6 个主推型号再做。</b><br><br>要做的事：<br>① 从 6 个主推里挑<b>最有代表性</b>的一个 —— 标准：<b>有认证</b> + 主力价位段 + 一眼看得出品类<br>② 确认这张素材是<b>真白底</b>（不是米色/灰色/场景照）—— 见另一条「产品图要重拍」<br>③ 告诉我型号，<b>我 5 分钟换好</b>（就一行 HTML，不用等工厂）<br><br><b>两个方案，二选一：</b><br>· <b>A. 换一张单图</b> —— 最快，改一行<br>· <b>B. 改成「产品家族」</b> —— 一排 3–4 个不同品类，更能说明「我们能做的品类」，但要多几张白底图（依赖「产品图要重拍」）",
+    due: "等②定完型号后（广交会 10-15 前）",
+    effect: "首屏放对产品 → 访客一眼看到真正主推、且能合规卖的型号；不再拿没认证的货当门面"
+  },
+  {
+    id: "wechgood.com-takeover",
+    pri: "✅",
+    title: "✅ 已完成（2026-10-05）：wechgood.com 已转回公司账号",
+    why: "<b>✅ 2026-10-05 已完成 —— 域名已转回公司账号。</b><br>WHOIS 显示 Updated 2026-10-05 + clientTransferProhibited（刚完成转移的标准状态）；<b>MX 5 条完好无损，邮箱实测可收发（IMAP 42 封 / SMTP 正常）</b>。<br><br><b>★ 但还有三件收尾要做（见 how）：</b>① 查实名认证状态（有时限，超期会 serverHold）② 开自动续费　③ 确认持有者是否已过户到公司。<br><br>────── 以下是当初的问题记录（保留备查）──────<br><b>实测（2026-10-04）：</b><br>· 注册商 = 阿里云（万网），注册 2021-04-07，<b>到期 2027-04-07</b><br>· NS = dns17/dns18.hichina.com（阿里云 DNS），<b>但不在我们当前账号里</b><br>· 邮件正常：MX = mx1/mx2/mx3.qiye.aliyun.com，<b>harry_hou@wechgood.com 在正常收信</b><br>· 网页是坏的：apex <code>http://</code> 返回 <b>HTTP 400</b>，<code>https://</code> 连不上；www 指向一个第三方 cname<br><br><b>🔴 真正的风险不是网页，是邮箱：</b><br>管理权不在手上 → <b>改不了 DNS（网页修不了）</b>，而且 <b>续不了费</b>。<br>2027-04-07 一到，域名掉了，<b>企业邮箱跟着一起死</b> —— 而这是我们所有客户沟通的地址（58 封开发信、所有询盘、Stillstern 那条线全用它）。<br><br><b>这不是「网站不好看」，是「客户联系不到我们」。</b><br><br><b>🕐 时限（船东 2026-10-04 定）：</b>「wechgood.com，我只会替代一年，后面都要用自己的 wechgood.com」<br>→ <b>wechgood.com 只是临时替代，一年后必须切到 .com</b>。而 .com 到期日正是 <b>2027-04-07</b> —— <b>两个时间点对上了，所以「拿回账号」这件事没有延期的空间。</b>",
+    how: "<b>✅ 域名已拿回。当前待办（按紧急度）：</b><br><b>🔴 今天：</b>① 阿里云控制台查「实名认证」状态（若显示未实名，5 天内不补 → serverHold → 网站邮箱同停）② 开自动续费 ③ 确认持有者是否已变更为公司（「转移账号」≠「变更持有者」）<br><b>🟡 本周：</b>④ Cloudflare Pages 加 www.wechgood.com + 阿里云加 CNAME → 让 .com 能开站<br><b>🟢 之后：</b>⑤ 跑 tmp/switch-domain.py --apply + 部署 + 改 _middleware.js 的 CANONICAL → .cn 301 到 .com<br><br><b>⛔ 红线：MX 一个字都不能动</b>（5 条 mx*.qiye.aliyun.com + mxw/mxn.mxhichina.com）<br><b>📁 完整手册：</b>workspace/开发信/wechgood-knowledge/06-crm/域名拿回后行动手册-20261005.md<br><br><b>🎯 拿回的关键（值得记下来）：</b><br>· 查清三方结构：<b>域名持有者=卢万里 / 账号持有人=瑜(Erin) / 实际使用人=公司</b><br>· 之前一直找瑜，但她不是持有人，说「不属于我名下」是事实 → <b>问错了人</b><br>· 话术从「你扫码/给我们登录」改成「你在自己控制台点转移」，她才愿意配合<br>· 同期备齐了证据（Internet Archive 历史存档 + 149 封业务邮件）作为兜底<br><br>────── 以下是当初的排查与流程记录（保留备查）──────<br><b>★★★ 2026-10-04 已查实（决定性）：域名在「瑜」个人名下 ★★★</b><br>已实操走通：阿里云「找回登录名 → 域名」→ 过滑动验证 → <b>身份验证页</b>，拿到全部打码信息：<br><table><tr><td>账号名</td><td><code>eri***81</code></td></tr><tr><td>绑定手机</td><td><code>138******06</code></td></tr><tr><td>绑定邮箱</td><td><code>154***@qq.com</code></td></tr><tr><td><b>实名认证人</b></td><td><b><code>**瑜</code></b></td></tr><tr><td><b>认证类型</b></td><td><b>个人</b>（不是企业认证）</td></tr></table><b>三个直接结论：</b><br>① <b>路径①（阿里云自助找回）走不通</b> —— 找回要收她绑定的手机/邮箱验证码，我们收不到<br>② <b>路径③（95187 企业账号申诉）会更难</b> —— 因为是<b>个人认证</b>，企业要证明「这个账号其实是公司的」，需要更强的证据（缴费记录/合同/发票）<br>③ ✅ <b>路径②（找「瑜」）成为主路</b> —— 她配合是最快、最省事的方式<br><br><b>★ 两个额外可用的手段（同一页面上）：</b><br>· <b>「无法验证？提交申诉 &gt;」</b> —— 身份验证页左侧有这个入口，这是给「拿不到验证方式」的人准备的正规通道，<b>正好对应我们的处境</b><br>· <b>扫脸验证二维码支持分享</b>（有效期约 24 小时）—— 如果「瑜」愿意配合，<b>把二维码发给她扫一下就行，她不用登录</b><br><br><b>⚠️ 我故意没做的动作</b>：<b>没有点「发送验证码」</b> —— 那会给她手机/邮箱发验证码，等于告诉她「有人在动这个账号」。<b>先谈好再说。</b><br><br><b>📁 证据已存档</b>：<code>~/Desktop/wechgood域名找回/打码信息/</code>（4 张截图 + 结论.md）<br><br>──────── 以下是最初的通用流程（仍然适用）────────<br><b>🕐 今天（2026-10-04）已经实测探明的路 —— 三条不是三选一，是「① 先探 → ② 并行 → ③ 兜底」</b><br><br><b>【路径① 阿里云「找回登录名 → 域名」】今天已实测</b><br>· 网址 <code>account.aliyun.com/find_loginid/findLoginId.htm</code><br>· 选「域名」tab → 输入 wechgood.com → <b>过滑动验证</b> → 点「立即找回」<br>· ⚠️ 实测：<b>光输入域名，页面上什么都不显示</b>，必须提交才出结果<br>· ⚠️ 提交后会给她绑定的手机发短信：「您的阿里云登录名是 XXX」（<b>不暴露是谁在查</b>，所以风险低；但若想完全不打草惊蛇，就直接走②）<br>· ⚠️ 那个滑块<b>有反自动化检测</b>，脚本拖不过去 —— <b>必须人工拖一下</b><br>· <b>看结果决定走哪条</b>：<br>　　<b>公司手机 / 公司邮箱</b> → 路径① 直接通，公司自己能找回<br>　　<b>y***@... / 私人手机</b> → 自助走不通，<b>必须走路径②</b><br>· 📁 页面已留在可控 Chrome（域名已填好，标签页没关）；截图在 <code>~/Desktop/wechgood域名找回/</code><br><br><b>【路径② 找注册人「瑜」】和路径① 并行，别等</b><br>· 话术见下方「复制这段话发工厂」，<b>全程不提法律</b> —— 第一封的目的是让她愿意配合<br>· 两种话术：<b>她只是账号持有人</b>（请她帮忙转移）／<b>账号本来就是她的</b>（请她协助找回）<br><br><b>【路径③ 95187 咨询】是咨询，不是直接申诉</b><br>· 第一通电话的目标不是申诉，是<b>问清流程要什么材料</b><br>· 阿里云有<b>三套不同的流程，别搞混</b>：<br>　　<b>账号申诉</b> ← 营业执照 + 法人身份证 + <b>域名缴费记录/合同</b> + 邮箱往来证据<br>　　<b>域名持有者信息修改（过户）</b> ← 需要<b>原持有者在控制台确认</b><br>　　<b>域名争议 UDRP</b>（.com 适用）← 需要<b>商标权</b> + 对方恶意注册/使用<br>· ★ <b>证据清单现在就备好</b>（别等要用才找）：<br>　　① 营业执照（广东韦奇伍德）<br>　　② 法人身份证明<br>　　③ ★ <b>域名缴费记录 / 发票 / 合同</b> —— 谁能证明「钱是公司付的」，谁就占理<br>　　④ ★ <b>harry_hou@wechgood.com 的业务往来邮件</b>（证明公司在实际使用这个域名）<br>　　⑤ <b>商标</b>（如果有）—— 这是 UDRP 的门票<br>　　⑥ 与「瑜」的沟通记录（友好协商过的证据）<br><br><b>【★ 路径④ 今天新发现：WHOIS 页的「委托购买」】</b><br>· <code>whois.aliyun.com/domain/wechgood.com</code> → 页面上有「<b>委托购买</b>」入口<br>· 注册人邮箱被隐藏（显示「如要进行联系，请在线填写信息」）<br>· 这是<b>阿里云做中间人</b>去联系域名持有人的正规通道 —— <b>不用直接对峙</b>，可以走这条路试探对方意愿和价格<br><br><b>⛔ 三条红线（动手前必记）</b><br>① <b>不能动 MX 记录</b> —— 邮箱正跑在上面（mx1/mx2/mx3.qiye.aliyun.com + mxw/mxn.mxhichina.com），一动，harry_hou@wechgood.com <b>立刻收不到客户信</b><br>② <b>不能动 NS / 解析</b> —— 官网和邮箱会一起挂<br>③ <b>不要做「域名转出」</b> —— 需要转移密码，且转出后有 <b>60 天转移锁</b>，反而更难操作<br><br><b>✅ 一旦拿到账号，第一件事不是改东西，是：</b><br>① 确认续费状态 → ② 打开自动续费 → ③ 加安全设置（密保/二次验证）→ ④ 才谈过户到公司账号<br><b>先保命，再装修。</b><br><br><b>──────── 拿回管理权之后 ────────</b><br>· ⚠️ <b>MX 记录一个字都不能动</b><br>· 把 apex 和 www 的解析指向 <code>wechgood-site.pages.dev</code>，在 Cloudflare Pages 加自定义域 wechgood.com → 之后 .com 和 .cn 都能开站<br><br><b>【一年后切域名】工具已备好</b><br>· <code>tmp/switch-domain.py</code>：<b>默认预演</b>，加 <code>--apply</code> 才真改（自动备份）<br>· 实测会改 <b>17 个文件、约 248 处</b>，全是 <b>URL 字段</b>，<b>不碰散文</b><br>· 脚本管不了的三步：部署 → Cloudflare Pages 加自定义域 → 阿里云 DNS 指过去（<b>MX 不动</b>）<br>· 切换后 wechgood.com 建议 <b>301 到 .com</b>，改 <code>_middleware.js</code> 的 CANONICAL 即可<br>· ⚠️ 部署必须 <code>cd tmp/pages-staging &amp;&amp; wrangler pages deploy .</code>，否则 functions/ 被静默丢掉（用 <code>tmp/deploy.sh</code>）",
+    copy: "【★ 主推 · 发给「瑜」的微信/短消息】\n\n瑜，你好。我是广东韦奇伍德电器科技有限公司的 ___。\n\n有件小事想麻烦你一下 —— 关于 wechgood.com 这个域名。\n\n它是 2021 年 4 月注册的，当时应该是用你个人的阿里云账号办的（现在域名信息里实名认证人显示是你）。这几年公司的企业邮箱和官网都一直挂在这个域名上跑。\n\n现在碰到一个实际问题：域名的管理后台不在公司账号里，我们改不了解析、也续不了费。域名 2027 年 4 月到期，一旦断了，公司的邮箱会跟着停，海外客户的往来邮件就全断了。\n\n想请你帮忙把它转到公司账号下。操作其实很简单：\n阿里云控制台 → 域名 → 转移至其他阿里云账号 → 填我们给你的账号 ID\n（不需要转移密码，几分钟就好）\n\n转移的费用公司出。如果当年注册或续费是你自己掏的钱，也请一定告诉我，一并补给你。\n\n如果你那边操作不太方便，我也可以远程协助，或者电话里一步步带你走。\n\n你看什么时候方便？我的电话/微信：___\n\n────────────────────\n\n【她回「我早就不在那了 / 账号找不到了」时——不要施压，换成帮忙的姿态】\n\n明白，不麻烦你太多。其实就是想请你帮个小忙：\n\n你可以试一下用手机号 138****06 或邮箱 154***@qq.com 登录阿里云。如果还能登进去，我这边可以一步步告诉你点哪里（就几步），或者你把页面截图发我，我告诉你点哪个按钮。\n\n如果实在登不进去了，也没关系，你跟我说一声就行 —— 我们再想别的办法。\n\n另外想问一下：当年注册的时候，是不是公司同事让你用自己账号办的？如果你还记得当时的情况，对我们也有帮助。\n\n────────────────────\n\n【她愿意配合但登不进账号时——两个不需要密码的办法】\n① 她收验证码念给你（「找回登录名/密码」页面）\n② 让她扫「扫脸验证」的二维码（支持分享，约 24 小时有效，她不用登录）\n\n────────────────────\n\n【⚠️ 三条纪律】\n① 绝不提法律、不提申诉、不提 95187、不提 UDRP —— 一提就变成对抗\n② 不指责、不追究「为什么在你名下」—— 当年很可能就是公司让她用自己账号办的，很正常\n③ 把操作说得越简单越好，并主动提出「我全程带你走」—— 她的心理成本越低，配合概率越高\n\n【发送建议】\n· 先发微信/短消息（短、压力小、容易回），不要一上来就打电话\n· 工作时间发（她在国内：上午 10 点或下午 3 点）\n· 用真实姓名和职务 —— 前员工对「公司里谁在找我」很敏感，实名能降低戒心\n· 不要群发、不要找第三人转达\n· 三天没回 → 换渠道（电话 / 她原来的同事转达），不要重复发同样的话\n· ★ 用邮件再发一份 —— 万一以后要走争议程序，这是「我们友好协商过」的证据\n\n完整版（含正式邮件版）见：workspace/开发信/wechgood-knowledge/06-crm/给瑜的信-最终版-20261004.md",
+    due: "🔴 <b>本月内查清账号归属</b>（到期 2027-04-07，但越早越好）",
+    copyLabel: "复制这段话（发给「瑜」）",
+    effect: "拿回域名 → 网页能修（.com 比 .cn 更被海外买家信任）、邮箱续费有保障；最新底线是「至少保住邮箱不断」"
+  },
+  {
+
+    id: "stillstern-sample-photos",
+    pri: "P0",
+    title: "🚨 Stillstern：确认他收到照片了没有（10-03 23:07 我们发过 10 张图）",
+    why: "Stillstern 是<b>年采购 20-25 个 40'HQ 柜</b>的真实买家。<b>09-10 已付样品款</b>，09-16 说「You can send the sample」。<br><br>关键时间线（<b>10-04 复核后修正</b>）：<br>· <b>09-25</b> 他们问「any updates on the induction cooker sample?」<br>· <b>10-03 23:07</b> 我们回了信，<b>带 10 张样品照片</b>（9.4MB：temp4cj.png ×2 + att00001.jpg + att00002–09.png）<br>· <b>10-03 23:21</b>（<b>14 分钟后</b>）他们回：「please send me the photos first so I can review the design」<br><br><b>16 分钟差 = 两封邮件在路上错过了</b> —— 他多半是在我们那封到达之前就写了。<br><br>所以这<b>不是「客户被晾着」，是「要确认他到底收到没」</b>。",
+    how: "先别急着道歉。<b>回一封很短的信，确认照片到没到</b>：<br><br>① 说明我们 10-03 已发过 10 张照片（列出文件名，他好找）<br>② 问是不是进了垃圾箱 / 附件被拦<br>③ <b>重新附一次</b>（或换成更小的图 / 放到网盘并给链接）<br>④ 顺便回答他 09-13 提的两个设计点：<b>银色 ✅、方形前板 ✅</b><br><br>同时确认：<b>09-10 那笔样品款对应的样品，现在是否能发？</b>他说过「等我邮件再寄」，09-16 已经说了可以寄。",
+    copy: "Stillstern 那边麻烦确认两件事：\n\n1）我们 10-03 晚上发过一封带照片的信（10 张图：temp4cj.png、att00001.jpg、att00002-00009.png），客户 14 分钟后回说「先发照片」—— 可能是两封在路上错过了，也可能是附件被他的邮箱拦了。需要重发一次，或者把图压小、或放网盘给链接。\n\n2）09-10 客户就付了样品款，09-16 说「You can send the sample」。请确认样品现在能不能发，以及是发金色的现货，还是等银色方形版本。\n\n背景：这家年采购 20-25 个 40'HQ 柜，是我们最大的潜在客户之一。",
+    due: "🔴 <b>今天</b> —— 客户 10-03 晚上写的，别让那 14 分钟的错过拖成第二次误会",
+    effect: "确认照片到达 → 客户确认设计 → 样品放行 → 这条线继续（他现在是最热的单）"
+  },
+  {
+    id: "reply-inhand",
+    pri: "P0",
+    title: "🚢 回货代 Jenny（in-hand）：10-08 截补料，10-09 配船",
+    why: "上海愔浩国际货运代理的 <b>Jenny</b> 来信要求补料，邮件里明确写了时间点：<br><br>「请查收SO，<b>10月8号12点截补料</b>，谢谢。按目前船期，<b>预配9号出口，5号开仓</b>」<br>主题：<code>ht2609276 ss261141 //IMP FCL / ELECTRO / 20 / FOB / CHINA - BEIRUT / HK</code><br><br><b>已经等了 3 天没人回。</b>shipments 的事有时效 —— 截补料过了就要等下一班船。",
+    how: "① 打开收件箱找 Jenny 那封（发件人 <b>jenny@in-hand.com.cn</b>）<br>② 看 SO（订舱单）和要求的补料清单<br>③ <b>10-08 12:00 前</b>把补料给她<br>④ 回信确认收到、说明何时补<br><br>⚠️ 这条不是客户线，是出货线 —— 但<b>误了船期一样是钱</b>。",
+    due: "🔴 <b>10-08 12:00 前</b>（截补料）",
+    effect: "赶上 10-09 那条船；再拖就要等下一班"
+  },
+  {
+    id: "reply-queue-owner",
+    pri: "P1",
+    title: "✅ 已定：回信每天由 DeepSeek 扫（2026-10-04 船东选 A）",
+    why: "机制已上线，不用你再操心发现环节：<br>· 扫描器 <code>tmp/scan-reply-queue.py</code>（<b>只读</b>，不发信不删改不标已读）<br>· 看板 <b>http://localhost:8123/replies</b><br>· 例行已写进 <code>HEARTBEAT.md</code>：<b>每天至少扫一次，有 P0 立刻在会话里报你</b><br><br>分级：P0 = 已付款/在执行客户 · 有放弃信号 · 等 ≥7 天；P1 = 等 3–6 天或已知客户；P2 = 其余。<br>已排除：服务商通知、<b>自动回复（各语言按词根 automat- 匹配）</b>、营销邮件、医院发票。<br><br><b>剩下一件事在你这边：回信要你点头</b>（「我来回」或「你先起草」）—— 发信红线不变。",
+    how: "不用做什么。每天我扫完，有 P0 会主动报你。<br><br>如果你想自己看一眼，打开 <b>http://localhost:8123/replies</b>。<br><br>⚠️ 2026-10-04 新增经验：<b>域名/SEO 推销线程会被误判成客户</b>（例：Callum「RE: jinhuatech」其实是在卖域名）—— 扫描器已加 <code>SOLICIT</code> 规则降到 P2。",
+    due: "已生效",
+    effect: "付了钱的客户不会再被拖；未回信当天就会被发现"
+  },
+  {
+    id: "product-photos-reshoot",
+    pri: "P0",
+    title: "📷 产品图要重拍：白底 + 产品完整（26 张卡图里 16 张底色不是白）",
+    why: "船东看到 <b>3500W 双头电磁炉</b>（wp-wq-4310）的卡图不对，我逐张量了 26 张产品卡图：<br><br>· <b>16 张底色不是白</b>（灰/米色渐变，最差 29%）<br>· <b>多张产品在源图里就被裁掉了</b>（wp-wq-4310 右边那台炉子缺角）<br>· <b>5 张是把「场景图/营销图」当产品卡图用</b>（木桌厨房背景 + 图上还压着文字）<br><br>⚠️ <b>关键：产品被裁掉的图和场景图，软件修不回来</b> —— 源图里就没有那段像素。<br>我试过自动裁切 + 白点校正：构图能改善，但米色底和缺角救不回来。<br><br>最典型的一张（wp-wq-4310）我拆开看过：它是一张<b>米色背景的棚拍照片，被贴到白色方画布上</b>，右边炉子顶到照片边缘被切。",
+    how: "<b>要工厂按下面规格重拍</b>（手机也能拍，关键是背景和留白）：<br><br>① <b>背景纯白</b> —— 白墙、白纸或白色背景布，不要米色/灰色/木纹<br>② <b>产品完整入镜</b> —— 四周各留 10% 空白，<b>任何部位都不许切</b>（重点：wp-wq-4310 的右边炉子）<br>③ <b>正面为主</b>，可加一张 45° 侧角；不要用手拿着拍<br>④ <b>光线均匀</b>：白天靠窗，别开闪光灯（会有硬阴影）<br>⑤ <b>正方形 1:1</b>，长边至少 1600px，原图发我（微信别压缩）<br>⑥ <b>图上不要加任何文字/logo/水印</b>（营销文案我们自己在网页上做）<br><br><b>另外首页「场景卡」那 4 张也要拍</b>（船东 10-04 指出「都不是白底图」）：<br>· <b>双头电磁炉</b>（Magnetic-pot kitchens）—— 现在是米色棚拍贴白画布，中间一块米色<br>· <b>煮茶器</b>（Tea service）—— 现在是摆在<b>木纹桌面</b>上拍的，要白底单独特写<br>· <b>咖啡茶一体机</b>（Coffee and tea in one unit）—— 现在整张是<b>厨房场景照</b>，要白底产品照<br>· 红外炉（Mixed cookware）那张可以，不用重拍<br><br><b>优先拍这 6 个（问题最重的）：</b><br>· <b>wp-wq-4310</b> 双头电磁炉（缺角 + 米色底）<br>· <b>wp-tea-steam</b> 蒸汽煮茶器（底 29% 不是白）<br>· <b>wp-tea-auto</b> 自动煮茶器（底 13.6%）<br>· <b>wp-c21-3150</b>（产品只占 22%，太小）<br>· <b>wp-wq-yd006</b>（整幅是场景图，产品占 98%）<br>· <b>wp-wq-x10-specs</b>（是规格图，不是产品照）<br><br>其余 10 张（灰底 3.5–6.8%）可以第二批。",
+    copy: "产品图麻烦重拍一批，现在网站上的有几张不合格，客户能看到。\n\n规格要求：\n① 背景必须纯白（白墙/白纸/白背景布），不要米色、灰色、木纹\n② 产品完整入镜，四周各留 10% 空白，任何部位都不许切掉\n③ 正面为主，可加一张 45 度侧角\n④ 白天靠窗拍，光线均匀，不要开闪光灯\n⑤ 正方形 1:1，长边至少 1600 像素，原图发我（微信不要压缩）\n⑥ 图上不要加任何文字、logo、水印\n\n优先拍这 6 个：\n1. 双头电磁炉 wp-wq-4310（现在右边炉子被切掉了，底还是米色的）\n2. 蒸汽煮茶器 wp-tea-steam\n3. 自动煮茶器 wp-tea-auto\n4. wp-c21-3150（产品在图里太小）\n5. wp-wq-yd006（现在用的是场景图）\n6. wp-wq-x10 的规格图\n\n背景：这些图会直接放在网站上给外国买家看，白底是行业标准，米色底看起来像二手货。",
+    due: "10-15 广交会前（买家会对着网站看图）",
+    effect: "卡图统一白底、产品完整 → 网站观感专业；广交会见客户时可以直接打开网站给他们看"
+  },
+  {
+    id: "wechat-unblock",
+    pri: "P1",
+    title: "📱 微信把 wechgood.com 拦了 —— 点「申请恢复访问」（只有你能点）",
+    why: "<b>现象（船东 2026-10-04 13:43 截图）：</b>微信里打开 wechgood.com 出现「无法确认该网页的安全性，请谨慎访问」，带「申请恢复访问」按钮。<br><br><b>实测诊断（站点本身没问题）：</b><br>· ✅ 证书正常：Google Trust Services，wechgood.com，有效到 2027-01-01<br>· ✅ 跳转正常：http→https 301、www→apex 301（标准做法）<br>· ✅ 页面无风险代码：eval / document.write / atob / iframe / 内联 js 全部 0 处<br><br><b>→ 问题在「域名 + 托管」的组合：</b><code>.cn 域名 + 无 ICP 备案 + 海外托管（Cloudflare）</code>，这是微信风控最常见的特征。次要因素：域名新、无访问历史、<code>/s/&lt;id&gt;</code> 短链 302 跳转。<br><br><b>影响范围：</b>海外买家不受影响（他们用 WhatsApp / 邮件 / LinkedIn）；<b>但在微信里发站给国内的人（合作伙伴 / 工厂）会被这个页面拦住。</b>",
+    how: "<b>① 立刻做（只有你能操作）</b><br>· 在微信里打开 wechgood.com，点页面下方的 <b>「申请恢复访问」</b><br>· 按提示填：网站用途（佛山家电工厂官网，展示产品与联系方式）、主体（公司名）、联系方式；说明「无违规内容、无诱导分享、无外链跳转站」<br><br><b>② 如果申诉不通过（有可能，因为根因是未备案）</b><br>· 换 <code>wechgood.com</code> —— <b>.com 不受「必须备案」的预期约束，风控概率低得多</b><br>· 但在拿回 .com 管理权之前，只能先用着 .cn<br><br><b>③ 减少风控诱因（我可以做）</b><br>· 检查 <code>/s/&lt;id&gt;</code> 短链是否必要 —— 短链 302 是风控敏感行为，影响不大可以改成直接带参数<br>· 确认站点没有任何第三方跳转、弹窗、诱导分享<br><br><b>④ 长期（和域名策略同一条线）</b><br>这就是为什么 .cn 只能当临时方案：<b>① 海外买家更认 .com；② .cn 未备案 + 海外托管 → 微信会一直拦。</b>",
+    due: "今天先点一次申诉（5 分钟）；长期随 wechgood.com 一起解决",
+    effect: "微信里能正常打开 → 国内转发、给合作伙伴看站不再被拦；同时也给「拿回 .com」加了一条硬理由"
+  },
+  {
+    id: "ecs-renew",
+    pri: "P0",
+    title: "🔴 阿里云服务器续费（11-03 到期）—— <b>建议 10-08 办</b>",
+    why: "询盘接口（<code>api.wechgood.cn</code>）和报价服务都在这台机器上（新加坡 ECS，¥39/月）。<b>到期就全停：独立站表单一提交就失败，询盘不落盘。</b><br><br><b>为什么不能拖到临近：</b>到期日 <b>11-03 正好落在广交会窗口（10-15 ~ 11-04）里面</b>，而且只比 Day 30 死线（11-02）<b>晚一天</b>。真出支付问题，砸的正好是整个约人窗口的尾段 + 一年的死线。<br><br>阿里云<b>可以提前续费，续期从原到期日顺延，早办零代价。</b>",
+    how: "<b>建议 10-08（周四，国庆假期后第一个工作日）就办</b>，最晚不超过 10-10。<br><br>为什么是这天：<br>· 10-04 是周日、10-05~10-07 大概率还在假期 → 出问题找人难<br>· 10-08 是假期后第一个工作日 → <b>支付/账户有问题当天能解决</b><br>· 距广交会开幕还有 <b>7 天</b>缓冲，距到期日 <b>26 天</b>，极安全<br><br><b>办的时候顺手做两件：</b><br>① <b>打开自动续费</b>（阿里云支持）—— 明年不用记<br>② 续费后<b>在手机日历加一个「到期前 30 天」的提醒</b> —— 自动续费也会因为余额不足/支付失败而失效<br><br><b>续多久：建议 1 年（¥468）</b>。业务还在验证期（金骅自己的 FDE 成交 = 0），1 年的灵活性够；金额小，不占现金。<br><br><b>续完只验证一件事</b>：<code>curl https://api.wechgood.cn/api/health</code> 返回 200。<b>不要往表单 POST 测试数据</b>（会进生产库 + 发确认信）。",
+    due: "<b>建议 2026-10-08（周四）</b>｜最晚 10-10｜到期日 11-03",
+    effect: "整个广交会窗口 + Day 30 死线期间，站点和询盘管道不断线"
+  },
+  {
+    id: "reply-domainsolicit",
+    pri: "P2",
+    title: "（非客户）Callum 的域名推销 —— 一句话回绝或直接不管",
+    why: "<b>已核实：他不是客户。</b><br><br>主题 <code>RE: jinhuatech</code>，正文：「This is maybe our last follow up, but in case you just not interested, <b>just ignore it again</b>」—— 这是<b>卖域名</b>的推销，不是产品询盘。<br><br>这条线 <code>HEARTBEAT.md</code> 里早就记过：「jinhuatech.com 线程（域名出售邀约 Callum Parker，<b>非产品询盘</b>），该线程后续新 uid 一律按域名邀约处理，<b>勿按询盘格式</b>」。<br><br>我第一版扫描器把他误判成「客户已放弃」，已修。",
+    how: "两个选择：<br><br><b>A. 不管</b> —— 他自己说了「just ignore it again」，那就真的忽略。<br><b>B. 一句话回绝</b> —— 「Thanks, we are not in the market for this domain.」然后结束。<br><br>建议 <b>A</b>：回他等于确认邮箱有效，可能招来更多推销。",
+    due: "不急（他自己说了可以忽略）",
+    effect: "清掉一条假警报，不会再去追一条不存在的客户线"
+  },
+  {
+    id: "mail-pw-rotate",
+    pri: "P2",
+    title: "🔑 重置企业邮箱专用密码（<b>可以不做</b>·不紧急）",
+    why: "<b>2026-10-04 的判断：优先级低，搁置。</b><br><br>起因是这个专用密码在排查邮件时被打印进了会话输出，当时建议重置。但后来查清：<b>真正的暴露面不是会话记录，而是配置文件里存的是明文</b>（<code>~/wechgood/config.json</code>、<code>/opt/wechgood/smtp-config.json</code>、<code>workspace/auto-inquiry/config.json</code>）。<b>能看到会话记录的人，本来就能直接读这些文件。</b><br><br>而且<b>重置治标不治本</b> —— 新密码还是明文放回同一个文件，暴露面一点没变。<br><br><b>重置的代价却是实打实的</b>：手机邮箱 App、Foxmail / Outlook 全部掉线要重新配；服务器 + 本地 + 工具链三处要同步，改的窗口里收发信是断的。",
+    how: "<b>更对症的替代（10-04 已做）：把明文凭据文件的权限从 644 收到 600</b><br>已改：<code>~/wechgood/config.json</code>、<code>~/wechgood/.env</code>、<code>workspace/auto-inquiry/config.json</code>、服务器 <code>/opt/wechgood/smtp-config.json</code>。<br>这防的是「文件被读」，比重置更直接，而且零副作用（不需要任何客户端重配）。<br><br><b>真要重置时怎么做：</b>阿里邮箱网页版 → 设置 → 安全设置 → 客户端专用密码 → 重置，然后把新密码给 DeepSeek，一次改完三处并验证（IMAP 登录 + 发一封测试信到总监自己邮箱）。<br><br><b>⚠️ 浏览器 agent 做不了这个</b>：它跑在一次性临时配置里（<code>/tmp/cdp-profile-*</code>，实测 <b>0 cookie</b>），永远看到登录页。<b>必须你本人操作。</b>",
+    due: "不紧急 —— 想到再办",
+    effect: "记录在案。因为真正对症的是权限收紧，这条可以长期挂着不做"
+  },
+  {
+
+    id: "v1-30-send",
+    pri: "P1",
+    title: "V1 首批 30 封信：按日程发（10-06 周二起，每天 5 封）<b>✅ 前置已完成</b>",
+    why: "<b>✅ 前置已完成（10-04 15:00）：5 个发送器的 Date + Message-ID 全部补上并端到端验证过。</b><br><br>30 家公司、30 个决策人、30 封对口信已经全部备好，包括<b>每家的时区发送窗口</b>。<br><br>开发信必须落在<b>对方当地 08:30–09:30</b>（收件箱顶部）—— 同一时刻群发，德国人在睡觉、美国人在下班。所以非洲、欧洲、美洲不能一起发。",
+    how: "日程表已排好（见 <b>V1发送日程-20261003.csv</b>），每天 5 封，按我们这边的时间发：<br><br>· 欧洲客户 → <b>我们这边 14:30</b><br>· 英国 → <b>15:30</b><br>· 美国东部 → <b>20:30</b>（要定时发送）<br>· 澳洲 → <b>05:30</b>（要定时发送）<br><br>首封 5 封（10-06 周二）已经写好了正文，在 <b>开发信-第一批5封-接续跟进</b> 里。剩下 25 封我按同样套路写。<br><br><b>发信要你点头</b> —— 你说发，我就把当天的信整理成可直接复制的一版。",
+    due: "10-06（周二）14:30 起，每天 5 封",
+    effect: "漏斗顶端开始进真实客户 → 出第一批真实回复 → 进 wechgood.com → 进飞书 CRM"
+  },
+  {
+
+    id: "smartwares-followup",
+    pri: "P1",
+    title: "10-09 是 Smartwares 的跟进日（Day 1 那封的跟进信）",
+    why: "<b>2026-10-02</b> 我们发了第一封真实陌生开发信给 <b>Smartwares Group</b>（荷兰，Tristar / Princess 品牌方）的采购总监 <b>Juriaan Ronkes</b>，主题「Additional source for your Tristar induction cookers」。<br><br>发送记录里写明了：<b>若 10-09 仍无回复，发跟进 1</b>（切入点是他们的 Princess 303031）。<br><br>首封按当时的规矩<b>没带网站地址</b>；跟进信可以带上（用 <b>wechgood.com/s/smartwares</b> 追踪短链，客户一点我们就知道是他）。",
+    how: "跟进信正文我已经写好了（在 <b>开发信-第一批5封</b> 文件里，第 1 封）。<br><br>10-09 那天：<br>① 先确认他回没回（我扫收件箱）<br>② 没回 → 用「回复」发跟进信，<b>带 wechgood.com/s/smartwares</b><br>③ 回了 → 直接进报价流程<br><br>发送窗口：荷兰 → <b>我们这边 14:30</b>。",
+    due: "<b>2026-10-09</b>（周五）",
+    effect: "让第一封开发信不白费 → 拿到第一个真实回复 → 第一个真实询盘"
+  },
+  {
+
+    id: "customers-dm-fields",
+    pri: "P1",
+    title: "客户总库 111 家：补 D/E 分级和「当前客户关系」",
+    why: "我把 111 家客户按 A/B/C/N 分好了 —— 但 <b>D（已成交/老客户）和 E（无效/过期）我一家都判不出来</b>。<br><br>因为我的证据只有邮箱：<b>合同、订单、收款记录不在我能读的范围</b>。客户是不是已经倒闭、换了供应商、不再做这个品类 —— 只有跟过的人知道。<br><br>另外邮箱里 <b>52 个客户文件夹是空的</b>（归档没做全），真实往来可能比我能看到的多。",
+    how: "打开飞书 <b>「外贸客户总库」</b>表，让总监过一遍这 111 家，重点补三列：<br><br>· <b>清洗分级</b> —— D（老客户）还是 E（无效）<br>· <b>当前客户关系</b> —— 有没有在谈？还值不值得开发？<br>· <b>历史开发记录</b> —— 他记得的、邮箱里没有的往来<br><br>表里已经有 A/B/C/N 分级和依据，他只需要改不对的那几行，不用从头填。",
+    due: "10-15 广交会前",
+    effect: "历史资产盘清 → 不会把老客户当新客户开发，也不会浪费时间去碰已经死掉的名单"
+  },
+  {
+
+    id: "white-bg-product-photos",
+    pri: "P1",
+    title: "提供 2 张白底产品照（茶饮机 + 咖啡茶一体机）",
+    why: "首页「Our Solutions」4 张卡片里，前两张已是干净白底产品图，但茶饮机和咖啡茶一体机全站找不到白底照 —— 只有场景图、营销海报和线稿，风格和其他两张不统一。",
+    how: "手机拍就行，不用专业设备：<br>① 找一面白墙或在桌上铺一张白纸<br>② 产品放中间，正面朝向镜头<br>③ 白天靠窗拍（光线均匀，别开闪光灯）<br>④ 茶饮机、咖啡茶一体机各拍一张<br>⑤ 微信发我<b>原图</b>（别用压缩过的）<br>我会统一裁成同一规格的白底图。",
+    due: "广交会前 <b>10-15</b>",
+    effect: "4 张卡片风格统一，首页更好看"
+  }
+];
+
+const SHEET = 'director';
+let API = null, ST = {};
+function lsLoad() { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { return {}; } }
+function load() { return ST; }
+function save(o) { ST = o; try { localStorage.setItem(KEY, JSON.stringify(o)); } catch (e) {} }
+
+function setRec(html, kind) { const e = document.getElementById('rec-status'); if (!e) return; e.innerHTML = html; e.className = 'rec' + (kind ? ' ' + kind : ''); }
+function apiDiscover(cb) {
+  const c = ['', 'http://127.0.0.1:8097']; let i = 0;
+  (function next() {
+    if (i >= c.length) { cb(null); return; }
+    const b = c[i++];
+    fetch(turl(b + '/api/todo/ping'), { cache: 'no-store' })
+      .then(r => r.ok ? r.json() : null)
+      .then(j => { if (j && j.ok) cb(b); else next(); })
+      .catch(() => next());
+  })();
+}
+function apiPull(cb) {
+  if (API === null) { cb(null); return; }
+  fetch(turl(API + '/api/todo/' + SHEET), { cache: 'no-store' })
+    .then(r => r.json()).then(j => cb((j && j.items) || {})).catch(() => cb(null));
+}
+function apiPush(id, checked) {
+  if (API === null) { setRec('⚠️ 只是浏览器记住了 —— 没连上登记服务', 'warn'); return; }
+  fetch(turl(API + '/api/todo/' + SHEET), {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id: id, checked: checked, who: '总监' })
+  }).then(r => r.json()).then(j => {
+    if (j && j.ok) setRec('✅ 已记录：<b>' + j.id + '</b> ' + (j.checked ? '勾选' : '取消') + ' ' + j.at, 'ok');
+    else setRec('⚠️ 保存失败', 'warn');
+  }).catch(() => setRec('⚠️ 保存失败（登记服务没响应）', 'warn'));
+}
+
+function render() {
+  const st = load();
+  document.getElementById("count").textContent = ITEMS.length;
+  document.getElementById("list").innerHTML = ITEMS.map(it => {
+    const done = !!st[it.id];
+    return `<div class="item ${it.pri === 'P1' ? 'p1' : ''} ${done ? 'done' : ''}">
+      <div class="row">
+        <input class="chk" type="checkbox" data-id="${it.id}" ${done ? 'checked' : ''}>
+        <div style="flex:1">
+          <p class="ttl">${it.title}<span class="tag ${it.pri.toLowerCase()}">${it.pri}</span></p>
+          <p class="why">${it.why}</p>
+          <div class="how"><b>怎么做</b><br>${it.how}</div>
+          ${it.copy ? `<pre id="c-${it.id}">${it.copy.replace(/</g,'&lt;')}</pre>
+            <button class="copy" data-copy="${it.id}" data-label="${it.copyLabel || '复制这段话发工厂'}">${it.copyLabel || "复制这段话发工厂"}</button>` : ''}
+          <div class="due">截止：${it.due}　·　${it.effect}</div>
+        </div>
+      </div>
+    </div>`;
+  }).join("");
+
+  document.querySelectorAll(".chk").forEach(cb => {
+    cb.addEventListener("change", () => {
+      const s = load(); s[cb.dataset.id] = cb.checked; save(s); render();
+      apiPush(cb.dataset.id, cb.checked);
+    });
+  });
+  document.querySelectorAll("[data-copy]").forEach(b => {
+    b.addEventListener("click", () => {
+      const t = document.getElementById("c-" + b.dataset.copy).innerText;
+      navigator.clipboard.writeText(t).then(() => {
+        const lb = b.getAttribute("data-label") || "复制这段话发工厂"; b.textContent = "已复制 ✓"; setTimeout(() => b.textContent = lb, 1800);
+      }).catch(() => { b.textContent = "请手动选中复制"; });
+    });
+  });
+}
+
+(function () {
+  const el = document.getElementById("cd-fair");
+  const days = Math.ceil((new Date("2026-10-15T00:00:00+08:00") - new Date()) / 86400000);
+  el.textContent = days > 0 ? ("还有 " + days + " 天") : (days === 0 ? "今天开幕" : "已开幕");
+})();
+
+apiDiscover(b => {
+  API = b;
+  if (API === null) {
+    ST = lsLoad(); render();
+    setRec('⚠️ 没连上登记服务，勾选<b>只存在这个浏览器里</b>。请从桌面入口打开本页（会同时起登记服务）。', 'warn');
+    return;
+  }
+  apiPull(items => {
+    if (items === null) { ST = lsLoad(); render(); setRec('⚠️ 读取记录失败', 'warn'); return; }
+    ST = {};
+    Object.keys(items).forEach(k => { const v = items[k]; ST[k] = (v && typeof v === 'object') ? !!v.checked : !!v; });
+    render();
+    const n = Object.keys(ST).filter(k => ST[k]).length;
+    setRec('✅ 勾选<b>已记录到本机文件</b>（<code>workspace/待办登记/data/' + SHEET + '.json</code> ｜ 历史 <code>' + SHEET + '-history.jsonl</code>）　已勾选 <b>' + n + '</b> 项', 'ok');
+  });
+});
+</script>
+</body>
+</html>
