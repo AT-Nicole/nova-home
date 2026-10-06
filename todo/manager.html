@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>店长待办 · 潮汕牛肉饭</title>
+<style>
+  :root{
+    --ink:#15171a; --muted:#5c636d; --faint:#8b929c;
+    --line:#e2e5e9; --soft:#f7f8f9;
+    --accent:#b0441f; --good:#1f7a4d; --good-soft:#eef7f2; --warn:#a8730f;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; padding:44px 20px 80px; background:#fff; color:var(--ink);
+    font:16px/1.6 -apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;
+    -webkit-text-size-adjust:100%;
+  }
+  main{max-width:720px;margin:0 auto}
+
+  .eyebrow{font-size:11.5px;color:var(--muted);letter-spacing:.12em;font-weight:600;margin:0 0 6px}
+  h1{font-size:25px;line-height:1.25;font-weight:600;letter-spacing:-.01em;margin:0 0 8px}
+  .date{color:var(--muted);font-size:14px;margin:0}
+
+  .progress{margin:22px 0 6px}
+  .bar{height:8px;border-radius:999px;background:var(--soft);border:1px solid var(--line);overflow:hidden}
+  .bar i{display:block;height:100%;background:var(--good);width:0;transition:width .18s ease}
+  .ptext{display:flex;justify-content:space-between;font-size:13.5px;color:var(--muted);margin:8px 0 0}
+  .ptext b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
+
+  h2{font-size:15px;font-weight:600;margin:34px 0 4px;padding-bottom:8px;border-bottom:1px solid var(--ink);display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+  h2 span{font-weight:400;font-size:13px;color:var(--muted)}
+  .hint{color:var(--muted);font-size:13.5px;margin:10px 0 6px}
+
+  ul.items{list-style:none;margin:0;padding:0}
+  ul.items li{border-bottom:1px solid var(--line)}
+  .item{display:grid;grid-template-columns:26px 1fr;gap:12px;align-items:start;padding:15px 0;cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent}
+  .box{width:22px;height:22px;margin-top:2px;border:1.5px solid #b3b9c0;border-radius:6px;position:relative;flex:none;transition:background .12s,border-color .12s}
+  .item.done .box{background:var(--good);border-color:var(--good)}
+  .item.done .box::after{content:"";position:absolute;left:6px;top:2px;width:6px;height:11px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+  .item .t{font-size:16px;line-height:1.45}
+  .item .n{display:block;color:var(--muted);font-size:13.5px;line-height:1.5;margin-top:3px}
+  .item.done .t{color:var(--faint);text-decoration:line-through}
+  .item.done .n{color:var(--faint)}
+  .warn{color:var(--warn);font-weight:600}
+  .who{display:inline-block;font-size:11.5px;line-height:1.7;padding:0 7px;border-radius:999px;background:var(--soft);color:var(--muted);border:1px solid var(--line);margin-left:8px;vertical-align:1px;white-space:nowrap}
+  .item.done .who{color:var(--faint)}
+
+  .field{display:inline-block;border-bottom:1px solid #9aa1aa;min-width:62px;height:1.05em;vertical-align:-2px}
+
+  .empty{color:var(--faint);font-size:13.5px;padding:14px 0}
+  .doneBlock{margin-top:34px}
+  .doneBlock h2{border-bottom-color:var(--line);color:var(--muted)}
+  .footer{margin:42px 0 0;padding-top:14px;border-top:1px solid var(--line);color:var(--faint);font-size:12.5px;line-height:1.7;display:flex;justify-content:space-between;gap:16px;align-items:flex-start}
+  .reset{border:0;background:transparent;color:var(--faint);font:inherit;font-size:12.5px;padding:0;cursor:pointer;text-decoration:underline;white-space:nowrap}
+  @media (max-width:520px){
+    body{padding:26px 15px 60px}
+    h1{font-size:21px}
+    .item{padding:14px 0}
+    .footer{flex-direction:column;gap:10px}
+  }
+  @media print{
+    body{padding:0;font-size:11pt}
+    .bar,.reset{display:none}
+    .item{cursor:default}
+  }
+  .rec{margin:10px 0 14px;font-size:.86rem;line-height:1.6;border-radius:9px;padding:9px 12px;
+    background:#F1F7F4;border:1px solid #BFDCCF;color:#1D6B4F}
+  .rec.ok{background:#EDF7F1;border-color:#A9D5BE;color:#136142}
+  .rec.warn{background:#FFF8E8;border-color:#F0D9A8;color:#7A5A11}
+  .rec code{background:rgba(0,0,0,.05);padding:0 3px;border-radius:3px;font-size:.8rem}
+  .rec b{color:inherit}
+  /* 2026-10-05 加：写入被拒要显眼 —— 之前 403 只显示一句淡淡的"保存失败"，
+     结果是"我点了但那边啥也没有"这种最难查的问题。 */
+  .rec.err{background:#FDECEC;border-color:#E5484D;color:#A8071A;font-weight:700}
+  .rec.err code{background:rgba(0,0,0,.06)}
+</style>
+</head>
+<body>
+<div style="margin:10px 0 4px;padding:9px 12px;border-radius:8px;
+  background:rgba(15,158,134,.07);border:1px solid rgba(15,158,134,.3);font-size:13px;line-height:1.65">
+  <b>现在填哪个？两个都留，都能进金骅看板。</b><br>
+  · <b>小程序「金骅AI」里的采集表</b>（能语音转文字、自动进云数据库）—— <b>还没上线</b>，上线后优先用它<br>
+  · <b>这张表</b>（云端版 <code>api.wechgood.cn/todo/caiji</code>，手机上直接填）—— <b>现在先用这个</b>，不要等<br>
+  <span style="color:#657085">两边数据都会汇总到金骅那边的「② 餐饮专家：有没有新增有效数据」，不会漏。</span>
+</div>
+<main>
+
+  <p class="eyebrow">创维楼下 · 潮汕牛肉饭</p>
+  <h1>店长待办</h1>
+  <p class="date" id="o-date">—</p><p data-content-stamp style="margin:8px 0 0;font-size:.82rem;color:#8A90A6">内容更新 2026-10-04 18:31</p>
+  <p class="rec" id="rec-status">正在连接登记服务…</p>
+  <div class="block" style="border-left:4px solid #E8862A;background:#FFF9F1">
+    <h3 style="margin-top:0">📌 今天（2026-10-05）新增：采集这件事，<span style="color:#C2410C">工具已经做好了</span></h3>
+    <p><b>门店采集已数字化</b>：小程序「金骅AI」里上线了「门店采集表」——手机端填、<b>可语音转文字</b>、自动落库到云数据库 <code>collects</code>（按 openid 归属，单条记录可以分享出去）。以后店长跑店可以<b>直接扫码填</b>，不必再手写纸表。</p>
+    <p><b>但工具 ≠ 数据。</b>已回收门店数以<b>采集台账</b>为准 —— 台账里没有的，就是 0，不解释、不估算。今天我方台账<b>未见</b>新增已采门店记录；若店长今天已交表，请补一行。</p>
+    <p><b>你的动作没变</b>：把采集表发给店长、说清「每家店拍 6 张照片 + 填一张表」、每周收表。采集是「只进不出」的资产动作，现在就能做。</p>
+  </div>
+
+
+
+  <div class="progress">
+    <div class="bar"><i id="o-bar"></i></div>
+    <p class="ptext"><span>已完成 <b id="o-count">0 / 0</b></span><span id="o-left">—</span></p>
+  </div>
+
+  <section id="sec-today"></section>
+  <section id="sec-week"></section>
+  <section id="sec-ask"></section>
+  <section id="sec-done"></section>
+
+  <div class="footer">
+    <span>勾选存在这台设备上，不上传。这一页只放动作，经营数字在「今日经营台」。</span>
+    <button class="reset" id="o-reset">清空全部勾选</button>
+  </div>
+
+</main>
+
+<script>
+  /* ⚠️ 2026-10-06：页面挂在 jinhua.tech（GitHub Pages），接口在 api.wechgood.cn —— 跨域。
+     跨域带不上 cookie，所以身份改用 URL 里的 ?k= 显式带上（服务端 _ident 优先读 ?k=）。 */
+  function turl(p){
+    var K = (location.search.match(/[?&]k=([^&]+)/) || [])[1] || '';
+    if (!K) return p;
+    return p + (p.indexOf('?') < 0 ? '?' : '&') + 'k=' + K;
+  }
+
+  /* ⚠️ 2026-10-05 修：云端页面以前会在同源失败时"悄悄退回本机 127.0.0.1:8097"。
+     后果很坏：HTTPS 页面调 http://127.0.0.1 会被浏览器拦掉 → API=null →
+     勾选只留在内存/localStorage → **一刷新就恢复原样**；而在我这儿它又能通 →
+     同一个链接在两个环境表现不一样，特别难查。
+     现在：只有 file:// 或本机 host 才允许退回本机；云端页面**只跟自己的域名说话**。 */
+  function apiBases(){
+    var h = location.hostname, p = location.protocol;
+    var isLocal = (p === "file:") || h === "127.0.0.1" || h === "localhost" || h === "";
+    return isLocal ? ["", "http://127.0.0.1:8097"] : ["https://api.wechgood.cn"];
+  }
+
+(function(){
+  "use strict";
+
+  var GROUPS = [
+    {
+      key:"today",
+      title:"今天 · 当场就能改",
+      hint:"三条都不花钱、不添人。第一条和第二条必须一起做，否则白改。",
+      items:[
+        { id:"t1", t:"切肉改逆纹薄片", w:"后厨", n:"垂直于纹理切，克重一克不变——别叫「减料」，叫「改刀工」" },
+        { id:"t2", t:"烫的时间跟着缩短", w:"后厨", n:"<span class=\"warn\">不做这条，薄片会过熟变柴</span>，他哥会说「切薄不如原来」，这一刀就废了" },
+        { id:"t3", t:"自助菜一次少炒、20 分钟补一次", w:"后厨", n:"对付返苦。补货的人本来就是炒菜的人，不新增岗位" }
+      ]
+    },
+    {
+      key:"week",
+      title:"本周 · 半天加一次执行",
+      hint:"先量，再改。没有改之前的基线，七天之后没法证明。",
+      items:[
+        { id:"w1", t:"站出餐口看 5 分钟，记队堵在哪个工位", w:"你 / 专家", n:"不用掐表，一眼就看出来：切肉 / 烫 / 配菜 / 收银" },
+        { id:"w2", t:"数 30 单中位数，记下改之前的基线", w:"你 / 专家", n:"中位数 <span class=\"field\"></span> 秒。这个数就是七天后的对照" },
+        { id:"w3", t:"招牌的配菜、米饭、酱汁、打包全部前置", w:"后厨 + 收银", n:"高峰只留最后一道工序，把串行改成并行" },
+        { id:"w4", t:"提前切好的肉，1–2 小时内用完", w:"后厨", n:"放久了会氧化发暗、出水，口感掉" }
+      ]
+    },
+    {
+      key:"ask",
+      title:"要问出来的数 · 问到一个勾一个",
+      hint:"已知：房租约 6 万/月、工资约 5 万/月、其他固定 1 万多/月、自助餐 18.8 元/位、日均两百多单。剩下这几个数一填，赚不赚就闭环了。",
+      items:[
+        { id:"q1", t:"房租，确认是不是约 6 万", w:"专家问他哥", n:"¥ <span class=\"field\"></span>" },
+        { id:"q2", t:"店里几个人（他爸算不算在内）", w:"专家问他哥", n:"<span class=\"field\"></span> 人" },
+        { id:"q3", t:"人均月工资多少（含社保）", w:"专家问他哥", n:"¥ <span class=\"field\"></span>　已知工资总额约 5 万" },
+        { id:"q4", t:"食材成本占营业额几成", w:"专家问他哥", n:"<span class=\"field\"></span> %　<span class=\"warn\">最要命的一项</span>" },
+        { id:"q5", t:"自助餐一天多少位", w:"专家问他哥", n:"<span class=\"field\"></span> 位/天（价格牌 18.8 元/位）" },
+        { id:"q6", t:"招牌一天多少份、客单价多少", w:"专家问他哥", n:"<span class=\"field\"></span> 份 · ¥ <span class=\"field\"></span>" },
+        { id:"q7", t:"午市高峰几点到几点，一共多少分钟", w:"专家问他哥", n:"<span class=\"field\"></span> 分钟　<span class=\"warn\">保本 317 单要在这个窗口内做完</span>" },
+        { id:"q8", t:"全店客单价，平均一单多少钱", w:"专家问他哥", n:"¥ <span class=\"field\"></span>　<span class=\"warn\">最关键的一项</span>" },
+        { id:"q9", t:"午市那一段占全天单量的几成", w:"专家问他哥", n:"<span class=\"field\"></span> 成" },
+        { id:"q10", t:"那些单里，自助餐和招牌各占多少", w:"专家问他哥", n:"自助 <span class=\"field\"></span> 位 · 招牌 <span class=\"field\"></span> 份" }
+      ]
+    }
+  ];
+
+  var KEY = "chaoshan-manager-todo-v1";
+  var done = {};
+
+  function today(){
+    var d = new Date();
+    return d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0");
+  }
+  function load(){
+    try { var raw = localStorage.getItem(KEY); if (raw) done = JSON.parse(raw) || {}; } catch(e){ done = {}; }
+  }
+  function save(){
+    try { localStorage.setItem(KEY, JSON.stringify(done)); } catch(e){}
+  }
+
+  var SHEET = "manager";   // 登记服务的表名
+  var HIDDEN = {};         // 服务端说"这条做完且不是今天"→ 不显示
+  var API = null;          // null = 没连上，退回浏览器存储
+  // 日更判定：'今天 · 当场就能改' 这一组是天天要重做的；'本周'和'要问出来的数'是任务
+  function isDailyItem(id){
+    for (var i=0;i<GROUPS.length;i++){
+      var g=GROUPS[i];
+      if (g.key !== 'today') continue;
+      for (var j=0;j<g.items.length;j++){ if (g.items[j].id === id) return true; }
+    }
+    return false;
+  }
+  function setRec(html, kind){
+    var e = document.getElementById("rec-status"); if (!e) return;
+    e.innerHTML = html; e.className = "rec" + (kind ? " " + kind : "");
+  }
+  function apiDiscover(cb){
+    var c = apiBases(), i = 0;
+    (function next(){
+      if (i >= c.length) { cb(null); return; }
+      var b = c[i++];
+      fetch(turl(b + "/api/todo/ping"), { cache: "no-store" })
+        .then(function(r){ return r.ok ? r.json() : null; })
+        .then(function(j){ if (j && j.ok) cb(b); else next(); })
+        .catch(function(){ next(); });
+    })();
+  }
+  function apiPull(cb){
+    fetch(turl(API + "/api/todo/" + SHEET), { cache: "no-store" })
+      .then(function(r){ return r.json(); })
+      .then(function(j){ cb((j && j.items) || {}); })
+      .catch(function(){ cb(null); });
+  }
+  function apiPush(id, checked){
+    if (API === null) { setRec("⚠️ 只是浏览器记住了 —— 没连上登记服务", "warn"); return; }
+    fetch(turl(API + "/api/todo/" + SHEET), {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: id, checked: checked, who: '店长/专家', daily: isDailyItem(id) })
+    }).then(function(r){
+      if (r && r.status === 403) {
+        setRec("🚫 <b>写入被拒（403）</b> —— 这个链接的身份不对或已过期，别的表你写不了。<br>"
+             + "请用<b>发给你的那个链接</b>重新打开本页（不要混用别人的链接）。", "err");
+        return null;
+      }
+      if (!r || !r.ok) { setRec("⚠️ 保存失败（服务返回 " + (r ? r.status : "无响应") + "）", "warn"); return null; }
+      return r.json();
+    })
+      .then(function(j){
+        if (j === null) return;
+        if (j && j.ok) setRec("✅ 已记录：<b>" + j.id + "</b> " + (j.checked ? "勾选" : "取消") + " " + j.at, "ok");
+        else setRec("⚠️ 保存失败：" + ((j && j.error) || "未知"), "warn");
+      })
+      .catch(function(){ setRec("⚠️ 保存失败（登记服务没响应）", "warn"); });
+  }
+  function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}); }
+
+  function itemHTML(it){
+    var isDone = !!done[it.id];
+    return '<li><div class="item' + (isDone?" done":"") + '" data-id="' + esc(it.id) + '" role="checkbox" tabindex="0" aria-checked="' + isDone + '">' +
+      '<span class="box" aria-hidden="true"></span>' +
+      '<span><span class="t">' + esc(it.t) + (it.w ? '<span class="who">' + esc(it.w) + '</span>' : '') + '</span>' +
+      (it.n ? '<span class="n">' + it.n + '</span>' : '') +
+      '</span></div></li>';
+  }
+
+  function render(){
+    var total = 0, finished = 0, finishedItems = [];
+
+    GROUPS.forEach(function(g){
+      var open = [], closed = [];
+      g.items.forEach(function(it){
+        if (HIDDEN[it.id]) return;                          // 隐藏的不计入、不显示
+        total++;
+        if (done[it.id]) { finished++; closed.push(it); finishedItems.push(it); }
+        else open.push(it);
+      });
+      var host = document.getElementById("sec-" + g.key);
+      if (!host) return;
+      host.innerHTML =
+        '<h2>' + esc(g.title) + '<span>' + (g.items.length - closed.length) + ' / ' + g.items.length + ' 未完成</span></h2>' +
+        '<p class="hint">' + esc(g.hint) + '</p>' +
+        '<ul class="items">' + open.map(itemHTML).join("") + '</ul>' +
+        (open.length === 0 ? '<p class="empty">这一组做完了。</p>' : '');
+    });
+
+    var left = total - finished;
+    document.getElementById("o-count").textContent = finished + " / " + total;
+    document.getElementById("o-bar").style.width = (total ? (finished/total*100) : 0) + "%";
+    document.getElementById("o-left").textContent = left === 0 ? "全部完成" : "还剩 " + left + " 项";
+    document.getElementById("o-date").textContent = "今日 " + today();
+
+    var dhost = document.getElementById("sec-done");
+    dhost.innerHTML = finishedItems.length
+      ? '<div class="doneBlock"><h2>已做完<span>' + finishedItems.length + ' 项</span></h2><ul class="items">' +
+        finishedItems.map(itemHTML).join("") + '</ul></div>'
+      : "";
+
+    bind();
+  }
+
+  function toggle(id){
+    if (done[id]) delete done[id]; else done[id] = true;
+    save(); render();
+    apiPush(id, !!done[id]);
+  }
+
+  function bind(){
+    document.querySelectorAll("[data-id]").forEach(function(node){
+      node.onclick = function(){ toggle(node.getAttribute("data-id")); };
+      node.onkeydown = function(e){ if (e.key === " " || e.key === "Enter") { e.preventDefault(); toggle(node.getAttribute("data-id")); } };
+    });
+    var r = document.getElementById("o-reset");
+    if (r) r.onclick = function(){
+      if (Object.keys(done).length === 0) return;
+      if (window.confirm("清空全部勾选？")) { done = {}; save(); render(); }
+    };
+  }
+
+  apiDiscover(function(b){
+    API = b;
+    if (API === null) {
+      load(); render();
+      setRec("⚠️ 没连上登记服务，勾选<b>只存在这个浏览器里</b>。请从桌面「餐饮线 → 打开店长待办」打开本页。", "warn");
+      return;
+    }
+    apiPull(function(items){
+      if (items === null) { load(); render(); setRec("⚠️ 读取记录失败", "warn"); return; }
+      done = {}; HIDDEN = {};
+      Object.keys(items).forEach(function(k){
+        var v = items[k];
+        if (v && typeof v === "object") {
+          if (v.hidden) { HIDDEN[k] = true; return; }      // 任务做完次日隐藏
+          if (v.checked) done[k] = true;
+        } else if (v) { done[k] = true; }
+      });
+      save(); render();
+      var n = Object.keys(done).length;
+      setRec("✅ 勾选<b>已记录到本机文件</b>（<code>workspace/待办登记/data/" + SHEET + ".json</code>）　已勾选 <b>" + n + "</b> 项", "ok");
+    });
+  });
+})();
+</script>
+</body>
+</html>
