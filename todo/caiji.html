@@ -52,7 +52,7 @@
   background:rgba(15,158,134,.07);border:1px solid rgba(15,158,134,.3);font-size:13px;line-height:1.65">
   <b>现在填哪个？两个都留，都能进金骅看板。</b><br>
   · <b>小程序「金骅AI」里的采集表</b>（能语音转文字、自动进云数据库）—— <b>还没上线</b>，上线后优先用它<br>
-  · <b>这张表</b>（云端版 <code>api.wechgood.cn/todo/caiji</code>，手机上直接填）—— <b>现在先用这个</b>，不要等<br>
+  · <b>这张表</b>（云端版 <code>api.wechgood.com/todo/caiji</code>，手机上直接填）—— <b>现在先用这个</b>，不要等<br>
   <span style="color:#657085">两边数据都会汇总到金骅那边的「② 餐饮专家：有没有新增有效数据」，不会漏。</span>
 </div>
 <div class="wrap">
@@ -190,7 +190,7 @@
 <div class="flash" id="flash"></div>
 
 <script>
-  /* ⚠️ 2026-10-06：页面挂在 jinhua.tech（GitHub Pages），接口在 api.wechgood.cn —— 跨域。
+  /* ⚠️ 2026-10-06：页面挂在 jinhua.tech（GitHub Pages），接口在 api.wechgood.com —— 跨域。
      跨域带不上 cookie，所以身份改用 URL 里的 ?k= 显式带上（服务端 _ident 优先读 ?k=）。 */
   function turl(p){
     var K = (location.search.match(/[?&]k=([^&]+)/) || [])[1] || '';
@@ -206,7 +206,7 @@
   function apiBases(){
     var h = location.hostname, p = location.protocol;
     var isLocal = (p === "file:") || h === "127.0.0.1" || h === "localhost" || h === "";
-    return isLocal ? ["", "http://127.0.0.1:8097"] : ["https://api.wechgood.cn"];
+    return isLocal ? ["", "http://127.0.0.1:8097"] : ["https://api.wechgood.com"];
   }
 
 (function(){
