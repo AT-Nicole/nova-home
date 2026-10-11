@@ -81,7 +81,7 @@
     </div>
   </header>
 
-  <h2>待办 · <span id="count">…</span> 件</h2>
+  <h2>待办 · <span id="count">…</span> 件　<a href="#" id="arch-toggle" style="font-size:.78rem;font-weight:400;color:#888;text-decoration:none"></a></h2>
   <p class="rec" id="rec-status">正在连接登记服务…</p>
   <div id="list"></div>
 
@@ -219,6 +219,7 @@ const ITEMS = [
   {
     id: "wechgood.com-takeover",
     pri: "✅",
+    status: "归档",
     title: "✅ 已完成（2026-10-05）：wechgood.com 已转回公司账号",
     why: "<b>✅ 2026-10-05 已完成 —— 域名已转回公司账号。</b><br>WHOIS 显示 Updated 2026-10-05 + clientTransferProhibited（刚完成转移的标准状态）；<b>MX 5 条完好无损，邮箱实测可收发（IMAP 42 封 / SMTP 正常）</b>。<br><br><b>★ 但还有三件收尾要做（见 how）：</b>① 查实名认证状态（有时限，超期会 serverHold）② 开自动续费　③ 确认持有者是否已过户到公司。<br><br>────── 以下是当初的问题记录（保留备查）──────<br><b>实测（2026-10-04）：</b><br>· 注册商 = 阿里云（万网），注册 2021-04-07，<b>到期 2027-04-07</b><br>· NS = dns17/dns18.hichina.com（阿里云 DNS），<b>但不在我们当前账号里</b><br>· 邮件正常：MX = mx1/mx2/mx3.qiye.aliyun.com，<b>harry_hou@wechgood.com 在正常收信</b><br>· 网页是坏的：apex <code>http://</code> 返回 <b>HTTP 400</b>，<code>https://</code> 连不上；www 指向一个第三方 cname<br><br><b>🔴 真正的风险不是网页，是邮箱：</b><br>管理权不在手上 → <b>改不了 DNS（网页修不了）</b>，而且 <b>续不了费</b>。<br>2027-04-07 一到，域名掉了，<b>企业邮箱跟着一起死</b> —— 而这是我们所有客户沟通的地址（58 封开发信、所有询盘、Stillstern 那条线全用它）。<br><br><b>这不是「网站不好看」，是「客户联系不到我们」。</b><br><br><b>🕐 时限（船东 2026-10-04 定）：</b>「wechgood.com，我只会替代一年，后面都要用自己的 wechgood.com」<br>→ <b>wechgood.com 只是临时替代，一年后必须切到 .com</b>。而 .com 到期日正是 <b>2027-04-07</b> —— <b>两个时间点对上了，所以「拿回账号」这件事没有延期的空间。</b>",
     how: "<b>✅ 域名已拿回。当前待办（按紧急度）：</b><br><b>🔴 今天：</b>① 阿里云控制台查「实名认证」状态（若显示未实名，5 天内不补 → serverHold → 网站邮箱同停）② 开自动续费 ③ 确认持有者是否已变更为公司（「转移账号」≠「变更持有者」）<br><b>🟡 本周：</b>④ Cloudflare Pages 加 www.wechgood.com + 阿里云加 CNAME → 让 .com 能开站<br><b>🟢 之后：</b>⑤ 跑 tmp/switch-domain.py --apply + 部署 + 改 _middleware.js 的 CANONICAL → .cn 301 到 .com<br><br><b>⛔ 红线：MX 一个字都不能动</b>（5 条 mx*.qiye.aliyun.com + mxw/mxn.mxhichina.com）<br><b>📁 完整手册：</b>workspace/开发信/wechgood-knowledge/06-crm/域名拿回后行动手册-20261005.md<br><br><b>🎯 拿回的关键（值得记下来）：</b><br>· 查清三方结构：<b>域名持有者=卢万里 / 账号持有人=瑜(Erin) / 实际使用人=公司</b><br>· 之前一直找瑜，但她不是持有人，说「不属于我名下」是事实 → <b>问错了人</b><br>· 话术从「你扫码/给我们登录」改成「你在自己控制台点转移」，她才愿意配合<br>· 同期备齐了证据（Internet Archive 历史存档 + 149 封业务邮件）作为兜底<br><br>────── 以下是当初的排查与流程记录（保留备查）──────<br><b>★★★ 2026-10-04 已查实（决定性）：域名在「瑜」个人名下 ★★★</b><br>已实操走通：阿里云「找回登录名 → 域名」→ 过滑动验证 → <b>身份验证页</b>，拿到全部打码信息：<br><table><tr><td>账号名</td><td><code>eri***81</code></td></tr><tr><td>绑定手机</td><td><code>138******06</code></td></tr><tr><td>绑定邮箱</td><td><code>154***@qq.com</code></td></tr><tr><td><b>实名认证人</b></td><td><b><code>**瑜</code></b></td></tr><tr><td><b>认证类型</b></td><td><b>个人</b>（不是企业认证）</td></tr></table><b>三个直接结论：</b><br>① <b>路径①（阿里云自助找回）走不通</b> —— 找回要收她绑定的手机/邮箱验证码，我们收不到<br>② <b>路径③（95187 企业账号申诉）会更难</b> —— 因为是<b>个人认证</b>，企业要证明「这个账号其实是公司的」，需要更强的证据（缴费记录/合同/发票）<br>③ ✅ <b>路径②（找「瑜」）成为主路</b> —— 她配合是最快、最省事的方式<br><br><b>★ 两个额外可用的手段（同一页面上）：</b><br>· <b>「无法验证？提交申诉 &gt;」</b> —— 身份验证页左侧有这个入口，这是给「拿不到验证方式」的人准备的正规通道，<b>正好对应我们的处境</b><br>· <b>扫脸验证二维码支持分享</b>（有效期约 24 小时）—— 如果「瑜」愿意配合，<b>把二维码发给她扫一下就行，她不用登录</b><br><br><b>⚠️ 我故意没做的动作</b>：<b>没有点「发送验证码」</b> —— 那会给她手机/邮箱发验证码，等于告诉她「有人在动这个账号」。<b>先谈好再说。</b><br><br><b>📁 证据已存档</b>：<code>~/Desktop/wechgood域名找回/打码信息/</code>（4 张截图 + 结论.md）<br><br>──────── 以下是最初的通用流程（仍然适用）────────<br><b>🕐 今天（2026-10-04）已经实测探明的路 —— 三条不是三选一，是「① 先探 → ② 并行 → ③ 兜底」</b><br><br><b>【路径① 阿里云「找回登录名 → 域名」】今天已实测</b><br>· 网址 <code>account.aliyun.com/find_loginid/findLoginId.htm</code><br>· 选「域名」tab → 输入 wechgood.com → <b>过滑动验证</b> → 点「立即找回」<br>· ⚠️ 实测：<b>光输入域名，页面上什么都不显示</b>，必须提交才出结果<br>· ⚠️ 提交后会给她绑定的手机发短信：「您的阿里云登录名是 XXX」（<b>不暴露是谁在查</b>，所以风险低；但若想完全不打草惊蛇，就直接走②）<br>· ⚠️ 那个滑块<b>有反自动化检测</b>，脚本拖不过去 —— <b>必须人工拖一下</b><br>· <b>看结果决定走哪条</b>：<br>　　<b>公司手机 / 公司邮箱</b> → 路径① 直接通，公司自己能找回<br>　　<b>y***@... / 私人手机</b> → 自助走不通，<b>必须走路径②</b><br>· 📁 页面已留在可控 Chrome（域名已填好，标签页没关）；截图在 <code>~/Desktop/wechgood域名找回/</code><br><br><b>【路径② 找注册人「瑜」】和路径① 并行，别等</b><br>· 话术见下方「复制这段话发工厂」，<b>全程不提法律</b> —— 第一封的目的是让她愿意配合<br>· 两种话术：<b>她只是账号持有人</b>（请她帮忙转移）／<b>账号本来就是她的</b>（请她协助找回）<br><br><b>【路径③ 95187 咨询】是咨询，不是直接申诉</b><br>· 第一通电话的目标不是申诉，是<b>问清流程要什么材料</b><br>· 阿里云有<b>三套不同的流程，别搞混</b>：<br>　　<b>账号申诉</b> ← 营业执照 + 法人身份证 + <b>域名缴费记录/合同</b> + 邮箱往来证据<br>　　<b>域名持有者信息修改（过户）</b> ← 需要<b>原持有者在控制台确认</b><br>　　<b>域名争议 UDRP</b>（.com 适用）← 需要<b>商标权</b> + 对方恶意注册/使用<br>· ★ <b>证据清单现在就备好</b>（别等要用才找）：<br>　　① 营业执照（广东韦奇伍德）<br>　　② 法人身份证明<br>　　③ ★ <b>域名缴费记录 / 发票 / 合同</b> —— 谁能证明「钱是公司付的」，谁就占理<br>　　④ ★ <b>harry_hou@wechgood.com 的业务往来邮件</b>（证明公司在实际使用这个域名）<br>　　⑤ <b>商标</b>（如果有）—— 这是 UDRP 的门票<br>　　⑥ 与「瑜」的沟通记录（友好协商过的证据）<br><br><b>【★ 路径④ 今天新发现：WHOIS 页的「委托购买」】</b><br>· <code>whois.aliyun.com/domain/wechgood.com</code> → 页面上有「<b>委托购买</b>」入口<br>· 注册人邮箱被隐藏（显示「如要进行联系，请在线填写信息」）<br>· 这是<b>阿里云做中间人</b>去联系域名持有人的正规通道 —— <b>不用直接对峙</b>，可以走这条路试探对方意愿和价格<br><br><b>⛔ 三条红线（动手前必记）</b><br>① <b>不能动 MX 记录</b> —— 邮箱正跑在上面（mx1/mx2/mx3.qiye.aliyun.com + mxw/mxn.mxhichina.com），一动，harry_hou@wechgood.com <b>立刻收不到客户信</b><br>② <b>不能动 NS / 解析</b> —— 官网和邮箱会一起挂<br>③ <b>不要做「域名转出」</b> —— 需要转移密码，且转出后有 <b>60 天转移锁</b>，反而更难操作<br><br><b>✅ 一旦拿到账号，第一件事不是改东西，是：</b><br>① 确认续费状态 → ② 打开自动续费 → ③ 加安全设置（密保/二次验证）→ ④ 才谈过户到公司账号<br><b>先保命，再装修。</b><br><br><b>──────── 拿回管理权之后 ────────</b><br>· ⚠️ <b>MX 记录一个字都不能动</b><br>· 把 apex 和 www 的解析指向 <code>wechgood-site.pages.dev</code>，在 Cloudflare Pages 加自定义域 wechgood.com → 之后 .com 和 .cn 都能开站<br><br><b>【一年后切域名】工具已备好</b><br>· <code>tmp/switch-domain.py</code>：<b>默认预演</b>，加 <code>--apply</code> 才真改（自动备份）<br>· 实测会改 <b>17 个文件、约 248 处</b>，全是 <b>URL 字段</b>，<b>不碰散文</b><br>· 脚本管不了的三步：部署 → Cloudflare Pages 加自定义域 → 阿里云 DNS 指过去（<b>MX 不动</b>）<br>· 切换后 wechgood.com 建议 <b>301 到 .com</b>，改 <code>_middleware.js</code> 的 CANONICAL 即可<br>· ⚠️ 部署必须 <code>cd tmp/pages-staging &amp;&amp; wrangler pages deploy .</code>，否则 functions/ 被静默丢掉（用 <code>tmp/deploy.sh</code>）",
@@ -231,6 +232,7 @@ const ITEMS = [
 
     id: "stillstern-sample-photos",
     pri: "P0",
+    status: "归档",
     title: "🚨 Stillstern：确认他收到照片了没有（10-03 23:07 我们发过 10 张图）",
     why: "Stillstern 是<b>年采购 20-25 个 40'HQ 柜</b>的真实买家。<b>09-10 已付样品款</b>，09-16 说「You can send the sample」。<br><br>关键时间线（<b>10-04 复核后修正</b>）：<br>· <b>09-25</b> 他们问「any updates on the induction cooker sample?」<br>· <b>10-03 23:07</b> 我们回了信，<b>带 10 张样品照片</b>（9.4MB：temp4cj.png ×2 + att00001.jpg + att00002–09.png）<br>· <b>10-03 23:21</b>（<b>14 分钟后</b>）他们回：「please send me the photos first so I can review the design」<br><br><b>16 分钟差 = 两封邮件在路上错过了</b> —— 他多半是在我们那封到达之前就写了。<br><br>所以这<b>不是「客户被晾着」，是「要确认他到底收到没」</b>。",
     how: "先别急着道歉。<b>回一封很短的信，确认照片到没到</b>：<br><br>① 说明我们 10-03 已发过 10 张照片（列出文件名，他好找）<br>② 问是不是进了垃圾箱 / 附件被拦<br>③ <b>重新附一次</b>（或换成更小的图 / 放到网盘并给链接）<br>④ 顺便回答他 09-13 提的两个设计点：<b>银色 ✅、方形前板 ✅</b><br><br>同时确认：<b>09-10 那笔样品款对应的样品，现在是否能发？</b>他说过「等我邮件再寄」，09-16 已经说了可以寄。",
@@ -241,6 +243,7 @@ const ITEMS = [
   {
     id: "reply-inhand",
     pri: "P0",
+    status: "归档",
     title: "🚢 回货代 Jenny（in-hand）：10-08 截补料，10-09 配船",
     why: "上海愔浩国际货运代理的 <b>Jenny</b> 来信要求补料，邮件里明确写了时间点：<br><br>「请查收SO，<b>10月8号12点截补料</b>，谢谢。按目前船期，<b>预配9号出口，5号开仓</b>」<br>主题：<code>ht2609276 ss261141 //IMP FCL / ELECTRO / 20 / FOB / CHINA - BEIRUT / HK</code><br><br><b>已经等了 3 天没人回。</b>shipments 的事有时效 —— 截补料过了就要等下一班船。",
     how: "① 打开收件箱找 Jenny 那封（发件人 <b>jenny@in-hand.com.cn</b>）<br>② 看 SO（订舱单）和要求的补料清单<br>③ <b>10-08 12:00 前</b>把补料给她<br>④ 回信确认收到、说明何时补<br><br>⚠️ 这条不是客户线，是出货线 —— 但<b>误了船期一样是钱</b>。",
@@ -250,6 +253,7 @@ const ITEMS = [
   {
     id: "reply-queue-owner",
     pri: "P1",
+    status: "归档",
     title: "✅ 已定：回信每天由 DeepSeek 扫（2026-10-04 船东选 A）",
     why: "机制已上线，不用你再操心发现环节：<br>· 扫描器 <code>tmp/scan-reply-queue.py</code>（<b>只读</b>，不发信不删改不标已读）<br>· 看板 <b>http://localhost:8123/replies</b><br>· 例行已写进 <code>HEARTBEAT.md</code>：<b>每天至少扫一次，有 P0 立刻在会话里报你</b><br><br>分级：P0 = 已付款/在执行客户 · 有放弃信号 · 等 ≥7 天；P1 = 等 3–6 天或已知客户；P2 = 其余。<br>已排除：服务商通知、<b>自动回复（各语言按词根 automat- 匹配）</b>、营销邮件、医院发票。<br><br><b>剩下一件事在你这边：回信要你点头</b>（「我来回」或「你先起草」）—— 发信红线不变。",
     how: "不用做什么。每天我扫完，有 P0 会主动报你。<br><br>如果你想自己看一眼，打开 <b>http://localhost:8123/replies</b>。<br><br>⚠️ 2026-10-04 新增经验：<b>域名/SEO 推销线程会被误判成客户</b>（例：Callum「RE: jinhuatech」其实是在卖域名）—— 扫描器已加 <code>SOLICIT</code> 规则降到 P2。",
@@ -306,6 +310,7 @@ const ITEMS = [
 
     id: "v1-30-send",
     pri: "P1",
+    status: "归档",
     title: "V1 首批 30 封信：按日程发（10-06 周二起，每天 5 封）<b>✅ 前置已完成</b>",
     why: "<b>✅ 前置已完成（10-04 15:00）：5 个发送器的 Date + Message-ID 全部补上并端到端验证过。</b><br><br>30 家公司、30 个决策人、30 封对口信已经全部备好，包括<b>每家的时区发送窗口</b>。<br><br>开发信必须落在<b>对方当地 08:30–09:30</b>（收件箱顶部）—— 同一时刻群发，德国人在睡觉、美国人在下班。所以非洲、欧洲、美洲不能一起发。",
     how: "日程表已排好（见 <b>V1发送日程-20261003.csv</b>），每天 5 封，按我们这边的时间发：<br><br>· 欧洲客户 → <b>我们这边 14:30</b><br>· 英国 → <b>15:30</b><br>· 美国东部 → <b>20:30</b>（要定时发送）<br>· 澳洲 → <b>05:30</b>（要定时发送）<br><br>首封 5 封（10-06 周二）已经写好了正文，在 <b>开发信-第一批5封-接续跟进</b> 里。剩下 25 封我按同样套路写。<br><br><b>发信要你点头</b> —— 你说发，我就把当天的信整理成可直接复制的一版。",
@@ -316,6 +321,7 @@ const ITEMS = [
 
     id: "smartwares-followup",
     pri: "P1",
+    status: "归档",
     title: "10-09 是 Smartwares 的跟进日（Day 1 那封的跟进信）",
     why: "<b>2026-10-02</b> 我们发了第一封真实陌生开发信给 <b>Smartwares Group</b>（荷兰，Tristar / Princess 品牌方）的采购总监 <b>Juriaan Ronkes</b>，主题「Additional source for your Tristar induction cookers」。<br><br>发送记录里写明了：<b>若 10-09 仍无回复，发跟进 1</b>（切入点是他们的 Princess 303031）。<br><br>首封按当时的规矩<b>没带网站地址</b>；跟进信可以带上（用 <b>wechgood.com/s/smartwares</b> 追踪短链，客户一点我们就知道是他）。",
     how: "跟进信正文我已经写好了（在 <b>开发信-第一批5封</b> 文件里，第 1 封）。<br><br>10-09 那天：<br>① 先确认他回没回（我扫收件箱）<br>② 没回 → 用「回复」发跟进信，<b>带 wechgood.com/s/smartwares</b><br>③ 回了 → 直接进报价流程<br><br>发送窗口：荷兰 → <b>我们这边 14:30</b>。",
@@ -379,9 +385,13 @@ function apiPush(id, checked) {
 }
 
 function render() {
-  const st = load();
-  document.getElementById("count").textContent = ITEMS.length;
-  document.getElementById("list").innerHTML = ITEMS.map(it => {
+  const showArch = localStorage.getItem('wc_dir_arch') === '1';
+  const archList = ITEMS.filter(it => it.status === '归档');
+  const list = showArch ? ITEMS : ITEMS.filter(it => it.status !== '归档');
+  document.getElementById("count").textContent = list.length;
+  const ab = document.getElementById('arch-toggle');
+  if (ab) ab.textContent = archList.length ? (showArch ? '隐藏已归档（' + archList.length + '）' : '显示已归档（' + archList.length + '）') : '';
+  document.getElementById("list").innerHTML = list.map(it => {
     const done = !!st[it.id];
     return `<div class="item ${it.pri === 'P1' ? 'p1' : ''} ${done ? 'done' : ''}">
       <div class="row">
@@ -404,6 +414,9 @@ function render() {
       apiPush(cb.dataset.id, cb.checked);
     });
   });
+  const ab2 = document.getElementById('arch-toggle');
+  if (ab2) ab2.onclick = (e) => { e.preventDefault();
+    localStorage.setItem('wc_dir_arch', localStorage.getItem('wc_dir_arch') === '1' ? '0' : '1'); render(); };
   document.querySelectorAll("[data-copy]").forEach(b => {
     b.addEventListener("click", () => {
       const t = document.getElementById("c-" + b.dataset.copy).innerText;
