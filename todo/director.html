@@ -149,6 +149,17 @@ const ITEMS = [
     effect: "客户拿到明确交期 → 这单从「已付款」走到「已发货」，是唯一直接出结果的一件",
   },
   {
+    id: "second-mailbox-blindspot",
+    pri: "P0",
+    title: "🔴 有两个信箱在跟客户，但系统只扫了一个 —— Cathy 那半边的客户来信是盲区",
+    why: "<b>2026-10-12 发现（船东指出「不是有两个邮箱在跟吗」）。</b><br><br><b>现状：</b><br>· 系统（本机 + 服务器）的邮箱配置<b>只有 <code>harry_hou@wechgood.com</code> 一个</b><br>· 但实际有 <b><code>sales2@wechgood.com</code>（Cathy 在用）也在跟客户</b><br>· 实测：最近 60 封邮件里，<b>14 封涉及 sales2</b> —— 而这 14 封能被我看到，<b>只是因为 Cathy 抄送了 Harry</b><br><br><b>🔴 真正的盲区：</b>客户发给 <code>sales2@</code>、<b>没抄 Harry</b> 的信，<b>现有扫描完全看不到，数量未知</b>。<br><br><b>今天 STILLSTERN 那条线索（已付运费、问发货日期）能被我扒出来，就是因为 Cathy 抄了 Harry —— 说白了是运气。</b><br><br><b>为什么必须修：</b>这和 2026-10-07「Mac 睡了 4 天、客户回信漏扫、没人知道」是<b>同一类失效</b> —— <b>「信来了但系统当它不存在」</b>。而且它还有个副作用：<b>日课里那句「收件箱里有 N 封客户来信」，N 只是 Harry 一个信箱的数 —— 业务量本身被低估。</b>",
+    how: "<b>① 先确认一件事：一共几个信箱在跟客户？</b><br>除了 <code>harry_hou@</code> 和 <code>sales2@</code>，还有没有：<br>· <code>info@wechgood.com</code>（独立站询盘表可能发到这里）<br>· <code>postmaster@wechgood.com</code><br>· 别的业务员信箱<br><b>→ 把所有在跟客户的信箱列出来，一个都不能漏。</b><br><br><b>② 选一条路修（推荐 B）</b><br><b>⭐ B. 在 sales2 上设「自动抄送」</b> —— 阿里云邮箱后台 → 收信规则 → 转发/抄送到 <code>harry_hou@</code><br>　→ <b>一次配置、永久生效、不用到处存第二个密码</b><br>　→ ⚠️ 代价：<b>Cathy 的所有来信都会进 Harry 邮箱</b>（这是管理决定，要你拍板）<br><br><b>A. 给系统一个 sales2 的 IMAP 密码</b> —— 加进配置，两个信箱一起扫<br>　→ 更快，但密码要存在机器上<br><br><b>D. 开「共享信箱」</b> —— 阿里云企业邮箱的功能，同样要管理员权限<br><br><b>③ ⚠️ 关键：这件事和「开 DKIM」卡在同一个后台</b><br>两件都要<b>邮箱管理员</b>登录 <code>qiye.aliyun.com/admin/</code>。<br><b>→ 建议一次进去把两件都办了</b>（DKIM 那条在待办里也有）。",
+    copy: "总监你好，发现一个客户来信的盲区，需要你确认一下。\n\n【问题】\n我们这套系统（本机 + 服务器）的邮箱配置里，只有 harry_hou@wechgood.com 一个。\n但实际上 sales2@wechgood.com（Cathy 在用的）也在跟客户。\n\n我实测了最近 60 封邮件：有 14 封涉及 sales2 —— 而这 14 封我能看到，只是因为 Cathy 抄送了你。\n\n真正的问题是：客户发给 sales2、没抄你的信，系统完全看不到，数量未知。\n\n说白了，今天 STILLSTERN 那条线索（客户已付运费、在问发货日期）我能发现，就是因为 Cathy 抄了你 —— 是运气。\n\n【要你确认两件事】\n\n一、一共有几个信箱在跟客户？\n除了 harry_hou 和 sales2，还有没有：\n· info@wechgood.com（独立站询盘表会不会发到这里？）\n· postmaster@wechgood.com\n· 别的业务员信箱\n请把在跟客户的都列一下，一个都不能漏。\n\n二、怎么修？我建议这个：\n在 sales2 的邮箱里设一条「收信规则 → 自动抄送到 harry_hou@」。\n一次配置、永久生效，也不用把第二个密码存在我这边。\n\n但要提醒你：这样做意味着 Cathy 收到的所有邮件都会进你的邮箱。这是个管理上的决定，你拍板。\n\n如果你不想那样，另一条路是给我一个 sales2 的 IMAP 密码，我让系统直接扫那个信箱。\n\n【顺便】\n这件事和「开 DKIM」卡在同一个地方 —— 都要邮箱管理员登录 qiye.aliyun.com/admin/。\n建议一次进去把两件都办了。",
+    copyLabel: "复制这段话（发给总监）",
+    due: "🔴 客户来信盲区 —— 建议和开 DKIM 一起办（同一个后台）",
+    effect: "补齐后，所有在跟客户的信箱都被扫到 → 不会再出现「信来了但系统当它不存在」",
+  },
+  {
     id: "tradewind-eval",
     pri: "P1",
     title: "🟠 评估「信风 AI 拓客」的线索质量（¥429 买一季试）—— 线索源头是我们的瓶颈",
