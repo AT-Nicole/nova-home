@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /admin.html
 
-Sitemap: https://wechgood.cn/sitemap.xml
+Sitemap: https://www.wechgood.com/sitemap.xml
