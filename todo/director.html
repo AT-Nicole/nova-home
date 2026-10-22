@@ -174,6 +174,7 @@ const ITEMS = [
   {
     id: "stillstern-followup",
     pri: "P0",
+    status: "归档",
     title: "🟠 STILLSTERN 样品已发出（单号 878427830310）—— 盯「收到没有」和「反馈怎么样」",
     why: "<b>2026-10-12 状态更新：样品已于当天由 Cathy 发出</b>，快递单号 <code>878427830310</code>，邮件里已告知客户 Ahmed，客户回复「Noted, thank u. Br」<b>确认收到通知</b>。<br><br><b>为什么还要盯（B2B 样品的两个关键节点）：</b><br>① <b>「收到没有」</b> —— 国际件到德国通常 7 天左右（我们报过这个数）。到了要主动问一句，<b>不要等客户自己说</b>；也不要让客户以为我们发完就不管了。<br>② <b>「反馈怎么样」</b> —— 样品是<b>离订单最近的一步</b>。客户收到后如果不吭声，往往不是不满意，是<b>还没测</b>。这时候一封「有没有需要我补充的参数/认证资料」比「买不买」有用得多。<br><br><b>⚠️ 这一单的关键意义：</b>这是外贸线<b>目前推进最深的一个客户</b>（已经到了样品阶段），<b>它的结果决定 WECHGOOD 这条线能不能出第一个单</b>。",
     how: "<b>① 记下两个日期</b><br>· <b>发货日</b>：2026-10-12<br>· <b>预计到达</b>：约 10-19（发货 +7 天）<br>· 单号 <code>878427830310</code>（可在 FedEx/DHL 官网查，看是哪家）<br><br><b>② 到货日 +1 天，主动发一封</b>（不用等客户）<br>要点：确认收到 + 问有没有需要补充的资料（参数/认证/说明书）+ <b>不提价格、不催单</b><br><br><b>③ 到货日 +7 天，如果客户没反馈</b><br>再发一封，这次给一个<b>好回答的问题</b>，例如：「测试下来哪一项最接近你们的要求 / 哪一项需要调整」——<br><b>比「考虑得怎么样」有效得多</b>（后者把压力给客户，前者是请他指出方向）。<br><br><b>④ 无论结果如何，都写进「今日进展」</b> —— 这是外贸线最重要的一个数据点。",
@@ -336,6 +337,7 @@ const ITEMS = [
   {
     id: "reply-domainsolicit",
     pri: "P2",
+    status: "归档",
     title: "（非客户）Callum 的域名推销 —— 一句话回绝或直接不管",
     why: "<b>已核实：他不是客户。</b><br><br>主题 <code>RE: jinhuatech</code>，正文：「This is maybe our last follow up, but in case you just not interested, <b>just ignore it again</b>」—— 这是<b>卖域名</b>的推销，不是产品询盘。<br><br>这条线 <code>HEARTBEAT.md</code> 里早就记过：「jinhuatech.com 线程（域名出售邀约 Callum Parker，<b>非产品询盘</b>），该线程后续新 uid 一律按域名邀约处理，<b>勿按询盘格式</b>」。<br><br>我第一版扫描器把他误判成「客户已放弃」，已修。",
     how: "两个选择：<br><br><b>A. 不管</b> —— 他自己说了「just ignore it again」，那就真的忽略。<br><b>B. 一句话回绝</b> —— 「Thanks, we are not in the market for this domain.」然后结束。<br><br>建议 <b>A</b>：回他等于确认邮箱有效，可能招来更多推销。",
@@ -345,6 +347,7 @@ const ITEMS = [
   {
     id: "mail-pw-rotate",
     pri: "P2",
+    status: "归档",
     title: "🔑 重置企业邮箱专用密码（<b>可以不做</b>·不紧急）",
     why: "<b>2026-10-04 的判断：优先级低，搁置。</b><br><br>起因是这个专用密码在排查邮件时被打印进了会话输出，当时建议重置。但后来查清：<b>真正的暴露面不是会话记录，而是配置文件里存的是明文</b>（<code>~/wechgood/config.json</code>、<code>/opt/wechgood/smtp-config.json</code>、<code>workspace/auto-inquiry/config.json</code>）。<b>能看到会话记录的人，本来就能直接读这些文件。</b><br><br>而且<b>重置治标不治本</b> —— 新密码还是明文放回同一个文件，暴露面一点没变。<br><br><b>重置的代价却是实打实的</b>：手机邮箱 App、Foxmail / Outlook 全部掉线要重新配；服务器 + 本地 + 工具链三处要同步，改的窗口里收发信是断的。",
     how: "<b>更对症的替代（10-04 已做）：把明文凭据文件的权限从 644 收到 600</b><br>已改：<code>~/wechgood/config.json</code>、<code>~/wechgood/.env</code>、<code>workspace/auto-inquiry/config.json</code>、服务器 <code>/opt/wechgood/smtp-config.json</code>。<br>这防的是「文件被读」，比重置更直接，而且零副作用（不需要任何客户端重配）。<br><br><b>真要重置时怎么做：</b>阿里邮箱网页版 → 设置 → 安全设置 → 客户端专用密码 → 重置，然后把新密码给 DeepSeek，一次改完三处并验证（IMAP 登录 + 发一封测试信到总监自己邮箱）。<br><br><b>⚠️ 浏览器 agent 做不了这个</b>：它跑在一次性临时配置里（<code>/tmp/cdp-profile-*</code>，实测 <b>0 cookie</b>），永远看到登录页。<b>必须你本人操作。</b>",
