@@ -150,6 +150,17 @@ const ITEMS = [
     effect: "客户拿到明确交期 → 这单从「已付款」走到「已发货」，是唯一直接出结果的一件",
   },
   {
+    id: "stillstern-outstanding",
+    pri: "P0",
+    title: "🟠 STILLSTERN 只剩尾款卡在银行 —— 客户主动提出可以用 PayPal",
+    why: "<b>2026-10-21 客户 Ahmed 回信原文：</b><br><code>My bank has also started an investigation. I'll update you as soon as I hear back. If it turns out to be complicated, which I don't expect, we'll pay the outstanding amount via PayPal.</code><br><br><b>三个关键信息：</b><br>① <b>他那边银行也在查</b> —— 不是我们单方面的问题<br>② <b>「the outstanding amount」</b> —— 说明<b>大部分已经付了，只剩尾款</b><br>③ <b>他主动提 PayPal</b> —— 客户是配合的，不是想赖账<br><br><b>⚠️ 但 PayPal 不能随便接：</b><br>· 手续费约 <b>4.4%</b>，谁承担要先说清<br>· <b>我们公司的 PayPal 账户能不能收外币企业付款？</b>（这个必须先确认，不然收了取不出来）<br>· 大额走 PayPal 有<b>风控冻结</b>风险<br><br><b>→ 优先还是让他走银行电汇，备注写合同号 X202606013001 + 姓名拼音</b>，这样银行合规能对上号，不容易再被挂起。",
+    how: "<b>① 先问清三件事（今天）</b><br>· 现在到底是「收到一部分」还是「全部没到」？<b>具体差多少钱</b><br>· 他说的 outstanding amount 是多少<br>· 我们 PayPal 账户能不能收外币企业付款<br><br><b>② 回客户（措辞要中性，不要催钱）</b><br>「收到你的说明，我们这边也联系了银行。为了加快核对，能不能麻烦你发一份付款水单？另外汇款备注里写上合同号 X202606013001 和你的姓名拼音，银行那边对得上号就会快很多。」<br><br><b>③ 如果客户坚持 PayPal</b><br>· 先确认<b>手续费谁承担</b>（建议写进邮件）<br>· 控制在<b>小额尾款</b>范围内，大额不走<br>· 钱到账再安排发货（如还有未发部分）",
+    copy: "总监，STILLSTERN 的尾款情况更新一下。\n\n客户 Ahmed 10-21 回信说：\n「我这边银行也在查，有结果会告诉你。如果太麻烦（我预计不会），\n我们会用 PayPal 把还没付的那部分付掉。」\n\n这句话说明三件事：\n1. 他那边银行也在查，不是我们单方面的问题\n2. 他说的 outstanding amount，说明大部分已经付了，只剩尾款\n3. 他主动提 PayPal，说明客户是配合的，不是想赖账\n\n我想跟你确认：\n1. 现在具体差多少钱？是收到一部分还是全部没到？\n2. 他说用 PayPal——我们公司 PayPal 能不能收外币企业付款？手续费 4.4% 谁承担？\n3. 大额走 PayPal 有冻结风险，你建议控制在多少以内？\n\n我的建议：\n· 优先还是让他走银行电汇，备注写合同号 X202606013001 + 姓名拼音，\n  银行合规能对上号，不容易再挂起\n· PayPal 只做小额尾款备选\n· 无论哪种，都要他发水单留档\n\n麻烦你今天跟 Cathy 和财务对一下，有结果同步我。",
+    copyLabel: "复制这段话（发给总监）",
+    due: "🟠 客户主动给方案了 —— 今天回，别拖",
+    effect: "把「钱卡在银行」变成「有确定的收款路径」",
+  },
+  {
     id: "lebanon-payment-24k",
     pri: "P0",
     title: "🔴 黎巴嫩那票 24,012.50 美元 —— 货 10-09 已出，钱到没到没人知道",
