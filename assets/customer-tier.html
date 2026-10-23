@@ -1,0 +1,94 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>客户分层表单工具 · 金骅 AI</title>
+<style>
+:root{--ink:#12171f;--grey:#5b6472;--line:#e3e7ee;--a:#0f766e}
+*{box-sizing:border-box}
+body{margin:0;padding:24px 16px;font:14px/1.6 -apple-system,"PingFang SC","Hiragino Sans GB",sans-serif;color:var(--ink);background:#f7f8fa}
+.wrap{max-width:1000px;margin:0 auto;background:#fff;border:1px solid var(--line);border-radius:14px;padding:26px}
+h1{font-size:22px;margin:0 0 4px}h2{font-size:16px;margin:22px 0 8px}
+.sub{color:var(--grey);font-size:13px;margin:0 0 16px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{border-bottom:1px solid var(--line);padding:7px 6px;text-align:left}
+th{background:#f2f5f8;font-weight:600;white-space:nowrap}
+input,select{font:inherit;padding:5px 7px;border:1px solid var(--line);border-radius:7px;width:100%}
+button{font:inherit;padding:8px 16px;border-radius:9px;border:1px solid var(--a);background:var(--a);color:#fff;cursor:pointer}
+button.ghost{background:#fff;color:var(--a)}
+.rule{background:#f2f5f8;border-radius:9px;padding:10px 12px;font-size:12.5px;color:#374151}
+.tA{color:#0f766e;font-weight:700}.tB{color:#1d4ed8;font-weight:700}.tC{color:#b45309;font-weight:700}.tD{color:#b3261e;font-weight:700}
+.bar{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}
+</style></head><body><div class="wrap">
+<h1>客户分层表单工具</h1>
+<p class="sub">金骅 AI（WECHGOOD）· 规则全透明：勾选 → 自动打分 → 出 A/B/C/D 分层 + 建议动作 → 可导出 CSV</p>
+
+<div class="rule"><b>打分规则（不是黑箱）：</b>
+类型 D2C/经销商/连锁 +2 · 有官网 +1 · 找得到决策人 +2 · 预估年采购 ≥10 万美元 +2（5–10 万 +1）· 有真实询盘/回复 +2
+｜ <b>一票否决：</b>自己生产同类产品 → 直接 <span class="tD">D</span>（不发开发信）
+｜ A≥6 · B 4–5 · C 2–3 · D≤1</div>
+
+<div class="bar">
+  <button onclick="addRow()">＋ 加一行</button>
+  <button class="ghost" onclick="quick()">填一个示例</button>
+  <button class="ghost" onclick="exportCSV()">导出 CSV</button>
+  <button class="ghost" onclick="localStorage.removeItem('tier_rows');render()">清空</button>
+</div>
+
+<table id="tbl"><thead><tr>
+<th style="width:16%">客户名</th><th style="width:9%">国家</th><th style="width:13%">类型</th>
+<th style="width:7%">有官网</th><th style="width:9%">找到决策人</th><th style="width:12%">预估年采购</th>
+<th style="width:8%">有真实询盘</th><th style="width:7%">分</th><th style="width:6%">层</th><th>建议动作</th>
+</tr></thead><tbody></tbody></table>
+
+<script>
+var rows = JSON.parse(localStorage.getItem('tier_rows') || '[]');
+function save(){ localStorage.setItem('tier_rows', JSON.stringify(rows)); }
+function addRow(){ rows.push({n:'',c:'',t:'经销商',w:1,d:0,v:100000,q:0}); save(); render(); }
+function quick(){ rows.push({n:'示例·德国餐具经销商',c:'DE',t:'经销商',w:1,d:1,v:120000,q:0}); save(); render(); }
+function tier(r){
+  if (r.t === '自产同类') return {s:0, t:'D', a:'不发。自己生产同类 = 同行，发信只会被当骚扰'};
+  var s = 0;
+  if (r.t==='D2C'||r.t==='经销商'||r.t==='连锁') s+=2;
+  if (r.w) s+=1; if (r.d) s+=2;
+  if (r.v>=100000) s+=2; else if (r.v>=50000) s+=1;
+  if (r.q) s+=2;
+  var t = s>=6?'A':(s>=4?'B':(s>=2?'C':'D'));
+  var a = t==='A'?'优先发：具名 + 具体物 + 小单起订'
+        : t==='B'?'可以发：先补决策人，再发首封'
+        : t==='C'?'缓一缓：先查证据（官网/品类/规模）'
+        : '不发：证据不足或不对口';
+  return {s:s,t:t,a:a};
+}
+function render(){
+  var tb=document.querySelector('#tbl tbody'); tb.innerHTML='';
+  rows.forEach(function(r,i){
+    var x=tier(r);
+    tb.insertAdjacentHTML('beforeend','<tr>'+
+      '<td><input value="'+esc(r.n)+'" oninput="upd('+i+',\'n\',this.value)"></td>'+
+      '<td><input value="'+esc(r.c)+'" oninput="upd('+i+',\'c\',this.value)" maxlength="4"></td>'+
+      '<td><select onchange="upd('+i+',\'t\',this.value)">'+opt(['D2C','经销商','连锁','自产同类','不确定'],r.t)+'</select></td>'+
+      '<td><select onchange="upd('+i+',\'w\',+this.value)">'+opt2([[1,'有'],[0,'无']],r.w)+'</select></td>'+
+      '<td><select onchange="upd('+i+',\'d\',+this.value)">'+opt2([[1,'找得到'],[0,'找不到']],r.d)+'</select></td>'+
+      '<td><input type="number" value="'+(r.v||0)+'" oninput="upd('+i+',\'v\',+this.value)"></td>'+
+      '<td><select onchange="upd('+i+',\'q\',+this.value)">'+opt2([[1,'有'],[0,'无']],r.q)+'</select></td>'+
+      '<td><b>'+x.s+'</b></td>'+
+      '<td class="t'+x.t+'">'+x.t+'</td>'+
+      '<td style="font-size:12.5px;color:#374151">'+x.a+'</td></tr>');
+  });
+  if(!rows.length) tb.innerHTML='<tr><td colspan="10" style="color:#8b93a1;padding:14px">还没有数据 —— 点「＋ 加一行」或「填一个示例」</td></tr>';
+}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;')}
+function opt(a,v){return a.map(function(o){return '<option'+(o===v?' selected':'')+'>'+o+'</option>'}).join('')}
+function opt2(a,v){return a.map(function(o){return '<option value="'+o[0]+'"'+(o[0]==v?' selected':'')+'>'+o[1]+'</option>'}).join('')}
+function upd(i,k,v){ rows[i][k]=v; save(); render(); }
+function exportCSV(){
+  var head=['客户名','国家','类型','有官网','找到决策人','预估年采购USD','有真实询盘','分数','分层','建议动作'];
+  var lines=[head.join(',')];
+  rows.forEach(function(r){ var x=tier(r);
+    lines.push([r.n,r.c,r.t,r.w?'有':'无',r.d?'找得到':'找不到',r.v,r.q?'有':'无',x.s,x.t,x.a].map(function(v){return '"'+String(v).replace(/"/g,'""')+'"'}).join(','));
+  });
+  var blob=new Blob(['\ufeff'+lines.join('\n')],{type:'text/csv;charset=utf-8'});
+  var a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download='客户分层_'+new Date().toISOString().slice(0,10)+'.csv'; a.click();
+}
+render();
+</script></div></body></html>
