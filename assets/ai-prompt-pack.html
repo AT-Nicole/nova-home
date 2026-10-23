@@ -1,0 +1,92 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI 提示词包 · 开发信 / 背调 / 跟进（金骅 AI）</title>
+<style>
+:root{--ink:#12171f;--grey:#5b6472;--line:#e3e7ee;--accent:#0f766e}
+*{box-sizing:border-box}
+body{margin:0;padding:28px 18px;font:15px/1.65 -apple-system,"PingFang SC","Hiragino Sans GB",sans-serif;color:var(--ink);background:#f7f8fa}
+.wrap{max-width:860px;margin:0 auto;background:#fff;border:1px solid var(--line);border-radius:14px;padding:34px 34px 40px}
+h1{font-size:26px;margin:0 0 6px}
+.sub{color:var(--grey);margin:0 0 22px;font-size:14px}
+h2{font-size:18px;margin:30px 0 8px;padding-top:18px;border-top:1px solid var(--line)}
+h3{font-size:15px;margin:18px 0 6px}
+p{margin:6px 0}
+pre{background:#0f172a;color:#e6edf7;padding:12px 14px;border-radius:9px;overflow-x:auto;font:13px/1.55 ui-monospace,Menlo,monospace;white-space:pre-wrap}
+.tag{display:inline-block;font-size:12px;padding:1px 8px;border-radius:999px;background:#e8f5f3;color:#0f766e;margin-right:6px}
+.red{color:#b3261e}
+.note{background:#fff8e6;border:1px solid #f0d9a8;border-radius:9px;padding:10px 12px;font-size:13.5px}
+@media print{body{background:#fff;padding:0}.wrap{border:0;border-radius:0;padding:0 6mm}pre{background:#f2f4f7;color:#111}}
+</style></head><body><div class="wrap">
+<h1>AI 提示词包 · 开发信 / 背调 / 跟进</h1>
+<p class="sub">金骅 AI（WECHGOOD）· 2026-10 · 直接复制可用。<b>橙字【】= 换成你的真实信息。</b></p>
+<div class="note"><b>三条使用铁律：</b>① 模型只负责起草，<b>人负责拍板</b> ② 每个数字都要能追到底册，<b>没确认的就不写</b> ③ 不写客户品牌名、不写"premium/最佳/第一"这类形容词。</div>
+
+<h2>一、开发信（3 条）</h2>
+<h3>1.1 从"证据"写第一封（≤120 词）</h3>
+<p><span class="tag">输入</span>客户公司名 / 官网 URL / 你查到的产品线</p>
+<pre>你是外贸开发信的审稿人。基于下面这条【可验证的事实】，写一封 ≤120 词的英文开发信。
+
+事实（只能引用这一条，不许补充）：【客户官网上的具体产品线或页面原词】
+我方事实（只能引用这些）：【型号/功率/认证/价格区间，必须有出处】
+
+要求：
+1) 第一句说客户的事（引用上面那条事实，让我看出你真看过）
+2) 第二段给一个具体物（价格或对照表），不索要任何信息
+3) 结尾零门槛：「不对口回 not for us，我关档」
+4) 三段总长 ≤120 词；不用形容词堆砌；不提我方客户名
+输出：主题行 + 正文，中文注释说明每个数字的出处。</pre>
+
+<h3>1.2 把"索要型"改成"给予型"</h3>
+<pre>下面这封开发信在索要信息（要规格/要样品/要报价单）。请改写：
+- 删掉所有索要动作
+- 改成先给一个具体物（价格/对照表/成本拆解）
+- 结尾只保留一句低压力收尾
+原文：【粘贴】</pre>
+
+<h3>1.3 三类客户改写（D2C / 经销商 / 连锁）</h3>
+<pre>把下面这封开发信改写成三个版本，同一事实、不同角度：
+A) 欧洲 D2C/设计感品牌：讲"支线补位 + 小单起订"
+B) 经销商/进口商：讲"电压/插头/面板语言按单适配 + 阶梯价"
+C) 大零售连锁：承认收件人可能不对口，请求转发给正确的品类负责人
+原信：【粘贴】</pre>
+
+<h2>二、背调（2 条）</h2>
+<h3>2.1 从官网提取"可验证事实清单"</h3>
+<pre>只根据我给的网页正文，输出一张事实清单（表格：事实 / 原文片段 / 可信度 高·中·低）。
+规则：
+- 凡是原文没有的，写「未提及」，禁止推断
+- 特别标注：① 他们的产品线 ② 目标市场 ③ 认证 ④ 规模线索（员工/厂房/国家数）
+网页正文：【粘贴】</pre>
+
+<h3>2.2 判断"是不是同行/自产同类"（最关键的一条）</h3>
+<pre>判断这家公司是不是"自己生产同类产品"（若是，就不该发开发信）。
+依据只能来自我给的原文。输出：
+1) 结论：自产同类 / 纯贸易或品牌商 / 不确定
+2) 证据：引原文 3 条以内
+3) 若"不确定"，列出还缺哪一条信息才能定
+原文：【粘贴】</pre>
+
+<h2>三、跟进（2 条）</h2>
+<h3>3.1 FU1（第 3 天）· 只能带一个新事实</h3>
+<pre>写一封跟进信（≤90 词）。唯一规则：必须带一个【新事实】，不许重复上一封。
+可选新事实（挑一个）：单灶 vs 双灶成本对照 / 一个 20 尺柜的装柜经济账 / 目标市场的认证细节 / 回应客户上封信里的原词。
+上一封原文：【粘贴】 新事实：【填】</pre>
+
+<h3>3.2 FU3（第 14 天）· 关门但留门</h3>
+<pre>写一封"关门信"（≤60 词）：
+- 明确说不再打扰
+- 留一句"需要时随时找我"
+- 不制造紧迫感、不威胁、不追问
+上一封原文：【粘贴】</pre>
+
+<h2>四、发送前 30 秒自查（1 条）</h2>
+<pre>你是我们公司的发送前审稿人。逐条判定下面这封信，输出「通过 / 不通过 + 原因」：
+1) 收件人头衔与品类相关吗？（品类采购 &gt; 产品经理 &gt; 采购助理 &gt; 角色邮箱 &gt; CEO 冷信）
+2) 每个数字都能追到底册吗？没确认的事（如样品交期）写了吗？
+3) 是否提到客户品牌名？是否有 premium/最佳/第一 这类词？
+4) 是否索要了信息（要规格/要样品/要报价）？
+5) 总字数是否 ≤120 词（首封）？
+信件：【粘贴】</pre>
+
+<p style="margin-top:28px;color:var(--grey);font-size:13px">金骅 AI（WECHGOOD）· 提示词包 v1 · 2026-10-23 · 与《开发信模板精简卡》配套使用</p>
+</div></body></html>
