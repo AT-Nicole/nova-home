@@ -376,5 +376,39 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
   </div>
 </footer>
 
+
+<!-- 2026-10-23 修复：登录状态感知 --------------------------------------------
+  为什么加这段：首页/opc 的「登录」按钮原来是死 HTML，不检查会话。
+  于是「登录成功 → 跳回首页 → 仍然显示登录」，看着像没登录，其实 session 已在。
+  这段只做一件事：已登录就把按钮换成「进入管理台」并给出「退出」；未登录不动。 -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="js/config.js"></script>
+<script>
+(function () {
+  try {
+    var lib = window.supabase || self.supabase;
+    if (!lib || !window.JH_SB_KEY) return;
+    var sb = lib.createClient('https://zmhvarnrdnsimkkhrlol.supabase.co', window.JH_SB_KEY);
+    sb.auth.getSession().then(function (r) {
+      var s = r && r.data && r.data.session;
+      if (!s) return;
+      var em = (s.user && s.user.email) || '';
+      document.querySelectorAll('.b-login').forEach(function (a) {
+        a.textContent = '进入管理台';
+        a.href = '/jh-admin.html';
+        a.title = '已登录：' + em;
+        var out = document.createElement('a');
+        out.className = 'b-login';
+        out.href = '#';
+        out.textContent = '退出';
+        out.style.marginLeft = '8px';
+        out.onclick = function (e) { e.preventDefault(); sb.auth.signOut().then(function () { location.reload(); }); };
+        a.parentNode.insertBefore(out, a.nextSibling);
+      });
+    });
+  } catch (e) { /* SDK 没加载成功就保持原样，不阻塞页面 */ }
+})();
+</script>
+
 </body>
 </html>
