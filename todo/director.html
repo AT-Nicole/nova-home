@@ -399,7 +399,7 @@ const ITEMS = [
 ];
 
 const SHEET = 'director';
-let API = null, ST = {};
+let API = null, ST = {}, RAW = {};
 function lsLoad() { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { return {}; } }
 function load() { return ST; }
 function save(o) { ST = o; try { localStorage.setItem(KEY, JSON.stringify(o)); } catch (e) {} }
@@ -456,6 +456,19 @@ function render() {
     </div>`;
   }).join("");
 
+  // AI 派活：API 里有、但不在写死列表里的条目
+  try {
+    const extra = Object.keys(RAW || {}).filter(function(k){ return k !== 'ping' && !ITEMS.some(function(it){ return it.id === k; }); });
+    if (extra.length) {
+      var html = '<div class="item" style="border:2px solid #e8722a"><div class="row"><div style="flex:1"><p class="ttl">\uD83E\uDD16 AI \u6D3E\u6D3B\uFF08' + extra.length + '\uFF09</p></div></div></div>';
+      extra.forEach(function(k){
+        var v = RAW[k] || {};
+        html += '<div class="item"><div class="row"><input class="chk" type="checkbox" data-id="' + k + '"' + (v.checked ? ' checked' : '') + '><div style="flex:1"><p class="ttl">' + (v.note || k) + '<span class="tag p0">AI</span></p><div class="due">' + (v.who || '\u603B\u76D1') + ' \u00B7 ' + (v.at || '') + '</div></div></div></div>';
+      });
+      document.getElementById("list").insertAdjacentHTML('beforeend', html);
+    }
+  } catch (e) {}
+
   document.querySelectorAll(".chk").forEach(cb => {
     cb.addEventListener("change", () => {
       const s = load(); s[cb.dataset.id] = cb.checked; save(s); render();
@@ -491,6 +504,7 @@ apiDiscover(b => {
   apiPull(items => {
     if (items === null) { ST = lsLoad(); render(); setRec('⚠️ 读取记录失败', 'warn'); return; }
     ST = {};
+    RAW = items || {};
     Object.keys(items).forEach(k => { const v = items[k]; ST[k] = (v && typeof v === 'object') ? !!v.checked : !!v; });
     render();
     const n = Object.keys(ST).filter(k => ST[k]).length;
