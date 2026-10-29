@@ -939,8 +939,9 @@ function apiPush(id, checked) {
 
 function render() {
   const st = load();
-  document.getElementById("count").textContent = ITEMS.length;
-  document.getElementById("list").innerHTML = ITEMS.map(it => {
+  const _main = ITEMS.filter(it => !/^(ai-|fu-|fs-|fp-|fa-)/.test(it.id));
+  document.getElementById("count").textContent = _main.length;
+  document.getElementById("list").innerHTML = _main.map(it => {
     const done = !!st[it.id];
     return `<div class="item ${it.pri === 'P1' ? 'p1' : ''} ${done ? 'done' : ''}">
       <div class="row">
@@ -959,7 +960,7 @@ function render() {
 
   // AI 派活：API 里有、但不在写死列表里的条目
   try {
-    const extra = Object.keys(RAW || {}).filter(function(k){ return /^(ai-|fu-|fs-|fp-|fa-)/.test(k) && !ITEMS.some(function(it){ return it.id === k; }); });
+    const extra = Object.keys(RAW || {}).filter(function(k){ return /^(ai-|fu-|fs-|fp-|fa-)/.test(k); });
     if (extra.length) {
       var gorder = ['\uD83D\uDD34 30\u5929+\uFF08\u6700\u8BE5\u8DDF\uFF09', '\uD83D\uDFE1 7-30\u5929', '\u26AA \u5230\u671F', '\u5176\u5B83'];
       var groups = {};
