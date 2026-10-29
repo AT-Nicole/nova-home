@@ -463,7 +463,14 @@ function render() {
       var html = '<div class="item" style="border:2px solid #e8722a"><div class="row"><div style="flex:1"><p class="ttl">\uD83E\uDD16 AI \u6D3E\u6D3B\uFF08' + extra.length + '\uFF09</p></div></div></div>';
       extra.forEach(function(k){
         var v = RAW[k] || {};
-        html += '<div class="item"><div class="row"><input class="chk" type="checkbox" data-id="' + k + '"' + (v.checked ? ' checked' : '') + '><div style="flex:1"><p class="ttl">' + (v.note || k) + '<span class="tag p0">AI</span></p><div class="due">' + (v.who || '\u603B\u76D1') + ' \u00B7 ' + (v.at || '') + '</div></div></div></div>';
+        var note = v.note || k;
+        var how = '';
+        if (note.indexOf('\u50AC\u6B3E') >= 0) how = '\u63D0\u9192\u5BA2\u6237\u5E94\u6536\u6B3E\u5230\u671F\uFF0C\u786E\u8BA4\u4ED8\u6B3E\u8BA1\u5212';
+        else if (note.indexOf('\u6837\u54C1') >= 0) how = '\u95EE\u5BA2\u6237\u6837\u54C1\u6536\u5230\u6CA1\u3001\u6D4B\u8BD5\u7ED3\u679C\u5982\u4F55';
+        else if (note.indexOf('\u53D1\u4FE1') >= 0) how = '\u7ED9\u8FD9\u4E2A\u5BA2\u6237\u53D1\u9996\u5C01\u5F00\u53D1\u4FE1\uFF08\u7528\u5F00\u53D1\u4FE1\u6A21\u677F\uFF09';
+        else if (note.indexOf('\u8DDF') >= 0) how = '\u6253\u5F00\u90AE\u4EF6/CRM\uFF0C\u7ED9\u5BA2\u6237\u53D1\u4E00\u5C01\u8DDF\u8FDB\u4FE1\uFF1A\u95EE\u62A5\u4EF7/\u6837\u54C1/\u8FDB\u5EA6';
+        if (!how) how = '\u6309\u8FD9\u6761\u5F85\u529E\u5904\u7406\uFF0C\u5904\u7406\u5B8C\u52FE\u9009';
+        html += '<div class="item"><div class="row"><input class="chk" type="checkbox" data-id="' + k + '"' + (v.checked ? ' checked' : '') + '><div style="flex:1"><p class="ttl">' + note + '<span class="tag p0">AI</span></p><div class="how"><b>\u600E\u4E48\u505A</b><br>' + how + '</div><div class="due">\u6D3E\u7ED9\uFF1A' + (v.who || '\u603B\u76D1') + ' \u00B7 ' + (v.at || '') + '</div></div></div></div>';
       });
       document.getElementById("list").insertAdjacentHTML('beforeend', html);
     }
