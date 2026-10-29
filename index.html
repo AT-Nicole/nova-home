@@ -211,6 +211,16 @@ img{max-width:100%}
 .prnote b{color:#B3541E}
 .prmore{text-align:center;font-size:13px;color:var(--grey);margin-top:14px}
 .prmore a{color:var(--orange-d);font-weight:700}
+/* 本地私有化推理产品线推广条（2026-10-29 加） */
+.prband{display:grid;grid-template-columns:1fr auto;gap:22px;align-items:center;margin-top:26px;padding:24px 26px;border:1.5px solid #C9CFEC;border-radius:16px;background:linear-gradient(135deg,#F4F6FF,#FFF9F2)}
+.prband h3{font-size:19px;font-weight:800;margin:8px 0 6px;color:var(--navy2)}
+.prband p{font-size:13.5px;color:#4A4F63}
+.prband p b{color:#B3541E}
+.prband .pb-warn{margin-top:8px;font-size:12.5px;color:#6B7288}
+.prband .pb-tag{display:inline-block;font-size:11.5px;font-weight:800;color:#4A5AC3;background:#E6EAFF;border-radius:999px;padding:3px 12px}
+.prband .pb-go{justify-self:end;white-space:nowrap;background:var(--navy);color:#fff;font-weight:800;font-size:14px;padding:12px 24px;border-radius:999px}
+.prband .pb-go:hover{background:#26386B}
+@media(max-width:760px){.prband{grid-template-columns:1fr}.prband .pb-go{justify-self:start}}
 
 /* ===== 案例区 ===== */
 .case{background:#F7F8FC;padding:60px 0;border-top:1px solid var(--hair)}
@@ -274,6 +284,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
     <div class="links">
       <a href="#bundle" class="on">课程报名</a>
       <a href="#pricing">产品价格</a>
+      <a href="agent.html">推理 Agent</a>
       <a href="#fly">方法论</a>
       <a href="#compare">全部课程</a>
       <a href="#tasks">任务表</a>
@@ -519,6 +530,18 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
 
   </div>
   <p class="prnote">选不出来？一句话版：<b>想系统学方法</b>选 ① · <b>想先低成本提效</b>选 ② · <b>想让公司整体落地</b>选 ③ · <b>想靠内容获客</b>选 ④。</p>
+
+  <!-- 新增产品线：本地私有化深度推理（2026-10-29 加） -->
+  <div class="prband">
+    <div>
+      <span class="pb-tag">新 · 本地私有化体验版</span>
+      <h3>深度推理获客 Agent：DeepSeek‑R1 本地推理 · 单客户独占</h3>
+      <p>客户资料不上公网。3 天跑通「询盘研判 → 客户背调 → 竞对拆解 → 谈判推演 → 开发信序列」，交付一套能直接复用的客户分层 SOP。<b>¥3,800 / 3 天</b>，成交后年包 ¥12,800。</p>
+      <p class="pb-warn">说清楚：单客户独占，<b>不承诺多人同时在线</b> —— 这台是样板机，不是多租户服务器；要并发走云端基础版（¥399/月）。</p>
+    </div>
+    <a class="pb-go" href="agent.html">看这一页 →</a>
+  </div>
+
   <p class="prmore">只想知道线下课和会员档位怎么选 → <a href="#compare">看全部课程与价格</a></p>
 </div>
 
@@ -692,6 +715,9 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
         <select id="f-intent">
           <option value="AI 外贸会员 / 训练营">AI 外贸会员 / 训练营（¥3,980–19,800）</option>
           <option value="AI 外贸轻量工具（订阅）">AI 外贸轻量工具 · 订阅（¥199–999/年）</option>
+          <option value="深度推理获客Agent · 3天样板（¥3,800）">深度推理获客 Agent · 3 天样板（¥3,800）</option>
+          <option value="深度推理获客Agent · 年包（¥12,800）">深度推理获客 Agent · 年包（¥12,800）</option>
+          <option value="企业私有化部署（¥3万起）">企业私有化部署 · 本地 R1（¥3 万起）</option>
           <option value="企业 AI 落地项目">企业 AI 落地项目（3–10 万/单）</option>
           <option value="漫剧获客内容">漫剧获客内容（项目 / 分润）</option>
           <option value="线下课 / 其他合作">线下课 / 其他合作</option>
