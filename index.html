@@ -47,6 +47,18 @@ img{max-width:100%}
 .nav-more-panel a{color:#C6CDE4;font-size:13.5px;padding:9px 12px;border-radius:6px;white-space:nowrap}
 .nav-more-panel a:hover{background:rgba(255,255,255,.08);color:#fff}
 .nav-more-panel .m-sep{height:1px;background:rgba(255,255,255,.14);margin:5px 4px}
+/* ===== 产品下拉（2026-11-08） ===== */
+.nav-prod{position:relative;display:inline-flex}
+.nav-prod summary{list-style:none;cursor:pointer;color:#C6CDE4;font-size:13.5px;padding:4px 2px;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.nav-prod summary::-webkit-details-marker{display:none}
+.nav-prod summary::after{content:"";width:5px;height:5px;border-right:1.4px solid currentColor;border-bottom:1.4px solid currentColor;transform:rotate(45deg) translateY(-1px);transition:transform .18s}
+.nav-prod summary:hover,.nav-prod[open] summary{color:#fff}
+.nav-prod[open] summary::after{transform:rotate(-135deg) translateY(-1px)}
+.nav-prod-panel{position:absolute;left:-16px;top:calc(100% + 13px);background:#fff;border:1px solid var(--hair);border-radius:12px;padding:8px;min-width:308px;box-shadow:0 20px 44px rgba(20,30,60,.18);display:grid;gap:2px;z-index:80}
+.nav-prod-panel a{display:block;padding:11px 13px;border-radius:8px;transition:background .15s}
+.nav-prod-panel a:hover{background:#F4F6FC}
+.nav-prod-panel a b{display:block;color:var(--navy2);font-size:13.5px;font-weight:800;line-height:1.45}
+.nav-prod-panel a span{display:block;color:var(--grey);font-size:12px;margin-top:3px;line-height:1.55}
 @media(max-width:1080px){.nav .links{gap:12px}.nav .links a{font-size:12.5px}.nav .btns a{padding:7px 12px;font-size:12px}}
 @media(max-width:900px){.nav .links{display:none}.nav-more{display:block;margin-left:0}.nav .btns{margin-left:auto}.nav .btns .b-login{display:none}}
 
@@ -293,7 +305,13 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
     <a class="logo" href="#top"><img src="factory-site/images/logo/logo-jinhua-ai-badge.svg" alt="金骅AI" style="width:28px;height:28px;display:block;border-radius:7px"><img src="factory-site/images/logo/logo-jinhua-ai-wordmark-reversed.svg" alt="金骅AI" style="height:21px;display:block"></a>
     <div class="links">
       <a href="#top" class="on">首页</a>
-      <a href="superagent.html">SuperAgent</a>
+      <details class="nav-prod">
+        <summary>产品</summary>
+        <div class="nav-prod-panel">
+          <a href="superagent.html"><b>外贸总监 SuperAgent</b><span>本地部署大模型 · 客户数据不出内网</span></a>
+          <a href="lead-engine.html"><b>线索系统 Lead Engine</b><span>客户线索采集 · 清洗分级 · 直连 CRM</span></a>
+        </div>
+      </details>
       <a href="shenzhen.html">深圳专场</a>
       <a href="#bundle">训练营</a>
       <a href="#fly">方法论</a>
@@ -309,10 +327,13 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
       <summary>菜单</summary>
       <div class="nav-more-panel">
         <a href="#top">首页</a>
-        <a href="superagent.html">外贸总监 SuperAgent</a>
         <a href="shenzhen.html">深圳专场 · AI 外贸落地</a>
         <a href="#bundle">训练营 · 会员报名</a>
         <a href="#pricing">产品价格</a>
+        <div class="m-sep"></div>
+        <a href="superagent.html">产品 · 外贸总监 SuperAgent（本地部署）</a>
+        <a href="lead-engine.html">产品 · 线索系统 Lead Engine（获客线索）</a>
+        <div class="m-sep"></div>
         <a href="#fly">方法论</a>
         <a href="#compare">全部课程</a>
         <a href="#case">案例</a>

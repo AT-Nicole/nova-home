@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>线索系统 Lead Engine · 客户线索采集与分级 · 金骅智能科技</title>
+<link rel="icon" type="image/svg+xml" href="factory-site/images/logo/favicon-ai.svg">
+<meta name="description" content="金骅 AI 线索系统 Lead Engine：从行业目录、展会名录、领英公开信息里采集客户线索，逐条验证邮箱有效性、识别采购岗、剔除退信黑名单，再直连飞书多维表格与本地 CRM。不做卖邮箱列表的生意。">
+<style>
+:root{
+  --navy:#1B2A4E; --navy2:#111C38;
+  --grad1:#8E9BF5; --grad2:#C9B8F0; --grad3:#F3C6C2;
+  --orange:#F5A03C; --orange-d:#E8862A;
+  --yellow:#FFC93C;
+  --ink:#22273A; --grey:#7A8095; --hair:#E4E7F0;
+  --green:#1D9E6E;
+  --sans:"PingFang SC","Microsoft YaHei",sans-serif;
+  --serif:"Noto Serif SC","Songti SC",serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);color:var(--ink);font-size:16px;line-height:1.75;background:#fff}
+.wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+a{color:inherit;text-decoration:none}
+img{max-width:100%}
+
+/* ===== 顶栏（与首页同一套） ===== */
+.nav{background:var(--navy);position:sticky;top:0;z-index:60;box-shadow:0 2px 12px rgba(20,30,60,.18)}
+.nav .wrap{display:flex;align-items:center;gap:26px;height:58px}
+.nav .links{display:flex;gap:17px;margin-left:auto;flex-wrap:nowrap}
+.nav .links a{color:#C6CDE4;font-size:13.5px;padding:4px 2px;white-space:nowrap}
+.nav .links a:hover,.nav .links a.on{color:#fff}
+.nav .btns{display:flex;gap:10px;flex:none;align-items:center}
+.nav .btns a{font-size:13px;padding:7px 18px;border-radius:5px;font-weight:600;white-space:nowrap}
+.nav .btns .b-login{color:#C6CDE4}
+.nav .btns .b-cta{background:linear-gradient(180deg,#FFB347,var(--orange-d));color:#fff;box-shadow:0 4px 12px rgba(232,134,42,.35)}
+.nav-more{display:none;margin-left:auto;position:relative}
+.nav-more summary{list-style:none;cursor:pointer;color:#fff;font-size:13px;border:1px solid rgba(255,255,255,.45);border-radius:5px;padding:7px 13px;display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
+.nav-more summary::-webkit-details-marker{display:none}
+.nav-more summary::after{content:"";width:6px;height:6px;border-right:1.5px solid #fff;border-bottom:1.5px solid #fff;transform:rotate(45deg) translateY(-1px);transition:transform .18s}
+.nav-more[open] summary::after{transform:rotate(-135deg) translateY(-1px)}
+.nav-more-panel{position:absolute;right:0;top:calc(100% + 10px);background:var(--navy);border:1px solid rgba(255,255,255,.16);border-radius:8px;padding:8px;min-width:216px;box-shadow:0 18px 36px rgba(10,18,40,.42);display:grid;gap:2px;z-index:70}
+.nav-more-panel a{color:#C6CDE4;font-size:13.5px;padding:9px 12px;border-radius:6px;white-space:nowrap}
+.nav-more-panel a:hover{background:rgba(255,255,255,.08);color:#fff}
+.nav-more-panel .m-sep{height:1px;background:rgba(255,255,255,.14);margin:5px 4px}
+/* 产品下拉 */
+.nav-prod{position:relative;display:inline-flex}
+.nav-prod summary{list-style:none;cursor:pointer;color:#C6CDE4;font-size:13.5px;padding:4px 2px;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.nav-prod summary::-webkit-details-marker{display:none}
+.nav-prod summary::after{content:"";width:5px;height:5px;border-right:1.4px solid currentColor;border-bottom:1.4px solid currentColor;transform:rotate(45deg) translateY(-1px);transition:transform .18s}
+.nav-prod summary:hover,.nav-prod[open] summary{color:#fff}
+.nav-prod[open] summary::after{transform:rotate(-135deg) translateY(-1px)}
+.nav-prod-panel{position:absolute;left:-16px;top:calc(100% + 13px);background:#fff;border:1px solid var(--hair);border-radius:12px;padding:8px;min-width:308px;box-shadow:0 20px 44px rgba(20,30,60,.18);display:grid;gap:2px;z-index:80}
+.nav-prod-panel a{display:block;padding:11px 13px;border-radius:8px;transition:background .15s}
+.nav-prod-panel a:hover{background:#F4F6FC}
+.nav-prod-panel a b{display:block;color:var(--navy2);font-size:13.5px;font-weight:800;line-height:1.45}
+.nav-prod-panel a span{display:block;color:var(--grey);font-size:12px;margin-top:3px;line-height:1.55}
+@media(max-width:1080px){.nav .links{gap:12px}.nav .links a{font-size:12.5px}.nav .btns a{padding:7px 12px;font-size:12px}}
+@media(max-width:900px){.nav .links{display:none}.nav-more{display:block;margin-left:0}.nav .btns{margin-left:auto}.nav .btns .b-login{display:none}}
+
+/* ===== Hero ===== */
+.hero{background:var(--navy2);color:#fff;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;inset:0;background:radial-gradient(520px 280px at 82% 18%,rgba(245,160,60,.16),transparent 62%),radial-gradient(460px 300px at 8% 92%,rgba(142,155,245,.14),transparent 65%);pointer-events:none}
+.hero .wrap{position:relative;z-index:1;padding:64px 22px 58px;display:grid;grid-template-columns:1.25fr .75fr;gap:44px;align-items:start}
+@media(max-width:900px){.hero .wrap{grid-template-columns:1fr;gap:32px;padding:44px 22px 46px}}
+.kicker{display:inline-flex;align-items:center;gap:9px;font-size:12.5px;font-weight:700;color:#C9D2EE;border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:5px 14px}
+.kicker i{font-style:normal;color:var(--orange);font-weight:800}
+.hero h1{margin-top:22px;font-size:clamp(30px,4.4vw,46px);line-height:1.24;font-weight:800;letter-spacing:.01em}
+.hero h1 em{font-style:normal;color:#FFC86B}
+.hero .lede{margin-top:18px;font-size:16.5px;color:#C3CBE4;max-width:33em;line-height:1.8}
+.hero .lede b{color:#fff;font-weight:700}
+.hero-cta{margin-top:30px;display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.btn-main{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(180deg,#FFB347,var(--orange-d));color:#fff;font-size:15.5px;font-weight:800;padding:13px 30px;border-radius:999px;box-shadow:0 8px 22px rgba(232,134,42,.36);transition:.15s}
+.btn-main:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(232,134,42,.44)}
+.btn-ghost{display:inline-flex;align-items:center;gap:8px;color:#D3DAF0;font-size:14.5px;font-weight:700;padding:12px 24px;border:1px solid rgba(255,255,255,.28);border-radius:999px;transition:.15s}
+.btn-ghost:hover{border-color:rgba(255,255,255,.55);color:#fff}
+
+/* 右侧：三个实测数字 */
+.stat-panel{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:22px 20px}
+.stat-panel .cap{font-size:12px;font-weight:700;color:#98A4C6;letter-spacing:.02em}
+.stat{margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,.1)}
+.stat:first-of-type{margin-top:12px;padding-top:0;border-top:0}
+.stat .num{font-family:var(--serif);font-size:31px;font-weight:800;color:#FFC86B;line-height:1.1}
+.stat .num small{font-family:var(--sans);font-size:13px;font-weight:700;color:#C3CBE4;margin-left:4px}
+.stat .txt{font-size:12.5px;color:#9FABC9;margin-top:5px;line-height:1.6}
+.stat-panel .foot{font-size:11.5px;color:#7684A8;margin-top:18px;padding-top:14px;border-top:1px solid rgba(255,255,255,.1);line-height:1.6}
+
+/* ===== 通用区块 ===== */
+.sec{padding:64px 0}
+.sec-tint{background:#F7F8FC}
+.sec-h{font-size:clamp(23px,3.2vw,34px);font-weight:800;line-height:1.35}
+.sec-sub{color:var(--grey);margin-top:12px;max-width:46em}
+.eyebrow{display:inline-block;font-size:11.5px;font-weight:800;color:#4A5AC3;background:#EEF1FF;border-radius:999px;padding:3px 12px}
+
+/* 三步流程：真序列，用编号 */
+.steps{margin-top:38px;display:grid;gap:0;border-top:1px solid var(--hair)}
+.step{display:grid;grid-template-columns:96px 1fr;gap:24px;padding:26px 0;border-bottom:1px solid var(--hair);align-items:start}
+@media(max-width:700px){.step{grid-template-columns:1fr;gap:10px}}
+.step .sn{font-family:var(--serif);font-size:34px;font-weight:800;color:var(--orange-d);line-height:1}
+.step h3{font-size:19px;font-weight:800}
+.step p{font-size:14px;color:#5A6172;margin-top:8px;max-width:44em}
+.step ul{margin-top:12px;display:grid;gap:6px}
+.step li{font-size:13.5px;color:#4A5068;padding-left:16px;position:relative}
+.step li::before{content:"";position:absolute;left:0;top:.62em;width:5px;height:5px;background:var(--orange);border-radius:50%}
+.step .sn-meta{font-size:11.5px;color:var(--grey);margin-top:6px}
+
+/* 能力矩阵：用表格，不用一排同质卡片 */
+.mx{margin-top:34px;width:100%;border-collapse:collapse;font-size:13.5px}
+.mx th{text-align:left;font-size:11.5px;font-weight:800;color:#4A5AC3;background:#EEF1FF;padding:10px 14px;border-bottom:2px solid #DCE1F7;white-space:nowrap}
+.mx td{padding:13px 14px;border-bottom:1px solid var(--hair);vertical-align:top;color:#4A5068;line-height:1.65}
+.mx td b{color:var(--navy2);font-weight:800}
+.mx .st-ok{color:var(--green);font-weight:800;white-space:nowrap}
+.mx .st-no{color:#B0B6C6;white-space:nowrap}
+@media(max-width:760px){
+  .mx{font-size:12.5px}
+  .mx th,.mx td{padding:9px 8px}
+  .mx-wrap{overflow-x:auto}
+}
+
+/* ===== 闭环 ===== */
+.loop{margin-top:36px;display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--hair);border-radius:14px;overflow:hidden;background:#fff}
+@media(max-width:820px){.loop{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.loop{grid-template-columns:1fr}}
+.lp{padding:24px 22px;border-right:1px solid var(--hair)}
+.lp:last-child{border-right:0}
+.lp .lpn{font-size:11px;font-weight:800;color:#4A5AC3;letter-spacing:.1em}
+.lp h4{font-size:15.5px;font-weight:800;margin-top:8px}
+.lp p{font-size:13px;color:var(--grey);margin-top:7px;line-height:1.65}
+
+/* ===== 诚实的账 ===== */
+.honest{margin-top:30px;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:820px){.honest{grid-template-columns:1fr}}
+.hcard{background:#fff;border:1px solid var(--hair);border-left:3px solid var(--orange);border-radius:10px;padding:20px 22px}
+.hcard .hn{font-family:var(--serif);font-size:22px;font-weight:800;color:var(--navy2)}
+.hcard .hn small{font-family:var(--sans);font-size:12.5px;color:var(--grey);font-weight:600;margin-left:6px}
+.hcard p{font-size:13px;color:#5A6172;margin-top:8px;line-height:1.7}
+.hnote{margin-top:20px;background:#FFF7EC;border-radius:10px;padding:16px 20px;font-size:13px;color:#6B5836;line-height:1.7}
+.hnote b{color:#B3541E}
+
+/* ===== 数据归属 ===== */
+.own{margin-top:32px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:860px){.own{grid-template-columns:1fr}}
+.ocard{background:#fff;border:1px solid var(--hair);border-radius:12px;padding:22px 20px}
+.ocard .oi{width:34px;height:34px;border-radius:9px;background:#EEF1FF;display:flex;align-items:center;justify-content:center}
+.ocard h4{font-size:15px;font-weight:800;margin-top:12px}
+.ocard p{font-size:13px;color:var(--grey);margin-top:7px;line-height:1.7}
+
+/* ===== CTA ===== */
+.cta-band{background:var(--navy);color:#fff;border-radius:18px;padding:42px 38px;display:flex;align-items:center;justify-content:space-between;gap:28px;flex-wrap:wrap}
+.cta-band h3{font-size:clamp(20px,2.6vw,27px);font-weight:800}
+.cta-band p{color:#B9C3DE;font-size:14px;margin-top:10px;max-width:36em}
+.cta-band .btn-main{flex:none}
+
+/* ===== 页脚 ===== */
+.foot{background:var(--navy2);color:#8B97B6;font-size:12.5px;padding:34px 0}
+.foot .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;align-items:center}
+.foot a{color:#B9C3DE}
+.foot a:hover{color:#fff}
+.foot .fl{display:flex;gap:18px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+
+<!-- 导航 -->
+<div class="nav">
+  <div class="wrap">
+    <a class="logo" href="index.html"><img src="factory-site/images/logo/logo-jinhua-ai-badge.svg" alt="金骅AI" style="width:28px;height:28px;display:block;border-radius:7px"><img src="factory-site/images/logo/logo-jinhua-ai-wordmark-reversed.svg" alt="金骅AI" style="height:21px;display:block"></a>
+    <div class="links">
+      <a href="index.html">首页</a>
+      <details class="nav-prod">
+        <summary style="color:#fff">产品</summary>
+        <div class="nav-prod-panel">
+          <a href="superagent.html"><b>外贸总监 SuperAgent</b><span>本地部署大模型 · 客户数据不出内网</span></a>
+          <a href="lead-engine.html" style="background:#F4F6FC"><b>线索系统 Lead Engine</b><span>客户线索采集 · 清洗分级 · 直连 CRM</span></a>
+        </div>
+      </details>
+      <a href="shenzhen.html">深圳专场</a>
+      <a href="index.html#bundle">训练营</a>
+      <a href="index.html#fly">方法论</a>
+      <a href="index.html#case">案例</a>
+      <a href="index.html#founder">创始人</a>
+      <a href="index.html#contact">联系我们</a>
+    </div>
+    <div class="btns">
+      <a class="b-login" href="/login.html">登录</a>
+      <a class="b-cta" href="#contact">咨询线索系统</a>
+    </div>
+    <details class="nav-more">
+      <summary>菜单</summary>
+      <div class="nav-more-panel">
+        <a href="index.html">首页</a>
+        <a href="shenzhen.html">深圳专场 · AI 外贸落地</a>
+        <a href="index.html#bundle">训练营 · 会员报名</a>
+        <a href="index.html#pricing">产品价格</a>
+        <div class="m-sep"></div>
+        <a href="superagent.html">产品 · 外贸总监 SuperAgent（本地部署）</a>
+        <a href="lead-engine.html">产品 · 线索系统 Lead Engine（获客线索）</a>
+        <div class="m-sep"></div>
+        <a href="index.html#fly">方法论</a>
+        <a href="index.html#case">案例</a>
+        <a href="index.html#founder">创始人</a>
+        <a href="#contact">联系我们</a>
+        <div class="m-sep"></div>
+        <a href="/login.html">登录</a>
+      </div>
+    </details>
+  </div>
+</div>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="wrap">
+    <div>
+      <span class="kicker"><i>产品 02</i>线索系统 Lead Engine</span>
+      <h1>线索不是一张<em>邮箱列表</em>，<br>是一条能发得出去的地址。</h1>
+      <p class="lede">行业里有太多人卖「一万条客户邮箱」——买回来一半是死地址，另一半发出去就进垃圾箱。我们做的事相反：<b>每条线索进库前，先验证它能不能真的送到人</b>。采集、清洗、分级、入库，四步走完才交给你。</p>
+      <div class="hero-cta">
+        <a class="btn-main" href="#contact">按目标市场咨询 →</a>
+        <a class="btn-ghost" href="#steps">看我们怎么筛</a>
+      </div>
+    </div>
+    <div class="stat-panel">
+      <div class="cap">我们自己账上的实测数</div>
+      <div class="stat">
+        <div class="num">6,658<small>家</small></div>
+        <div class="txt">客户档案已建档，每条带来源与验证状态</div>
+      </div>
+      <div class="stat">
+        <div class="num">0.8<small>%</small></div>
+        <div class="txt">近 7 天 129 封信里，因「地址无效」退回来的只有 1 封</div>
+      </div>
+      <div class="stat">
+        <div class="num">3<small>层</small></div>
+        <div class="txt">去重：收件人 / 域名 / 品牌各一层，同一个品牌不被反复打扰</div>
+      </div>
+      <div class="foot">数字取自我们自己的发信台账，不是行业均值。<br>不承诺回复率——那不由我们决定。</div>
+    </div>
+  </div>
+</div>
+
+<!-- 三步流程 -->
+<div class="sec" id="steps">
+  <div class="wrap">
+    <span class="eyebrow">怎么做的</span>
+    <h2 class="sec-h" style="margin-top:14px">采集 → 清洗分级 → 入库，每一步都会淘汰掉一批</h2>
+    <p class="sec-sub">这一步的意义在于「筛掉谁」：线索的价值不在条数，在于留下来的那些真的能收到信、也真的可能买。</p>
+
+    <div class="steps">
+      <div class="step">
+        <div><div class="sn">01</div><div class="sn-meta">采集</div></div>
+        <div>
+          <h3>从公开来源抓，不从灰色渠道买</h3>
+          <p>来源按目标市场选，一条线索入库时带着它的出处，后面回头能查。</p>
+          <ul>
+            <li>行业目录与电商平台：欧洲 / 中东 / 东南亚家电、厨电、酒店用品类目中已在售相关品类的商家</li>
+            <li>展会名录：公开的参展商与采购商名单</li>
+            <li>领英等公开职业信息：按职位筛采购、品类经理、进口负责人，不碰非公开数据</li>
+            <li>竞品代理商：从公开经销网络反查同品类渠道商</li>
+          </ul>
+        </div>
+      </div>
+      <div class="step">
+        <div><div class="sn">02</div><div class="sn-meta">清洗分级</div></div>
+        <div>
+          <h3>先问「这封信发得出去吗」，再问「这家人对不对」</h3>
+          <p>这一步淘汰最狠。一条地址要过完下面几道，才配进库。</p>
+          <ul>
+            <li><b>邮箱有效性</b>：语法、域名解析、MX 记录，死域名直接扔</li>
+            <li><b>角色邮箱识别</b>：sales@ / info@ 这类泛邮箱单独标记——它们是「有人看但没人管」的入口，回复率天然低</li>
+            <li><b>猜测前缀降级</b>：purchasing@ / import@ 这类靠猜拼出来的地址，实测退信 74–81%，一律标为低可信</li>
+            <li><b>采购岗识别</b>：从职位、部门、公司规模判断这个人是否真的能决定采购</li>
+            <li><b>退信黑名单剔除</b>：历史硬退（地址不存在、域名拒收）永久不进；软退进冷却期</li>
+            <li><b>品类匹配</b>：这家店/这家厂到底卖不卖你要卖的那类货</li>
+          </ul>
+        </div>
+      </div>
+      <div class="step">
+        <div><div class="sn">03</div><div class="sn-meta">入库</div></div>
+        <div>
+          <h3>进你自己的表，不进我们的库</h3>
+          <p>线索落在你账号里的飞书多维表格或本地 CRM，字段、分级、跟进状态都由你控制。</p>
+          <ul>
+            <li>每条带：来源、验证状态、邮箱类型、分级依据、首次触达时间</li>
+            <li>跟进状态回写：发了几封、有无回复、回复是真人还是自动回复</li>
+            <li>可导出，可停用，不做锁定</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 能力矩阵 -->
+<div class="sec sec-tint">
+  <div class="wrap">
+    <span class="eyebrow">边界</span>
+    <h2 class="sec-h" style="margin-top:14px">我们做什么，不做什么</h2>
+    <p class="sec-sub">写清楚边界，比多写三条卖点更有用——你买之前就知道会拿到什么。</p>
+    <div class="mx-wrap">
+      <table class="mx">
+        <thead>
+          <tr><th>能力</th><th>具体到哪一步</th><th>状态</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>多源采集</b></td>
+            <td>目录站、电商平台、展会名录、领英公开信息、竞品经销商网络；每条留出处</td>
+            <td class="st-ok">做</td>
+          </tr>
+          <tr>
+            <td><b>邮箱验证</b></td>
+            <td>语法 / DNS / MX 三层校验，历史退信比对，死地址直接剔除</td>
+            <td class="st-ok">做</td>
+          </tr>
+          <tr>
+            <td><b>分级打分</b></td>
+            <td>按邮箱类型、职位、公司规模、品类匹配度给可信等级，低可信的不混在高可信里</td>
+            <td class="st-ok">做</td>
+          </tr>
+          <tr>
+            <td><b>去重</b></td>
+            <td>收件人 / 域名 / 品牌三层去重，避免同一个采购团队被反复打扰</td>
+            <td class="st-ok">做</td>
+          </tr>
+          <tr>
+            <td><b>直连 CRM</b></td>
+            <td>飞书多维表格或本地 CRM，启动时给字段映射；跟进状态自动回写</td>
+            <td class="st-ok">做</td>
+          </tr>
+          <tr>
+            <td><b>代发邮件</b></td>
+            <td>写信、发信、退信监控、熔断，属于 SuperAgent 那条产品线；线索系统只交付地址与分级</td>
+            <td class="st-no">不在这条线</td>
+          </tr>
+          <tr>
+            <td><b>保证回复 / 保证出单</b></td>
+            <td>谁能保证，谁就是在骗你。我们只保证「地址是真的、发得出去」这一段</td>
+            <td class="st-no">不承诺</td>
+          </tr>
+          <tr>
+            <td><b>买来的数据库转卖</b></td>
+            <td>不从灰产渠道买库、不转卖第三方名单</td>
+            <td class="st-no">不做</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- 闭环 -->
+<div class="sec">
+  <div class="wrap">
+    <span class="eyebrow">和 SuperAgent 怎么接</span>
+    <h2 class="sec-h" style="margin-top:14px">线索进来，信发出去，回复再回写到线索上</h2>
+    <p class="sec-sub">两条产品线是接得上的：线索系统负责「找对人、拿到能用的地址」，SuperAgent 负责「写信、发信、盯退信、接回复」。</p>
+    <div class="loop">
+      <div class="lp">
+        <div class="lpn">STEP 1</div>
+        <h4>线索入库</h4>
+        <p>采集清洗完的地址进 CRM，带分级与来源，低可信的单独放一处。</p>
+      </div>
+      <div class="lp">
+        <div class="lpn">STEP 2</div>
+        <h4>SuperAgent 写信</h4>
+        <p>按对方的产品线与你的型号逐封生成，不是一套模板群发。发前过闸门：去重、冷却、不打扰名单。</p>
+      </div>
+      <div class="lp">
+        <div class="lpn">STEP 3</div>
+        <h4>盯退信与回复</h4>
+        <p>硬退的地址从库里拔掉，软退的进冷却；真人回复和自动回复分开算，不混在一起凑回复率。</p>
+      </div>
+      <div class="lp">
+        <div class="lpn">STEP 4</div>
+        <h4>状态回写</h4>
+        <p>发了第几封、有没有回、回的是谁，写回线索记录，下一轮跟进按真实状态走。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 诚实的账 -->
+<div class="sec sec-tint">
+  <div class="wrap">
+    <span class="eyebrow">我们自己的账</span>
+    <h2 class="sec-h" style="margin-top:14px">回复率这件事，行业里没人说实话</h2>
+    <p class="sec-sub">下面是我们自己台账上的数。放出来，是因为你迟早会问，不如现在说清楚口径。</p>
+
+    <div class="honest">
+      <div class="hcard">
+        <div class="hn">2.71%<small>名义回复率</small></div>
+        <p>664 家触达客户里，有 18 家回了信。这个数好看，但它把自动回复、工单通知、退信通知全算进去了。</p>
+      </div>
+      <div class="hcard">
+        <div class="hn">0.63%<small>真人回复率</small></div>
+        <p>把这 18 家逐封拆开，真正由人写的只有 4 家。其余是「自动回复」「ticket 已创建」「地址不存在」。我们按这个数算自己的账。</p>
+      </div>
+      <div class="hcard">
+        <div class="hn">0.8%<small>地址无效退信</small></div>
+        <p>近 7 天发出 129 封，因地址无效退回来的 1 封。这个数字是邮箱验证那一步换来的——不验证的名单，这一项能到两成以上。</p>
+      </div>
+      <div class="hcard">
+        <div class="hn">6.2%<small>平台反垃圾拦截</small></div>
+        <p>不是地址错，是对方邮箱服务商判定这封像群发。这类拦截只能降，不能归零；降到什么程度，取决于内容有多像人写的。</p>
+      </div>
+    </div>
+
+    <div class="hnote"><b>提醒：</b>上面四个数是我们自己跑出来的，口径写在这里，你可以拿它跟任何供应商对比——让他们也把口径写出来。低回复率不是产品缺陷，是冷邮件这个渠道本来的样子；能改善的是「地址有效率」和「不被判垃圾」这两段。</div>
+  </div>
+</div>
+
+<!-- 数据归属 -->
+<div class="sec">
+  <div class="wrap">
+    <span class="eyebrow">数据归属</span>
+    <h2 class="sec-h" style="margin-top:14px">线索表是你的，我们不留副本</h2>
+    <p class="sec-sub">客户名单是外贸公司最值钱的东西，不该存在别人的服务器上。</p>
+    <div class="own">
+      <div class="ocard">
+        <div class="oi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M12 3 4 7v6c0 4.4 3.4 7.6 8 8 4.6-.4 8-3.6 8-8V7l-8-4Z" stroke="#4A5AC3" stroke-width="1.8" stroke-linejoin="round"/><path d="m8.6 12.2 2.3 2.3 4.5-4.6" stroke="#4A5AC3" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        <h4>落在你的账号里</h4>
+        <p>飞书多维表格进你自己的空间，权限归你；本地部署则落在你自己的机器上，不经过我们的服务器。</p>
+      </div>
+      <div class="ocard">
+        <div class="oi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><rect x="4" y="10" width="16" height="10" rx="2.5" stroke="#4A5AC3" stroke-width="1.8"/><path d="M8 10V7.5A4 4 0 0 1 16 7.5V10" stroke="#4A5AC3" stroke-width="1.8"/></svg></div>
+        <h4>可导出、可停用</h4>
+        <p>订阅结束，数据导出带走；我们不设「停费即锁库」这种条款。</p>
+      </div>
+      <div class="ocard">
+        <div class="oi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="#4A5AC3" stroke-width="1.8"/><path d="M12 8v4.4l2.8 1.8" stroke="#4A5AC3" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        <h4>不拿你的名单做事</h4>
+        <p>你的线索不会进我们的库、不会出现在案例里、不会变成下一家的样本。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="sec" id="contact" style="padding-top:10px">
+  <div class="wrap">
+    <div class="cta-band">
+      <div>
+        <h3>先说说你的目标市场，再谈多少钱</h3>
+        <p>线索系统按目标市场与线索量报价，没有一张固定价目表能覆盖所有国家。你把「卖什么、卖给谁、卖到哪」讲清楚，我们回一份能落地的清单。</p>
+      </div>
+      <a class="btn-main" href="index.html#contact">联系金骅 →</a>
+    </div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<div class="foot">
+  <div class="wrap">
+    <div>金骅智能科技 · AI 外贸</div>
+    <div class="fl">
+      <a href="index.html">首页</a>
+      <a href="superagent.html">外贸总监 SuperAgent</a>
+      <a href="lead-engine.html">线索系统 Lead Engine</a>
+      <a href="shenzhen.html">深圳专场</a>
+      <a href="index.html#contact">联系我们</a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
