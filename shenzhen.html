@@ -12,7 +12,8 @@
   }
   *{box-sizing:border-box}
   body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
-       color:var(--ink);background:var(--white);line-height:1.72;-webkit-font-smoothing:antialiased}
+       color:var(--ink);background:var(--white);line-height:1.72;-webkit-font-smoothing:antialiased;
+       overflow-x:hidden}
   a{text-decoration:none;color:inherit}
   .wrap{max-width:1120px;margin:0 auto;padding:0 22px}
   .nav{background:var(--navy);position:sticky;top:0;z-index:60;box-shadow:0 2px 12px rgba(20,30,60,.18)}
@@ -28,9 +29,9 @@
   .hero{padding:64px 0 52px;background:linear-gradient(180deg,#F7F9FC,#fff);border-bottom:1px solid var(--line)}
   .kicker{display:inline-block;font-size:12.5px;letter-spacing:.08em;color:var(--acc);
           border:1px solid #C9D6F5;background:#F0F4FE;padding:5px 12px;border-radius:4px;font-weight:600}
-  .hero h1{margin:20px 0 0;font-size:clamp(30px,4.6vw,46px);line-height:1.24;font-weight:800;
-           color:var(--navy2);letter-spacing:.01em}
-  .hero .lede{margin:18px 0 0;max-width:760px;font-size:16.5px;color:var(--muted)}
+  .hero h1{margin:20px 0 0;font-size:clamp(26px,4.6vw,46px);line-height:1.26;font-weight:800;
+           color:var(--navy2);letter-spacing:.01em;word-break:break-word;overflow-wrap:anywhere}
+  .hero .lede{margin:18px 0 0;max-width:760px;font-size:16.5px;color:var(--muted);overflow-wrap:anywhere}
   .hero .lede b{color:var(--navy2)}
   .hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
   .btn-p{background:var(--navy);color:#fff;font-weight:700;font-size:14.5px;padding:12px 26px;border-radius:7px}
