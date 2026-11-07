@@ -277,6 +277,23 @@ footer{border-top:1px solid var(--line-soft);padding:40px 0 48px}
 .feat-card li svg{width:13px;height:13px;color:var(--gold);flex:none;margin-top:4px}
 .feat-note{font-size:11.5px;color:var(--ink-3);line-height:1.75;margin-top:20px;max-width:92ch}
 
+/* 多工厂（2026-11-07） */
+.multi{margin-top:24px;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:24px 22px}
+@media(min-width:768px){.multi{padding:30px 30px}}
+.m-chip{display:inline-block;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--gold);border:1px solid var(--gold-dim);border-radius:999px;padding:4px 11px;margin-bottom:14px}
+.multi-head h3{font-size:19px;font-weight:750;margin-bottom:10px;line-height:1.45}
+.multi-head p{font-size:13.5px;color:var(--ink-2);line-height:1.75;max-width:74ch}
+.multi-head p b{color:var(--ink)}
+.multi-grid{display:grid;gap:12px;margin-top:20px;grid-template-columns:1fr}
+@media(min-width:820px){.multi-grid{grid-template-columns:1fr 1fr}}
+.multi-item{background:var(--panel-2);border:1px solid var(--line-soft);border-radius:13px;padding:20px 20px}
+.m-no{font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--gold-dim);margin-bottom:9px}
+.multi-item b{display:block;font-size:14.5px;margin-bottom:11px}
+.multi-item ul{display:grid;gap:7px}
+.multi-item li{list-style:none;display:flex;gap:8px;font-size:12.5px;color:var(--ink-2);line-height:1.65}
+.multi-item li svg{width:13px;height:13px;color:var(--gold);flex:none;margin-top:4px}
+.multi-note{font-size:11.5px;color:var(--ink-3);line-height:1.75;margin-top:18px;padding-top:14px;border-top:1px dashed var(--line)}
+
 /* 技术架构 */
 .arch{padding:72px 0;border-top:1px solid var(--line-soft)}
 .arch-qualities{display:grid;gap:10px;grid-template-columns:repeat(2,1fr);margin-bottom:20px}
@@ -743,6 +760,35 @@ footer{border-top:1px solid var(--line-soft);padding:40px 0 48px}
     </div>
 
     <p class="feat-note">以上每一项都能在独立环境里复跑验收（独立配置、独立数据目录、独立端口），不是拿生产环境给你演示。看不懂的、想关掉的，装的时候逐条跟你确认。</p>
+
+    <div class="multi">
+      <div class="multi-head">
+        <span class="m-chip">再一条 · 多工厂 / 多品牌</span>
+        <h3>一家公司、几家工厂，能不能一起管？</h3>
+        <p>能，但这句话得说准：目前是<b>架构不锁死、接入是配置活</b>，不是「已经同时跑了两家」。内测只开一套事实——一家工厂的抬头、签名、报价、MOQ。第二家不是重新开发一套系统，是交一份事实包 + 两处配置。</p>
+      </div>
+      <div class="multi-grid">
+        <div class="multi-item">
+          <div class="m-no">已具备 · 不用改代码</div>
+          <b>多实例的底子是现成的</b>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>来源、白名单、工单准备都按「id 列表」配，加一家就是加一个 id</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>发信闸门按「发件身份 + 活动」分开记账和限额，谁的额度谁的</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>全局暂停与退信刹车对所有工厂一致生效，不会一家刹车一家照发</li>
+          </ul>
+        </div>
+        <div class="multi-item">
+          <div class="m-no">接入要做 · 约半天</div>
+          <b>两处得改，都是为了防串厂</b>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>报价事实按工厂拆成独立事实包：抬头、签名、产品、价格、MOQ、交期、认证，一家一份、互不覆盖</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>发件身份从「写死一个邮箱」改成按邮箱读取，第二家的信才是第二家的抬头</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>接入后必测一条反向用例：引用别家价格/型号的回复，必须被事实红线拦下</li>
+          </ul>
+        </div>
+      </div>
+      <p class="multi-note">接第二家的前提：首单链路跑通 + 退信率达标解除暂停 + 第二家「事实包」（公司抬头、签名与联系方式、每个型号的价格档/MOQ/规格/包装/认证/交期、报价规则）交齐。三条齐了才排期，不拿你的客户名单做联调。</p>
+    </div>
   </div>
 </section>
 
