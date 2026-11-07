@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>金铧AI · JINHUA AI —— 把 AI 装进外贸作业流</title>
+<meta name="description" content="金铧AI：本地部署的外贸总监 SuperAgent、佛山工厂出海实战、AI 外贸训练营。客户数据不出内网。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230B0E12'/%3E%3Cpath d='M20 44V22l12 12 12-12v22' stroke='%23E8B45C' stroke-width='5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<style>
+:root{
+  --bg:#0B0E12; --bg-2:#0F1319; --panel:#141A22; --panel-2:#191F29;
+  --line:#252D39; --line-soft:#1C232D;
+  --gold:#E8B45C; --gold-bright:#F2C87A; --gold-dim:#8A6D35;
+  --ink:#F4F1EA; --ink-2:#A8B0BC; --ink-3:#6E7784;
+  --ok:#7FC9A4; --warn:#E0A44A; --danger:#E06A5A;
+  --mono:"SF Mono","JetBrains Mono","Cascadia Code",Consolas,monospace;
+  --sans:"PingFang SC","HarmonyOS Sans SC","Noto Sans SC","Source Han Sans SC","Microsoft YaHei",-apple-system,sans-serif;
+  --radius:14px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.7;-webkit-font-smoothing:antialiased;font-size:16px}
+::selection{background:rgba(232,180,92,.28)}
+a{color:inherit}
+img,svg{max-width:100%}
+.wrap{max-width:1180px;margin:0 auto;padding:0 22px}
+@media(min-width:768px){.wrap{padding:0 40px}}
+
+/* ════ 导航 ════ */
+.site-nav{position:sticky;top:0;z-index:60;background:rgba(11,14,18,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--line-soft)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;height:62px;gap:12px}
+.brand{display:flex;align-items:center;gap:9px;font-weight:700;letter-spacing:.02em;text-decoration:none;flex:none}
+.brand svg{width:26px;height:26px;flex:none}
+.brand b{font-size:17px}
+.brand span{color:var(--ink-3);font-size:11px;font-weight:400;letter-spacing:.08em;display:none}
+@media(min-width:420px){.brand span{display:inline}}
+.nav-links{display:flex;align-items:center;gap:2px}
+.nav-links a{display:inline-flex;align-items:center;min-height:44px;padding:0 10px;font-size:13.5px;color:var(--ink-2);text-decoration:none;border-radius:9px;transition:.16s}
+.nav-links a:hover{color:var(--gold)}
+.nav-links a.nav-cta{background:var(--gold);color:#191510;font-weight:600;padding:0 14px;margin-left:4px}
+.nav-links a.nav-cta:hover{background:var(--gold-bright);color:#191510}
+.hide-sm{display:none}
+.only-lg{display:none}
+@media(min-width:620px){.hide-sm{display:inline-flex}.nav-links a{padding:0 12px;font-size:14px}}
+@media(min-width:900px){.only-lg{display:inline-flex}.hide-lg{display:none}}
+
+/* ════ 通用件 ════ */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;font-weight:600;font-size:15px;padding:14px 26px;border-radius:12px;text-decoration:none;transition:.18s;border:1px solid transparent;min-height:48px}
+.btn-gold{background:var(--gold);color:#191510}
+.btn-gold:hover{background:var(--gold-bright);transform:translateY(-1px)}
+.btn-ghost{background:transparent;border-color:var(--line);color:var(--ink)}
+.btn-ghost:hover{border-color:var(--gold-dim);color:var(--gold)}
+.btn svg{width:17px;height:17px;flex:none}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.18em;color:var(--gold);margin-bottom:12px}
+.sec-head{margin-bottom:38px;max-width:720px}
+h2{font-size:clamp(26px,3.4vw,38px);font-weight:800;line-height:1.25;letter-spacing:-.01em}
+h2 span{color:var(--gold)}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--gold);border:1px solid var(--gold-dim);border-radius:999px;padding:6px 14px;margin-bottom:22px}
+.eyebrow i{width:6px;height:6px;border-radius:50%;background:var(--gold);display:inline-block;flex:none}
+.ic{width:44px;height:44px;border-radius:11px;background:rgba(232,180,92,.1);border:1px solid rgba(232,180,92,.22);display:grid;place-items:center;margin-bottom:18px}
+.ic svg{width:22px;height:22px;color:var(--gold)}
+.mono-tag{display:inline-block;margin-top:14px;font-family:var(--mono);font-size:10.5px;color:var(--ink-3);letter-spacing:.08em}
+
+/* ════ 首页 Hero ════ */
+.home-hero{padding:56px 0 60px;position:relative;overflow:hidden}
+.home-hero::before{content:"";position:absolute;top:-240px;right:-180px;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(232,180,92,.15),transparent 62%);pointer-events:none}
+.home-hero::after{content:"";position:absolute;left:-160px;bottom:-260px;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(120,150,255,.07),transparent 60%);pointer-events:none}
+.home-hero .wrap{position:relative;display:grid;gap:40px;align-items:center}
+@media(min-width:960px){.home-hero .wrap{grid-template-columns:1.08fr .92fr;gap:54px}}
+h1{font-size:clamp(32px,5.6vw,54px);line-height:1.14;font-weight:800;letter-spacing:-.012em;margin-bottom:18px}
+h1 em{font-style:normal;color:var(--gold)}
+.hero-sub{font-size:clamp(15px,1.6vw,17px);color:var(--ink-2);max-width:54ch;margin-bottom:28px}
+.hero-sub b{color:var(--ink);font-weight:600}
+.cta-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.hero-note{display:flex;align-items:center;gap:8px;margin-top:16px;color:var(--ink-3);font-size:13px}
+.hero-note svg{width:15px;height:15px;color:var(--ok);flex:none}
+
+/* 首页右侧：三条线速览 */
+.line-card{position:relative;z-index:1;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:22px 20px;box-shadow:0 22px 56px rgba(0,0,0,.42)}
+@media(min-width:768px){.line-card{padding:26px 26px}}
+.line-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.line-head h4{font-size:13px;font-weight:600;color:var(--ink-2)}
+.line-head em{font-family:var(--mono);font-style:normal;font-size:10px;color:var(--gold);letter-spacing:.1em}
+.line-item{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-top:1px solid var(--line-soft)}
+.line-item:first-of-type{border-top:0;padding-top:0}
+.line-item .lm{width:32px;height:32px;border-radius:9px;background:rgba(232,180,92,.1);border:1px solid rgba(232,180,92,.2);display:grid;place-items:center;flex:none}
+.line-item .lm svg{width:16px;height:16px;color:var(--gold)}
+.line-item .li-t{flex:1;min-width:0}
+.line-item b{display:block;font-size:13.5px;font-weight:600;margin-bottom:2px}
+.line-item span{font-size:11.5px;color:var(--ink-3);line-height:1.55}
+.line-item .lt{font-family:var(--mono);font-size:9.5px;color:var(--gold);border:1px solid var(--gold-dim);border-radius:999px;padding:3px 8px;flex:none;margin-top:3px}
+
+/* ════ 事实条 ════ */
+.facts{border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft);background:var(--bg-2);padding:20px 0}
+.facts-in{display:grid;grid-template-columns:1fr 1fr;gap:14px 12px}
+@media(min-width:860px){.facts-in{grid-template-columns:repeat(4,1fr);gap:18px}}
+.fact b{display:block;font-family:var(--mono);font-size:clamp(17px,2.2vw,21px);color:var(--gold-bright);line-height:1.2}
+.fact span{display:block;font-size:11.5px;color:var(--ink-3);margin-top:5px;letter-spacing:.02em}
+
+/* ════ 三条业务线 ════ */
+.biz{padding:72px 0}
+.biz-lead{font-size:14.5px;color:var(--ink-2);max-width:62ch;margin:-16px 0 32px}
+.biz-grid{display:grid;gap:14px;grid-template-columns:1fr}
+@media(min-width:860px){.biz-grid{grid-template-columns:repeat(3,1fr)}}
+.biz-card{background:var(--panel);border:1px solid var(--line-soft);border-radius:var(--radius);padding:26px 24px;display:flex;flex-direction:column;transition:border-color .2s}
+.biz-card:hover{border-color:var(--gold-dim)}
+.biz-card .b-tag{font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--gold-dim);margin-bottom:14px}
+.biz-card h3{font-size:17px;font-weight:750;margin-bottom:9px}
+.biz-card p{font-size:13.5px;color:var(--ink-2);line-height:1.7;flex:1}
+.biz-card ul{margin-top:14px;display:grid;gap:7px}
+.biz-card li{list-style:none;display:flex;gap:8px;font-size:12.5px;color:var(--ink-2);align-items:flex-start}
+.biz-card li svg{width:14px;height:14px;color:var(--gold);flex:none;margin-top:4px}
+.biz-link{display:inline-flex;align-items:center;gap:7px;margin-top:18px;font-size:13px;color:var(--gold);text-decoration:none;min-height:44px;font-weight:600}
+.biz-link svg{width:15px;height:15px}
+.biz-link:hover{color:var(--gold-bright)}
+
+/* ════ 关于 ════ */
+.about{padding:76px 0;border-top:1px solid var(--line-soft);background:var(--bg-2)}
+.about-grid{display:grid;gap:28px}
+@media(min-width:960px){.about-grid{grid-template-columns:1.12fr .88fr;gap:52px;align-items:start}}
+.about-grid p{color:var(--ink-2);font-size:14.5px;line-height:1.85;margin-bottom:16px}
+.about-grid p b{color:var(--ink)}
+.about-quote{border-left:2px solid var(--gold-dim);padding:2px 0 2px 18px;color:var(--ink);font-size:15px;font-weight:600;line-height:1.7;margin:22px 0}
+.about-panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:24px 22px}
+@media(min-width:768px){.about-panel{padding:28px 28px}}
+.about-panel h4{font-size:14px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.about-panel h4 svg{width:16px;height:16px;color:var(--gold)}
+.about-row{display:flex;justify-content:space-between;gap:14px;padding:11px 0;border-top:1px solid var(--line-soft);font-size:13px}
+.about-row:first-of-type{border-top:0}
+.about-row span{color:var(--ink-3);flex:none;font-size:12px}
+.about-row b{font-weight:600;text-align:right}
+.about-panel .about-note{font-size:11.5px;color:var(--ink-3);margin-top:14px;line-height:1.6}
+
+/* ════ 页脚 ════ */
+footer{border-top:1px solid var(--line-soft);padding:40px 0 48px}
+.foot-top{display:flex;flex-direction:column;gap:20px;margin-bottom:26px}
+@media(min-width:768px){.foot-top{flex-direction:row;justify-content:space-between;align-items:flex-start}}
+.foot-brand{display:flex;align-items:center;gap:10px;font-weight:700;text-decoration:none}
+.foot-brand svg{width:24px;height:24px}
+.foot-desc{color:var(--ink-3);font-size:12.5px;line-height:1.7;max-width:40ch}
+.foot-nav{display:flex;gap:4px;flex-wrap:wrap}
+.foot-nav a{display:inline-flex;align-items:center;min-height:44px;padding:0 8px;font-size:13px;color:var(--ink-2);text-decoration:none}
+.foot-nav a:hover{color:var(--gold)}
+.foot-bot{border-top:1px solid var(--line-soft);padding-top:20px;display:flex;flex-direction:column;gap:8px;font-size:12px;color:var(--ink-3)}
+@media(min-width:768px){.foot-bot{flex-direction:row;justify-content:space-between;align-items:center}}
+
+/* ════════ 产品区：外贸总监 SuperAgent（沿用落地页视觉语言） ════════ */
+.agent-hero{padding:52px 0 60px;position:relative;overflow:hidden;border-top:1px solid var(--line-soft)}
+.agent-hero::before{content:"";position:absolute;top:-200px;right:-140px;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(232,180,92,.15),transparent 62%);pointer-events:none}
+.agent-hero .wrap{position:relative;display:grid;gap:40px;align-items:center}
+@media(min-width:960px){.agent-hero .wrap{grid-template-columns:1.05fr .95fr;gap:52px}}
+.agent-hero h2{font-size:clamp(30px,4.6vw,46px);line-height:1.14;font-weight:800;margin-bottom:16px}
+.agent-hero h2 em{font-style:normal;color:var(--gold)}
+.agent-hero .a-sub{font-size:15px;color:var(--ink-2);max-width:52ch;margin-bottom:26px}
+.agent-hero .a-sub b{color:var(--ink);font-weight:600}
+
+.desk{position:relative}
+.desk::before{content:"";position:absolute;inset:-20px;border-radius:24px;background:linear-gradient(160deg,rgba(232,180,92,.14),rgba(232,180,92,.02) 55%,rgba(120,150,255,.06));filter:blur(6px);z-index:0}
+.app{position:relative;z-index:1;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:0 24px 60px rgba(0,0,0,.45);overflow:hidden}
+.app-bar{display:flex;align-items:center;gap:7px;padding:13px 16px;border-bottom:1px solid var(--line-soft);background:var(--bg-2)}
+.app-bar i{width:10px;height:10px;border-radius:50%;display:inline-block}
+.app-bar i:nth-child(1){background:#5A6472}
+.app-bar i:nth-child(2){background:#6E7784}
+.app-bar i:nth-child(3){background:var(--gold-dim)}
+.app-bar span{margin-left:10px;font-family:var(--mono);font-size:11px;color:var(--ink-3);letter-spacing:.06em}
+.app-body{padding:18px 16px 20px}
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.stat{background:var(--panel-2);border:1px solid var(--line-soft);border-radius:11px;padding:11px 12px}
+.stat b{font-family:var(--mono);font-size:19px;color:var(--gold-bright);display:block;line-height:1.2}
+.stat span{font-size:11px;color:var(--ink-3);letter-spacing:.04em}
+.stat .ok{color:var(--ok)}
+.app-sec{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}
+.app-sec h4{font-size:13px;font-weight:600;color:var(--ink-2)}
+.app-sec em{font-style:normal;font-family:var(--mono);font-size:10px;color:var(--gold);letter-spacing:.1em}
+.lead{display:flex;align-items:center;gap:11px;background:var(--bg-2);border:1px solid var(--line-soft);border-radius:10px;padding:10px 12px;margin-bottom:8px}
+.lead .avatar{width:30px;height:30px;border-radius:9px;background:linear-gradient(140deg,var(--gold-dim),#4A3A1E);display:grid;place-items:center;font-family:var(--mono);font-size:11px;color:#1A1509;font-weight:700;flex:none}
+.lead .info{flex:1;min-width:0}
+.lead .info b{display:block;font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lead .info span{font-size:11px;color:var(--ink-3)}
+.lead .tag{font-family:var(--mono);font-size:10px;color:var(--gold);border:1px solid var(--gold-dim);border-radius:999px;padding:3px 9px;flex:none}
+.local-badge{display:flex;align-items:center;gap:9px;margin-top:16px;padding:11px 14px;border:1px solid rgba(127,201,164,.3);border-radius:11px;background:rgba(127,201,164,.07)}
+.local-badge svg{width:16px;height:16px;color:var(--ok);flex:none}
+.local-badge span{font-size:12px;color:var(--ok);letter-spacing:.03em}
+.mock-note{position:relative;z-index:1;text-align:center;margin-top:10px;font-size:11px;color:var(--ink-3);font-family:var(--mono);letter-spacing:.05em}
+
+/* 痛点 */
+.pain{padding:68px 0;border-top:1px solid var(--line-soft);background:var(--bg-2)}
+.pain-lead{font-size:14px;color:var(--ink-2);line-height:1.8;max-width:640px;margin:14px 0 26px}
+.pain-grid{display:grid;gap:12px;grid-template-columns:1fr}
+@media(min-width:768px){.pain-grid{grid-template-columns:1fr 1fr}}
+.pain-item{background:var(--panel);border:1px solid var(--line-soft);border-radius:var(--radius);padding:22px 24px;display:flex;gap:16px;align-items:flex-start}
+.pain-item .num{font-family:var(--mono);font-size:26px;color:var(--gold-dim);line-height:1;flex:none;margin-top:2px}
+.pain-item h4{font-size:16px;font-weight:700;margin-bottom:6px}
+.pain-item p{font-size:13.5px;color:var(--ink-2)}
+
+/* 问卷声音 */
+.voice{padding:72px 0;border-top:1px solid var(--line-soft);background:var(--bg-2)}
+.voice-grid{display:grid;gap:16px;grid-template-columns:1fr}
+@media(min-width:960px){.voice-grid{grid-template-columns:.9fr 1.1fr;gap:20px}}
+.voice-quote{background:linear-gradient(155deg,rgba(232,180,92,.12),rgba(20,26,34,.6) 60%);border:1px solid rgba(232,180,92,.32);border-radius:18px;padding:32px 26px;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:center}
+@media(min-width:768px){.voice-quote{padding:38px 34px}}
+.voice-quote::before{content:"";position:absolute;top:-90px;right:-60px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(232,180,92,.14),transparent 62%);pointer-events:none}
+.vq-mark{width:44px;height:44px;border-radius:12px;background:rgba(232,180,92,.14);border:1px solid rgba(232,180,92,.25);display:grid;place-items:center;margin-bottom:20px;position:relative}
+.vq-mark svg{width:20px;height:20px;color:var(--gold)}
+.voice-quote blockquote{font-size:clamp(19px,2.3vw,25px);font-weight:700;line-height:1.45;margin-bottom:20px;position:relative}
+.voice-quote .vq-meta{font-size:13px;color:var(--gold);margin-bottom:6px;position:relative}
+.voice-quote .vq-note{font-size:13px;color:var(--ink-3);position:relative}
+.voice-data{display:grid;gap:10px;grid-template-columns:1fr}
+@media(min-width:768px){.voice-data{grid-template-columns:1fr 1fr}}
+.vd-item{background:var(--panel);border:1px solid var(--line-soft);border-radius:12px;padding:16px 18px}
+.vd-item span{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--gold-dim);margin-bottom:7px}
+.vd-item b{font-size:13.5px;font-weight:600;color:var(--ink);line-height:1.55}
+
+/* 能力 */
+.cap{padding:72px 0}
+.cap-grid{display:grid;gap:14px;grid-template-columns:1fr}
+@media(min-width:768px){.cap-grid{grid-template-columns:1fr 1fr}}
+@media(min-width:1080px){.cap-grid{grid-template-columns:repeat(4,1fr)}}
+.cap-card{background:var(--panel);border:1px solid var(--line-soft);border-radius:var(--radius);padding:26px 24px;position:relative;overflow:hidden;transition:border-color .2s}
+.cap-card:hover{border-color:var(--gold-dim)}
+.cap-card::after{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold-dim),transparent);opacity:.5}
+.cap-card h4{font-size:16.5px;font-weight:700;margin-bottom:8px}
+.cap-card p{font-size:13.5px;color:var(--ink-2);line-height:1.65}
+
+/* 技术架构 */
+.arch{padding:72px 0;border-top:1px solid var(--line-soft)}
+.arch-qualities{display:grid;gap:10px;grid-template-columns:repeat(2,1fr);margin-bottom:20px}
+@media(min-width:768px){.arch-qualities{grid-template-columns:repeat(4,1fr)}}
+.aq-item{background:var(--panel);border:1px solid var(--line-soft);border-radius:12px;padding:16px 18px;display:flex;gap:13px;align-items:center}
+.aq-item .aq-ic{width:38px;height:38px;border-radius:10px;background:rgba(232,180,92,.1);border:1px solid rgba(232,180,92,.22);display:grid;place-items:center;flex:none}
+.aq-item .aq-ic svg{width:18px;height:18px;color:var(--gold)}
+.aq-item b{display:block;font-size:15px;margin-bottom:2px}
+.aq-item span{font-size:11.5px;color:var(--ink-3);line-height:1.5}
+.arch-flow{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:24px 20px;margin-bottom:14px;display:grid;gap:14px}
+@media(min-width:860px){.arch-flow{grid-template-columns:repeat(3,1fr);gap:16px;padding:34px 36px}}
+.af-node{background:var(--panel-2);border:1px solid var(--line-soft);border-radius:13px;padding:20px 22px;text-align:center}
+.af-boss{border-color:rgba(232,180,92,.42);background:linear-gradient(155deg,rgba(232,180,92,.13),var(--panel-2) 70%)}
+.af-watch{border-color:rgba(127,201,164,.4);background:linear-gradient(155deg,rgba(127,201,164,.1),var(--panel-2) 70%)}
+.af-role{display:inline-block;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;color:var(--gold);margin-bottom:8px}
+.af-watch .af-role{color:var(--ok)}
+.af-node b{display:block;font-size:16px;margin-bottom:6px}
+.af-node p{font-size:12.5px;color:var(--ink-3);line-height:1.6}
+.arch-grid{display:grid;gap:14px;grid-template-columns:1fr;margin-bottom:14px}
+@media(min-width:768px){.arch-grid{grid-template-columns:repeat(3,1fr)}}
+.arch-card{background:var(--panel);border:1px solid var(--line-soft);border-radius:var(--radius);padding:24px 22px}
+.arch-card h4{font-size:15.5px;font-weight:700;margin-bottom:8px}
+.arch-card p{font-size:13px;color:var(--ink-2);line-height:1.65}
+.arch-perf{border:1px solid var(--line-soft);border-radius:16px;background:linear-gradient(150deg,rgba(232,180,92,.08),rgba(20,26,34,.5) 60%);padding:26px 22px}
+@media(min-width:768px){.arch-perf{padding:32px 36px;display:grid;grid-template-columns:auto 1fr;gap:40px;align-items:center}}
+.ap-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px}
+@media(min-width:768px){.ap-stats{margin-bottom:0}}
+.ap-stats b{font-family:var(--mono);font-size:clamp(22px,2.9vw,30px);color:var(--gold-bright);display:block;line-height:1.1}
+.ap-stats span{font-size:11.5px;color:var(--ink-3);display:block;margin-top:6px}
+.arch-perf>p{font-size:13px;color:var(--ink-2);line-height:1.7}
+.arch-perf>p i{display:block;font-style:normal;font-size:11.5px;color:var(--ink-3);margin-top:8px}
+
+/* 饭馆类比 */
+.diner{margin-top:28px;border:1px solid var(--line-soft);border-radius:16px;background:var(--bg-2);padding:24px 20px}
+@media(min-width:768px){.diner{padding:26px}}
+.diner-head{margin-bottom:18px}
+.diner-head h3{font-size:17px;font-weight:800;margin-bottom:5px}
+.diner-head p{font-size:12.5px;color:var(--ink-3)}
+.diner-grid{display:grid;gap:12px;grid-template-columns:1fr}
+@media(min-width:600px){.diner-grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1080px){.diner-grid{grid-template-columns:repeat(5,1fr)}}
+.diner-item{background:var(--panel);border:1px solid var(--line-soft);border-radius:12px;padding:16px 15px}
+.diner-role{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;margin-bottom:7px}
+.diner-role svg{width:16px;height:16px;color:var(--gold);flex:none}
+.diner-item p{font-size:12px;color:var(--ink-2);line-height:1.6}
+
+/* 底座工程 */
+.eng-subhead{margin:30px 0 16px}
+.eng-subhead h3{font-size:18px;font-weight:800;margin-bottom:6px}
+.eng-subhead p{font-size:13px;color:var(--ink-3)}
+.eng-grid{display:grid;gap:12px;grid-template-columns:1fr}
+@media(min-width:768px){.eng-grid{grid-template-columns:1fr 1fr}}
+@media(min-width:1080px){.eng-grid{grid-template-columns:repeat(4,1fr)}}
+.eng-card{background:var(--panel);border:1px solid var(--line-soft);border-radius:var(--radius);padding:22px 20px}
+.eng-card h4{font-size:15px;font-weight:700;margin-bottom:8px}
+.eng-card p{font-size:12.5px;color:var(--ink-2);line-height:1.65}
+
+/* 新一代智能体 */
+.ngen{padding:72px 0;border-top:1px solid var(--line-soft);background:var(--bg-2)}
+.ngen-lead{font-size:15px;color:var(--ink-2);max-width:60ch;margin:-14px 0 32px}
+.ngen-grid{display:grid;gap:14px;grid-template-columns:1fr;margin-bottom:16px}
+@media(min-width:768px){.ngen-grid{grid-template-columns:repeat(3,1fr)}}
+.ngen-card{background:var(--panel);border:1px solid var(--line-soft);border-radius:var(--radius);padding:26px 24px}
+.ngen-card h4{font-size:15.5px;font-weight:700;margin-bottom:8px}
+.ngen-card p{font-size:13px;color:var(--ink-2);line-height:1.65}
+.ngen-card .tag{display:inline-block;margin-top:14px;font-family:var(--mono);font-size:10.5px;color:var(--gold);letter-spacing:.08em}
+.ngen-perm{border:1px solid var(--line-soft);border-radius:16px;background:var(--panel);padding:24px 20px;margin-bottom:16px}
+@media(min-width:860px){.ngen-perm{display:grid;grid-template-columns:auto 1fr;gap:26px;align-items:center;padding:26px 30px}}
+.perm-head{font-size:14px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:9px}
+.perm-head svg{width:18px;height:18px;color:var(--gold);flex:none}
+@media(min-width:860px){.perm-head{flex-direction:column;align-items:flex-start;gap:4px;margin-bottom:0;max-width:170px;font-size:16px}}
+.perm-steps{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.perm-step{background:var(--panel-2);border:1px solid var(--line-soft);border-radius:10px;padding:12px 16px;text-align:center}
+.perm-step b{display:block;font-size:13.5px;font-weight:700}
+.perm-step span{font-size:11px;color:var(--ink-3)}
+.perm-step.on{border-color:rgba(232,180,92,.5);background:linear-gradient(155deg,rgba(232,180,92,.13),var(--panel-2) 70%)}
+.perm-step.on b{color:var(--gold)}
+.perm-arrow{color:var(--gold-dim);flex:none}
+.perm-arrow svg{width:16px;height:16px}
+.perm-ctrl{display:flex;gap:8px;flex-wrap:wrap}
+.perm-ctrl span{font-family:var(--mono);font-size:11px;color:var(--ink-2);border:1px solid var(--line-soft);background:var(--bg-2);border-radius:999px;padding:6px 12px}
+.ngen-gate{display:flex;gap:15px;align-items:flex-start;border:1px solid var(--line-soft);border-radius:16px;background:var(--bg-2);padding:22px 20px;margin-bottom:16px}
+.ngen-gate .gate-ic{width:44px;height:44px;border-radius:12px;background:rgba(127,201,164,.12);border:1px solid rgba(127,201,164,.3);display:grid;place-items:center;flex:none}
+.ngen-gate .gate-ic svg{width:22px;height:22px;color:var(--ok)}
+.ngen-gate b{display:block;font-size:15px;margin-bottom:5px}
+.ngen-gate p{font-size:13px;color:var(--ink-2);line-height:1.7}
+.ngen-outlook{border:1px solid rgba(232,180,92,.32);border-radius:16px;background:linear-gradient(150deg,rgba(232,180,92,.08),rgba(20,26,34,.5) 60%);padding:26px 22px}
+.ngen-outlook b{display:block;font-size:15px;margin-bottom:6px}
+.ngen-outlook p{font-size:13.5px;color:var(--ink-2);line-height:1.7}
+
+/* 安全 */
+.secure{padding:68px 0;background:var(--bg-2);border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft)}
+.secure-box{border:1px solid rgba(232,180,92,.34);border-radius:20px;background:linear-gradient(150deg,rgba(232,180,92,.08),rgba(11,14,18,.4) 55%);padding:38px 24px;position:relative;overflow:hidden}
+@media(min-width:768px){.secure-box{padding:52px 54px}}
+.secure-box::before{content:"";position:absolute;top:-120px;right:-80px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(232,180,92,.14),transparent 60%);pointer-events:none}
+.secure-box h2{margin-bottom:16px}
+.secure-box>p{color:var(--ink-2);font-size:15px;max-width:66ch;margin-bottom:28px}
+.secure-grid{display:grid;gap:10px;grid-template-columns:1fr}
+@media(min-width:768px){.secure-grid{grid-template-columns:repeat(3,1fr)}}
+.sec-item{display:flex;gap:13px;align-items:flex-start;background:rgba(11,14,18,.55);border:1px solid var(--line-soft);border-radius:12px;padding:18px}
+.sec-item svg{width:20px;height:20px;color:var(--ok);flex:none;margin-top:2px}
+.sec-item b{display:block;font-size:14.5px;margin-bottom:4px}
+.sec-item span{font-size:12.5px;color:var(--ink-2);line-height:1.6}
+
+/* 内测 */
+.beta{padding:72px 0}
+.beta-grid{display:grid;gap:30px;align-items:start}
+@media(min-width:960px){.beta-grid{grid-template-columns:1fr 1fr;gap:56px}}
+.beta-left>p{color:var(--ink-2);font-size:15px;margin-bottom:24px;max-width:50ch}
+.steps{display:grid;gap:0;margin-bottom:28px}
+.step{display:flex;gap:18px;padding:16px 0;border-bottom:1px solid var(--line-soft)}
+.step:last-child{border-bottom:0}
+.step .s-n{width:34px;height:34px;border-radius:50%;border:1px solid var(--gold-dim);color:var(--gold);display:grid;place-items:center;font-family:var(--mono);font-weight:700;font-size:13px;flex:none;margin-top:2px}
+.step b{display:block;font-size:15px;margin-bottom:3px}
+.step span{font-size:13px;color:var(--ink-2);line-height:1.6}
+.quota{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:12px;color:var(--gold);border:1px dashed var(--gold-dim);border-radius:999px;padding:8px 16px;margin-bottom:24px}
+.quota svg{width:15px;height:15px;flex:none}
+.beta-card{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:30px 24px;position:relative}
+@media(min-width:768px){.beta-card{padding:38px 36px}}
+.beta-card h3{font-size:21px;font-weight:800;margin-bottom:8px}
+.beta-card .bc-sub{font-size:13.5px;color:var(--ink-2);margin-bottom:24px}
+.beta-list{display:grid;gap:13px;margin-bottom:26px}
+.beta-list li{list-style:none;display:flex;gap:12px;align-items:flex-start;font-size:14px;color:var(--ink)}
+.beta-list svg{width:18px;height:18px;color:var(--gold);flex:none;margin-top:3px}
+.beta-list small{display:block;color:var(--ink-3);font-size:12.5px;margin-top:2px}
+.beta-cta{width:100%;text-align:center;font-size:16px;padding:16px 20px}
+.beta-foot{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:16px;color:var(--ink-3);font-size:12.5px;text-align:center}
+.beta-foot svg{width:14px;height:14px;color:var(--ok);flex:none}
+
+/* FAQ */
+.faq{padding:20px 0 76px;border-top:1px solid var(--line-soft);background:var(--bg-2)}
+.faq-list{display:grid;gap:10px;max-width:820px}
+.faq-item{border:1px solid var(--line-soft);border-radius:12px;background:var(--panel);overflow:hidden}
+.faq-q{width:100%;background:none;border:0;color:var(--ink);font-family:var(--sans);font-size:15px;font-weight:600;text-align:left;padding:18px 20px;display:flex;justify-content:space-between;align-items:center;gap:16px;cursor:pointer;list-style:none;min-height:56px}
+.faq-q::-webkit-details-marker{display:none}
+.faq-q .plus{width:20px;height:20px;flex:none;position:relative}
+.faq-q .plus::before,.faq-q .plus::after{content:"";position:absolute;background:var(--gold);border-radius:2px;transition:transform .2s}
+.faq-q .plus::before{left:3px;right:3px;top:9px;height:2px}
+.faq-q .plus::after{top:3px;bottom:3px;left:9px;width:2px}
+.faq-item[open] .faq-q .plus::after{transform:rotate(90deg)}
+.faq-a{padding:0 20px 18px}
+.faq-a p{font-size:13.5px;color:var(--ink-2);line-height:1.7}
+
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<!-- ════ 导航 ════ -->
+<header class="site-nav" id="top">
+  <div class="wrap nav-in">
+    <a class="brand" href="./" aria-label="金骅AI 官网首页">
+      <svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="14" fill="#141A22"/><path d="M20 44V22l12 12 12-12v22" stroke="#E8B45C" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <b>金铧AI</b><span>JINHUA AI</span>
+    </a>
+    <nav class="nav-links" aria-label="主导航">
+      <a class="hide-sm" href="./">官网首页</a>
+      <a class="hide-sm" href="#biz">业务</a>
+      <a href="#agent" class="hide-lg">产品</a>
+      <a href="#agent" class="only-lg">外贸总监 SuperAgent</a>
+      <a class="hide-sm" href="#about">关于</a>
+      <a class="nav-cta" href="https://vcniw48ecd3r.feishu.cn/share/base/shrcnQjxoqbbJ8V6y9ikOYNM2Ne" target="_blank" rel="noopener">申请内测</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<!-- ════ 首页 Hero ════ -->
+<section class="home-hero">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow"><i></i>佛山 · 外贸 × AI · 本地部署</span>
+      <h1>把 30 年外贸经验，<br>做成<em>能跑的系统</em></h1>
+      <p class="hero-sub">金铧AI 不是又一个「帮你写英文」的工具。我们做三件事：把 AI 装进外贸作业流、把佛山工厂能力接到海外买家、把一线打法拆成可复制的动作。<b>客户数据不出内网</b>，是这一切的前提。</p>
+      <div class="cta-row">
+        <a class="btn btn-gold" href="#agent">
+          看外贸总监 SuperAgent
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a class="btn btn-ghost" href="https://vcniw48ecd3r.feishu.cn/share/base/shrcnQjxoqbbJ8V6y9ikOYNM2Ne" target="_blank" rel="noopener">申请内测</a>
+      </div>
+      <div class="hero-note">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+        内测问卷免登录，2 分钟填完，名额有限
+      </div>
+    </div>
+
+    <div class="line-card">
+      <div class="line-head"><h4>三条业务线</h4><em>JINHUA · 3 LINES</em></div>
+      <div class="line-item">
+        <div class="lm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 15h18M12 15v5M8 20h8"/></svg></div>
+        <div class="li-t"><b>外贸总监 SuperAgent</b><span>本地部署的 AI 外贸助手：背调、开发信、跟进、防退信</span></div>
+        <span class="lt">产品</span>
+      </div>
+      <div class="line-item">
+        <div class="lm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V8l7-5 7 5v13"/><path d="M17 21V11l4 3"/><path d="M3 21h18"/></svg></div>
+        <div class="li-t"><b>佛山工厂出海</b><span>家电与模具产业带能力，1000 台/型号起订，一线客户在跑</span></div>
+        <span class="lt">实战</span>
+      </div>
+      <div class="line-item">
+        <div class="lm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg></div>
+        <div class="li-t"><b>AI 外贸训练营</b><span>公开课 + 训练营，把作业流拆成可执行的动作</span></div>
+        <span class="lt">知识</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ 事实条 ════ -->
+<section class="facts">
+  <div class="wrap facts-in">
+    <div class="fact"><b>30 年</b><span>一线外贸经验</span></div>
+    <div class="fact"><b>1000 台</b><span>每型号起订量</span></div>
+    <div class="fact"><b>24 小时</b><span>数字同事在线</span></div>
+    <div class="fact"><b>0 上传</b><span>客户数据不出内网</span></div>
+  </div>
+</section>
+
+<!-- ════ 三条业务线 ════ -->
+<section class="biz" id="biz">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">WHAT WE DO</div>
+      <h2>三条线，一条主线：<span>让外贸跑得更快</span></h2>
+    </div>
+    <p class="biz-lead">产品解决「干不过来」，实战解决「不知道能不能成」，训练营解决「不会用」。三条线互相喂养：实战出案例，案例喂方法，方法带客户，客户数据反过来把产品打磨得更准。</p>
+    <div class="biz-grid">
+      <div class="biz-card">
+        <div class="b-tag">LINE 01 · PRODUCT</div>
+        <h3>外贸总监 SuperAgent</h3>
+        <p>装在你自己电脑里的 AI 外贸同事：先背调买家，再写专属开发信；该跟谁、隔几天跟、说什么，全部提醒到人；同时盯住退信率，别让邮箱信誉崩盘。</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6 9 17l-5-5"/></svg>本地部署，客户数据不出内网</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6 9 17l-5-5"/></svg>主动干活，不用一句句发指令</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6 9 17l-5-5"/></svg>当前内测招募中</li>
+        </ul>
+        <a class="biz-link" href="#agent">看完整介绍
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+      <div class="biz-card">
+        <div class="b-tag">LINE 02 · FACTORY</div>
+        <h3>佛山工厂出海</h3>
+        <p>不是纯贸易：背后接的是佛山家电与模具产业带的真实产能。样品现货 2-3 天发出，定制约一周，MOQ 1000 台/型号不降——拿真订单说话。</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6 9 17l-5-5"/></svg>产业带整合，不是二手拼单</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6 9 17l-5-5"/></svg>真实买家、真实报价、真实交期</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6 9 17l-5-5"/></svg>产品能力的来源</li>
+        </ul>
+        <a class="biz-link" href="#about">看我们怎么做
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+      <div class="biz-card">
+        <div class="b-tag">LINE 03 · KNOWLEDGE</div>
+        <h3>AI 外贸训练营</h3>
+        <p>把「AI 怎么用在外贸」讲成人能上手的东西：怎么背调买家、怎么写出不像模板的开发信、怎么把跟进做成不漏的流程。</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6 9 17l-5-5"/></svg>公开课讲判断，训练营讲动作</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6 9 17l-5-5"/></svg>学员作业直接对着真实工作流改</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6 9 17l-5-5"/></svg>和产品共用同一套打法</li>
+        </ul>
+        <a class="biz-link" href="https://vcniw48ecd3r.feishu.cn/share/base/shrcnQjxoqbbJ8V6y9ikOYNM2Ne" target="_blank" rel="noopener">先聊聊你的情况
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ 产品：外贸总监 SuperAgent ════ -->
+<section class="agent-hero" id="agent">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow"><i></i>产品线 01 · 外贸总监 SuperAgent · 内测招募中</span>
+      <h2>把一位外贸总监，<br><em>装进你的电脑</em></h2>
+      <p class="a-sub">SuperAgent 是本地部署的 AI 外贸助手：帮你写开发信、盯跟进、管询盘、护邮箱——不是等你发话的工具，而是替你主动思考和干活、24 小时在线的数字同事。<b>客户数据不出内网</b>，AI 只在你自己的机器上干活。</p>
+      <div class="cta-row">
+        <a class="btn btn-gold" href="https://vcniw48ecd3r.feishu.cn/share/base/shrcnQjxoqbbJ8V6y9ikOYNM2Ne" target="_blank" rel="noopener">
+          申请内测
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a class="btn btn-ghost" href="#cap">看看它能做什么</a>
+      </div>
+      <div class="hero-note">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+        内测报名 · 免登录 · 2 分钟 · 名额有限
+      </div>
+    </div>
+    <div class="desk">
+      <div class="app" aria-hidden="true">
+        <div class="app-bar"><i></i><i></i><i></i><span>SuperAgent 工作台 · 本地运行中</span></div>
+        <div class="app-body">
+          <div class="stat-row">
+            <div class="stat"><b>47</b><span>今日开发信</span></div>
+            <div class="stat"><b>3</b><span>待跟进提醒</span></div>
+            <div class="stat"><b class="ok">0.4%</b><span>7 天退信率</span></div>
+          </div>
+          <div class="app-sec"><h4>今日待跟进客户</h4><em>本地 · 未上云</em></div>
+          <div class="lead"><div class="avatar">NH</div><div class="info"><b>Nordwind Home GmbH</b><span>回复询盘 · 30 分钟前</span></div><span class="tag">已回</span></div>
+          <div class="lead"><div class="avatar">AK</div><div class="info"><b>AlpenKraft Kitchen</b><span>报价单已发 · 2 天未回</span></div><span class="tag">跟进</span></div>
+          <div class="local-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5.25 3.4 9.75 8 11 4.6-1.25 8-5.75 8-11V5l-8-3z"/><path d="M9 12l2 2 4-4"/></svg>
+            <span>本地部署 · 客户数据不出内网</span>
+          </div>
+        </div>
+      </div>
+      <div class="mock-note">界面示意</div>
+    </div>
+  </div>
+</section>
+
+<!-- 痛点 -->
+<section class="pain">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">PAIN POINTS</div>
+      <h2>外贸老板的一天，不该这么难</h2>
+    </div>
+    <p class="pain-lead">AI 的能力早已不是瓶颈——真正卡住效率的，是人的注意力：一个人同时只能盯 3-5 个会话，单窗口操作来回切换，时间全耗在「协调」上。</p>
+    <div class="pain-grid">
+      <div class="pain-item"><div class="num">01</div><div><h4>开发信发出去就石沉大海</h4><p>千篇一律的模板，客户一眼看穿，回复率越来越低。</p></div></div>
+      <div class="pain-item"><div class="num">02</div><div><h4>邮箱发多了，一封再封</h4><p>退信率飙上去，域名信誉崩盘，连正常邮件都进垃圾箱。</p></div></div>
+      <div class="pain-item"><div class="num">03</div><div><h4>客户跟到一半就忘了</h4><p>线索散在邮箱、Excel、微信里，报价发了没人催，机会悄悄溜走。</p></div></div>
+      <div class="pain-item"><div class="num">04</div><div><h4>客户数据不敢交给云</h4><p>担心泄露、怕上传云端不放心，AI 提效的诱惑和隐私的顾虑互相打架。</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 问卷声音 -->
+<section class="voice">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">FIRST VOICE</div>
+      <h2>第一份答卷，<span>说出了多少外贸人的心声</span></h2>
+    </div>
+    <div class="voice-grid">
+      <div class="voice-quote">
+        <div class="vq-mark"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 7H6a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h2v2H5v2h5v-8a2 2 0 0 0-2-2H6V9h4V7zm10 0h-4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h2v2h-3v2h5v-8a2 2 0 0 0-2-2h-2V9h4V7z"/></svg></div>
+        <blockquote>最希望做到的一件事：根据对客户做背调，有针对性地写专属开发信。</blockquote>
+        <div class="vq-meta">—— 外贸总监 · 首批内测问卷反馈</div>
+        <div class="vq-note">这也是 SuperAgent 最先解决的问题：先摸清买家，再动笔。</div>
+      </div>
+      <div class="voice-data">
+        <div class="vd-item"><span>最头疼的环节</span><b>找客户、写开发信、询盘分散多渠道、不会用 AI 提效</b></div>
+        <div class="vd-item"><span>现在用什么工具</span><b>纯手工 + Excel，没用任何 CRM / AI</b></div>
+        <div class="vd-item"><span>用 AI 的顾虑</span><b>怕客户资料泄露、数据上传云端不放心、写得不专业、费用高</b></div>
+        <div class="vd-item"><span>最想解决的问题</span><b>写开发信、跟进提醒 CRM、多渠道询盘聚合、报价管理</b></div>
+        <div class="vd-item"><span>可接受的价格</span><b>6000–9999 元 / 年</b></div>
+        <div class="vd-item"><span>内测意愿</span><b>愿意，随时可以开始</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 能力 -->
+<section class="cap" id="cap">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">WHAT IT DOES</div>
+      <h2>SuperAgent 替你干这四件事</h2>
+    </div>
+    <div class="cap-grid">
+      <div class="cap-card">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg></div>
+        <h4>客户背调 + 专属开发信</h4>
+        <p>先摸清买家底细，再写一封像人写的、有针对性的开发信，而不是群发模板。</p>
+        <span class="mono-tag">BUYER RESEARCH → TAILORED EMAIL</span>
+      </div>
+      <div class="cap-card">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></div>
+        <h4>自动跟进 + 询盘 CRM</h4>
+        <p>该跟谁、隔几天跟、说什么，全部提醒到人；多渠道询盘收进一个看板，一个不漏。</p>
+        <span class="mono-tag">FOLLOW-UP REMINDER · INQUIRY TRACKING</span>
+      </div>
+      <div class="cap-card">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5.25 3.4 9.75 8 11 4.6-1.25 8-5.75 8-11V5l-8-3z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg></div>
+        <h4>防退信 · 保护发件信誉</h4>
+        <p>盯着退信率和发送规则，该停就停、该缓就缓，别让你的邮箱被封、信誉被毁。</p>
+        <span class="mono-tag">BOUNCE RATE GUARD · DELIVERABILITY</span>
+      </div>
+      <div class="cap-card">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 15h18M8 20h8M12 15v5"/><path d="M7 9l3 3-3 3M13 9h4"/></svg></div>
+        <h4>本地部署 · 数据不出内网</h4>
+        <p>装在你自己的电脑或服务器上，客户线索、邮件、CRM 全程不出内网。</p>
+        <span class="mono-tag">ON-PREMISE · DATA STAYS LOCAL</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 技术架构 -->
+<section class="arch">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">HOW IT WORKS</div>
+      <h2>为什么它能<span>自己干活</span></h2>
+    </div>
+
+    <div class="arch-qualities">
+      <div class="aq-item">
+        <div class="aq-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg></div>
+        <div><b>连续</b><span>跨 IM、邮件、文档等平台，围绕不同任务持续交流，上下文不断线</span></div>
+      </div>
+      <div class="aq-item">
+        <div class="aq-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 4v5h-5"/></svg></div>
+        <div><b>高效</b><span>高质量并行，多个复杂任务同时推进、互不耽误</span></div>
+      </div>
+      <div class="aq-item">
+        <div class="aq-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+        <div><b>主动</b><span>感知环境变化主动提醒，不用等指令——读完邮件适时提醒、按场景推送</span></div>
+      </div>
+      <div class="aq-item">
+        <div class="aq-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M6 21h12"/></svg></div>
+        <div><b>持久</b><span>始终在线，直接接入你的真实工作环境，任务不停摆</span></div>
+      </div>
+    </div>
+
+    <div class="arch-flow">
+      <div class="af-node af-boss">
+        <span class="af-role">ROUTER · 调度组长</span>
+        <b>只动嘴，不动手</b>
+        <p>专管接收消息、派活、汇报；消息一多就「电梯打包」，攒在一起处理，不零敲碎打。</p>
+      </div>
+      <div class="af-node">
+        <span class="af-role">WORKER · 执行组员</span>
+        <b>独立干活，绝不串台</b>
+        <p>组长派活后，后台拉起独立的 AI 各干各的，互不干扰、互不串台。</p>
+      </div>
+      <div class="af-node af-watch">
+        <span class="af-role">WATCHDOG · 巡查员</span>
+        <b>定时巡逻，崩溃自愈</b>
+        <p>发现卡住、跑偏甚至中途崩溃，立刻拉回来重启、自己恢复，不让任务白烧时间。</p>
+      </div>
+    </div>
+
+    <div class="arch-grid">
+      <div class="arch-card">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 4v5h-5"/></svg></div>
+        <h4>双层架构</h4>
+        <p>「大管家 + 打工人」：Router 统筹派活、不亲自干活，多个 Worker 专注执行——并发干活、彼此隔离。</p>
+        <span class="mono-tag">ROUTER × WORKER · ISOLATED</span>
+      </div>
+      <div class="arch-card">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg></div>
+        <h4>事件驱动</h4>
+        <p>主动监听环境里的消息（邮件、日程、群动态），触发条件一满足，自动开始执行。</p>
+        <span class="mono-tag">LISTEN · TRIGGER · EXECUTE</span>
+      </div>
+      <div class="arch-card">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h18M8 3v5M16 3v5M8 21v-5M16 21v-5"/><path d="M8 11v3M16 11v3"/></svg></div>
+        <h4>看人下菜碟</h4>
+        <p>耗时工作在后台异步处理，前台随时可用；不同渠道自动切换表达——群里简明扼要，邮件里详实严谨。</p>
+        <span class="mono-tag">ASYNC · CHANNEL-AWARE</span>
+      </div>
+      <div class="arch-card">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M6 21h12"/></svg></div>
+        <h4>云端持久化</h4>
+        <p>计算状态独立托管，本地只留轻量代理——电脑关机，任务也持续在线。</p>
+        <span class="mono-tag">PERSISTENT · ALWAYS-ON</span>
+      </div>
+      <div class="arch-card">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></div>
+        <h4>看门狗监控</h4>
+        <p>独立 Watchdog 定期检查任务进度与方向，发现死循环或跑偏立即介入。</p>
+        <span class="mono-tag">WATCHDOG · ANTI-LOOP</span>
+      </div>
+    </div>
+
+    <div class="eng-subhead">
+      <h3>底座工程：四个让它真正能扛事的设计</h3>
+      <p>Agent 的竞争，正从「模型能力」转向「底座工程」——真正解放的，是人的注意力。</p>
+    </div>
+    <div class="eng-grid">
+      <div class="eng-card">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18l-7 8v6l-4 2v-8L3 4z"/></svg></div>
+        <h4>两级过滤 · 订阅直通</h4>
+        <p>真实事件先过两级过滤、再订阅直通，群消息、邮件、客户来信精准响应，不浪费无效算力。</p>
+        <span class="mono-tag">FILTER · DIRECT SUBSCRIBE</span>
+      </div>
+      <div class="eng-card">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg></div>
+        <h4>内存管理 · 链式召回</h4>
+        <p>按局部性原则组织上下文，需要时再链式召回，长任务也不会把内存塞爆。</p>
+        <span class="mono-tag">LOCALITY · CHAIN RECALL</span>
+      </div>
+      <div class="eng-card">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="8" r="2.5"/><path d="M6 8.5v7M8.5 6.5c4 0 7 1 7 1.5"/></svg></div>
+        <h4>后台投机执行</h4>
+        <p>像 CPU 分支预测：后台先悄悄尝试修复潜在问题，跑通了再给你结果。</p>
+        <span class="mono-tag">SPECULATIVE EXECUTION</span>
+      </div>
+      <div class="eng-card">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/><path d="M7 10l2 2 4-4"/></svg></div>
+        <h4>脑手分离 · BYOM</h4>
+        <p>云端大脑负责思考、本地环境负责执行，7×24 小时在线，关机也不停。</p>
+        <span class="mono-tag">BRAIN-HAND · BYOM</span>
+      </div>
+    </div>
+
+    <div class="arch-perf">
+      <div class="ap-stats">
+        <div><b>≈ ½</b><span>大活耗时砍半</span></div>
+        <div><b>6s→2s</b><span>平均判断一条消息</span></div>
+        <div><b>24h</b><span>数字同事在线</span></div>
+      </div>
+      <p>这不是 PPT 演示——这套「总调度 + 执行者 + 巡查员」的架构，已经在我们自己的真实业务里每天在跑，很多流程和脚本就是它自己写的。未来 AI 不再是聊天框，而是一群 24 小时替你扛事的数字同事。<i>数据来源：金铧AI 内部实测，实际效果因设备与环境而异。</i></p>
+    </div>
+
+    <div class="diner">
+      <div class="diner-head">
+        <h3>换个说法：它像一家这样运转的饭馆</h3>
+        <p>不懂技术也没关系，五个角色一看就明白。</p>
+      </div>
+      <div class="diner-grid">
+        <div class="diner-item">
+          <div class="diner-role"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>不进厨房的前台</div>
+          <p>接单派活，自己不亲自干活、不改需求。</p>
+        </div>
+        <div class="diner-item">
+          <div class="diner-role"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>会挡人的迎宾</div>
+          <p>两道闸门挡掉无关消息，只放真任务进来。</p>
+        </div>
+        <div class="diner-item">
+          <div class="diner-role"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>能插话的传菜口</div>
+          <p>长活转后台跑，不挡你操作，回复简洁。</p>
+        </div>
+        <div class="diner-item">
+          <div class="diner-role"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>不放灶台的账本</div>
+          <p>记忆上云，关机也能干活，支持跨设备协作。</p>
+        </div>
+        <div class="diner-item">
+          <div class="diner-role"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>一直巡场的店长</div>
+          <p>盯进度、防卡死打转，出问题随时介入。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 新一代智能体 -->
+<section class="ngen">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">NEXT-GEN AGENT</div>
+      <h2>新一代智能体：<span>自主，也可控</span></h2>
+    </div>
+    <p class="ngen-lead">SuperAgent 不是「你问一句、它答一句」的工具，而是具备自主闭环能力的新一代智能体——像一位会自己看任务、自己动手、也随时叫得停的同事。无论你在哪个平台、哪台设备，对接的始终是同一个它：背景只交代一次，背后多个 Worker 的复杂调度，系统替你藏起来。</p>
+
+    <div class="ngen-grid">
+      <div class="ngen-card">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+        <h4>不用 @，自己接单</h4>
+        <p>像同事一样主动查看任务、判断价值：群里或任务池里有人提问题，它自动接单去干活，不用你点名、不用你催。</p>
+        <span class="mono-tag">AUTO CLAIM · VALUE JUDGMENT</span>
+      </div>
+      <div class="ngen-card">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l2.5 2.5"/></svg></div>
+        <h4>该改的改，不该改的不动</h4>
+        <p>能高效改对一件具体的事（比如一封写错型号的报价邮件、一份漏了条款的 PI）；没有明确方向的需求，它会自动过滤，不瞎改、不添乱。</p>
+        <span class="mono-tag">PRECISION · FILTER NOISE</span>
+      </div>
+      <div class="ngen-card">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+        <h4>成本极低，跑得起</h4>
+        <p>基于小参数 Flash 模型，跑一天的算力成本只有几毛钱——自主归自主，账单不吓人。</p>
+        <span class="mono-tag">FLASH MODEL · PENNIES A DAY</span>
+      </div>
+    </div>
+
+    <div class="ngen-perm">
+      <div class="perm-head">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        权限逐步放开，<br>每一步都听你的
+      </div>
+      <div>
+        <div class="perm-steps">
+          <div class="perm-step"><b>接收开关</b><span>先只听，不干活</span></div>
+          <div class="perm-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+          <div class="perm-step"><b>观察模式</b><span>看得见，不越界</span></div>
+          <div class="perm-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+          <div class="perm-step on"><b>自动接单</b><span>放开了，自己干</span></div>
+        </div>
+        <div class="perm-ctrl">
+          <span>自定义规则</span>
+          <span>任务暂停</span>
+          <span>独立停止</span>
+          <span>防止重复提交</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="ngen-gate">
+      <div class="gate-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg></div>
+      <div>
+        <b>最后一锤，永远在你手里</b>
+        <p>所有任务跑完，它不会擅自替你对外发出或上线，而是在「门口」停下来问你：要不要就这么办？你点头，它才落地。判断和拍板的权利始终留给人——这是我们对自主智能体最基本的安全底线。</p>
+      </div>
+    </div>
+
+    <div class="ngen-outlook">
+      <b>终极愿景：AI 从「打工人」，进化成「超级大管家」</b>
+      <p>不再是被动等待任务的执行者，而是替你主动思考、主动做事的伙伴——自主性 × 可控性装进同一个系统：能自己跑，也随时叫得停；成本足够低，安全守得住。这正是我们在做的：低成本、且安全的自主闭环。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 安全 -->
+<section class="secure">
+  <div class="wrap">
+    <div class="secure-box">
+      <div class="kicker">WHY ON-PREMISE</div>
+      <h2>为什么坚持<span>数据不出内网</span></h2>
+      <p>市面上不缺会写邮件的 AI，缺的是敢把客户数据放心交进去的 AI。我们把「本地部署」做成底线：你的客户名单、往来邮件、成交记录，永远只在你的网络里流转。</p>
+      <div class="secure-grid">
+        <div class="sec-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          <div><b>不上传云端</b><span>客户隐私只走本地，AI 不接触真实线索之外的一切。</span></div>
+        </div>
+        <div class="sec-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          <div><b>规则透明可控</b><span>发不发、何时发、发给谁，规则由你定，AI 只执行不越权。</span></div>
+        </div>
+        <div class="sec-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          <div><b>越用越懂你</b><span>沉淀在你自己的机器里，形成只有你拥有的行业语料与客户知识。</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 内测 -->
+<section class="beta">
+  <div class="wrap beta-grid">
+    <div class="beta-left">
+      <div class="kicker">EARLY ACCESS</div>
+      <h2>首批内测官，<span>正在招募</span></h2>
+      <p>SuperAgent 还没正式上线。我们想先找到真正做外贸的老板和总监，一起把产品打磨到顺手——首批只开放少量名额。</p>
+      <span class="quota"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5.25 3.4 9.75 8 11 4.6-1.25 8-5.75 8-11V5l-8-3z"/></svg>内测名额有限 · 先到先得</span>
+      <div class="steps">
+        <div class="step"><div class="s-n">1</div><div><b>填一份 2 分钟问卷</b><span>告诉我们你的业务现状、最痛的问题和对产品的期待。</span></div></div>
+        <div class="step"><div class="s-n">2</div><div><b>我们筛选并联系你</b><span>从报名者中选出首批内测官，一对一沟通需求。</span></div></div>
+        <div class="step"><div class="s-n">3</div><div><b>一起部署、一起打磨</b><span>本地装好、跑起来，你提的每个问题都是产品迭代的方向。</span></div></div>
+      </div>
+    </div>
+    <div class="beta-card">
+      <h3>申请内测</h3>
+      <p class="bc-sub">免登录、匿名填写，2 分钟搞定。</p>
+      <ul class="beta-list">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><div>了解你目前最头疼的外贸环节<small>找客户、写开发信、跟单、防退信……</small></div></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><div>告诉我们你能接受的价格带<small>帮助我们把产品定在真正合适的价位</small></div></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><div>留下微信或手机号<small>方便我们联系你确认内测资格</small></div></li>
+      </ul>
+      <a class="btn btn-gold beta-cta" href="https://vcniw48ecd3r.feishu.cn/share/base/shrcnQjxoqbbJ8V6y9ikOYNM2Ne" target="_blank" rel="noopener">
+        填写内测问卷
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <div class="beta-foot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>问卷由金铧AI 直接回收，仅用于内测筛选</div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">FAQ</div>
+      <h2>常见问题</h2>
+    </div>
+    <div class="faq-list">
+      <details class="faq-item">
+        <summary class="faq-q">产品什么时候正式上线？<span class="plus"></span></summary>
+        <div class="faq-a"><p>目前处于内测阶段。我们会根据首批内测官的反馈迭代打磨，确认顺手后再逐步开放正式版本；内测用户将优先获得正式版部署与优惠。</p></div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-q">我不懂技术，能装得上吗？<span class="plus"></span></summary>
+        <div class="faq-a"><p>可以。内测阶段我们提供部署协助，装在哪、怎么跑，都会有人帮你配好，你不用碰命令行。</p></div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-q">客户数据真的完全不出内网吗？<span class="plus"></span></summary>
+        <div class="faq-a"><p>是的。SuperAgent 部署在你自己的电脑或服务器上，客户线索、邮件内容、CRM 记录都只在本地处理，不依赖云端服务，也就不存在上传泄露的问题。</p></div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-q">你们和市面上的 AI 写作工具有什么区别？<span class="plus"></span></summary>
+        <div class="faq-a"><p>大多数工具只是「写一段英文」；SuperAgent 是完整的外贸作业流——背调客户、写针对性开发信、按时跟进、看住退信率，并且全部在你本地运行，数据和规则都归你。</p></div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-q">金铧AI 提供哪些合作方式？<span class="plus"></span></summary>
+        <div class="faq-a"><p>三种：一是内测共创，跟着产品一起打磨；二是企业顾问，帮你的团队把 AI 外贸的动作落到流程上；三是训练营，把打法拆成团队能执行的步骤。具体适合哪种，填问卷后我们可以一对一聊。</p></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- 关于 -->
+<section class="about" id="about">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">ABOUT JINHUA</div>
+      <h2>我们不是做 AI 的，<span>是做外贸的</span></h2>
+    </div>
+    <div class="about-grid">
+      <div>
+        <p>金铧AI 是一支做「AI × 外贸」的团队。底子是 <b>30 年一线外贸经验</b>，背后接的是<b>佛山家电与模具产业带</b>的真实产能——不是纯贸易，也不是纯软件。</p>
+        <p>我们做这个产品，是因为自己每天都在用：客户在跑、报价在发、退信在盯、跟进在漏。痛点不是坐在办公室里想出来的，是一个单一个单干出来的。</p>
+        <div class="about-quote">外贸不是把英文写漂亮，是把订单拿下来。所以我们的 AI 从背调买家开始，而不是从写文案开始。</div>
+        <p>我们的立场很明确：<b>客户数据只走本地和自有 CRM</b>，不为了「云端好用」把客户的名单和往来邮件搬出去。这条底线不因为产品迭代而放松。</p>
+        <div class="cta-row" style="margin-top:26px">
+          <a class="btn btn-gold" href="https://vcniw48ecd3r.feishu.cn/share/base/shrcnQjxoqbbJ8V6y9ikOYNM2Ne" target="_blank" rel="noopener">
+            聊聊你的业务
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="btn btn-ghost" href="#agent">再看产品</a>
+        </div>
+      </div>
+      <div class="about-panel">
+        <h4>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 4-6"/></svg>
+          关键事实
+        </h4>
+        <div class="about-row"><span>外贸经验</span><b>30 年一线</b></div>
+        <div class="about-row"><span>产能来源</span><b>佛山家电 / 模具产业带</b></div>
+        <div class="about-row"><span>起订量</span><b>1000 台 / 型号</b></div>
+        <div class="about-row"><span>样品</span><b>现货 2-3 天 · 定制约一周</b></div>
+        <div class="about-row"><span>部署方式</span><b>本地私有部署</b></div>
+        <div class="about-row"><span>数据边界</span><b>不出内网</b></div>
+        <p class="about-note">本页客户名、界面数据均为示意，不代表真实客户信息。产品仍处内测阶段，功能与形态会持续迭代。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ════ 页脚 ════ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div>
+        <a class="foot-brand" href="#top">
+          <svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="14" fill="#141A22"/><path d="M20 44V22l12 12 12-12v22" stroke="#E8B45C" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          金铧AI · JINHUA AI
+        </a>
+        <p class="foot-desc" style="margin-top:12px">把 AI 装进外贸作业流。本地部署，客户数据不出内网。</p>
+      </div>
+      <nav class="foot-nav" aria-label="页脚导航">
+        <a href="#biz">业务</a>
+        <a href="#agent">外贸总监 SuperAgent</a>
+        <a href="#about">关于</a>
+        <a href="https://vcniw48ecd3r.feishu.cn/share/base/shrcnQjxoqbbJ8V6y9ikOYNM2Ne" target="_blank" rel="noopener">申请内测</a>
+      </nav>
+    </div>
+    <div class="foot-bot">
+      <span>© 2026 金铧AI · JINHUA AI</span>
+      <span>外贸总监 SuperAgent · 内测招募中</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
