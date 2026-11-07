@@ -765,7 +765,7 @@ footer{border-top:1px solid var(--line-soft);padding:40px 0 48px}
       <div class="multi-head">
         <span class="m-chip">再一条 · 多工厂 / 多品牌</span>
         <h3>一家公司、几家工厂，能不能一起管？</h3>
-        <p>能，但这句话得说准：目前是<b>架构不锁死、接入是配置活</b>，不是「已经同时跑了两家」。内测只开一套事实——一家工厂的抬头、签名、报价、MOQ。第二家不是重新开发一套系统，是交一份事实包 + 两处配置。</p>
+        <p>能，而且已经做成<b>配置化</b>：每张工单只带本厂事实，接第二家不用改系统结构。但内测仍只跑一家——不为了讲卖点就装作已经跑两家。第二家缺的是你的资料，不是代码。</p>
       </div>
       <div class="multi-grid">
         <div class="multi-item">
@@ -778,16 +778,16 @@ footer{border-top:1px solid var(--line-soft);padding:40px 0 48px}
           </ul>
         </div>
         <div class="multi-item">
-          <div class="m-no">接入要做 · 约半天</div>
-          <b>两处得改，都是为了防串厂</b>
+          <div class="m-no">已实现 · 防串厂</div>
+          <b>每家一份事实，按单下发</b>
           <ul>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>报价事实按工厂拆成独立事实包：抬头、签名、产品、价格、MOQ、交期、认证，一家一份、互不覆盖</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>发件身份从「写死一个邮箱」改成按邮箱读取，第二家的信才是第二家的抬头</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>接入后必测一条反向用例：引用别家价格/型号的回复，必须被事实红线拦下</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>每家工厂一份独立事实包：抬头、签名、产品、价格、MOQ、交期、认证，不再挤在同一份提示词里</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>来源到工厂做严格映射：没登记的来源直接拒单，绝不回落默认工厂去猜价格</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>发件身份改成按邮箱读，不再写死某一个邮箱——第二家的信才是第二家的抬头</li>
           </ul>
         </div>
       </div>
-      <p class="multi-note">接第二家的前提：首单链路跑通 + 退信率达标解除暂停 + 第二家「事实包」（公司抬头、签名与联系方式、每个型号的价格档/MOQ/规格/包装/认证/交期、报价规则）交齐。三条齐了才排期，不拿你的客户名单做联调。</p>
+      <p class="multi-note">隔离验证已做过：造了一家假工厂跑完整准备流程，它的工单里只有它自己的抬头和价格，主厂价格 0 条泄漏；未登记的来源被直接拒掉。第二家真正接入还差三件事：首单闭环跑通、退信率达标解除暂停、你的「事实包」交齐（公司抬头、签名与联系方式、每个型号的价格档/MOQ/规格/包装/认证/交期、报价规则）。齐了就跑一条反向用例（引用别厂价格必须被拦下）再上线，不拿你的客户名单做联调。</p>
     </div>
   </div>
 </section>
