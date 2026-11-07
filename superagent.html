@@ -264,6 +264,19 @@ footer{border-top:1px solid var(--line-soft);padding:40px 0 48px}
 .cap-card h4{font-size:16.5px;font-weight:700;margin-bottom:8px}
 .cap-card p{font-size:13.5px;color:var(--ink-2);line-height:1.65}
 
+/* ════ 功能实况（2026-11-07） ════ */
+.feat{padding:72px 0;border-top:1px solid var(--line-soft);background:var(--bg-2)}
+.feat-grid{display:grid;gap:14px;grid-template-columns:1fr}
+@media(min-width:900px){.feat-grid{grid-template-columns:1fr 1fr;gap:16px}}
+.feat-card{background:var(--panel);border:1px solid var(--line-soft);border-radius:var(--radius);padding:24px 22px;display:flex;flex-direction:column;transition:border-color .2s}
+.feat-card:hover{border-color:var(--gold-dim)}
+.feat-card .f-no{font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--gold-dim);margin-bottom:11px}
+.feat-card h4{font-size:15.5px;font-weight:750;margin-bottom:12px;line-height:1.45}
+.feat-card ul{display:grid;gap:7px}
+.feat-card li{list-style:none;display:flex;gap:8px;font-size:12.5px;color:var(--ink-2);line-height:1.65}
+.feat-card li svg{width:13px;height:13px;color:var(--gold);flex:none;margin-top:4px}
+.feat-note{font-size:11.5px;color:var(--ink-3);line-height:1.75;margin-top:20px;max-width:92ch}
+
 /* 技术架构 */
 .arch{padding:72px 0;border-top:1px solid var(--line-soft)}
 .arch-qualities{display:grid;gap:10px;grid-template-columns:repeat(2,1fr);margin-bottom:20px}
@@ -424,6 +437,7 @@ footer{border-top:1px solid var(--line-soft);padding:40px 0 48px}
       <a class="hide-sm" href="#biz">业务</a>
       <a href="#agent" class="hide-lg">产品</a>
       <a href="#agent" class="only-lg">外贸总监 SuperAgent</a>
+      <a class="hide-sm" href="#features">功能</a>
       <a class="hide-sm" href="#pricing">价格</a>
       <a class="hide-sm" href="#about">关于</a>
       <a class="nav-cta" href="https://vcniw48ecd3r.feishu.cn/share/base/shrcnQjxoqbbJ8V6y9ikOYNM2Ne" target="_blank" rel="noopener">申请内测</a>
@@ -657,6 +671,81 @@ footer{border-top:1px solid var(--line-soft);padding:40px 0 48px}
   </div>
 </section>
 
+<!-- ════ 功能实况（2026-11-07 按真实工程补齐） ════ -->
+<section class="feat" id="features">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">REAL FEATURES · 内测机实况</div>
+      <h2>不是演示动画，<br>再往里一层：<span>六件事已经在你机器上跑</span></h2>
+    </div>
+    <p class="sec-lead">下面六条是内测机上真实启用的功能，写的是它实际怎么拦、怎么停、怎么问人，不是概念图。装的时候哪一条你用不上，可以直接关掉——开关都在配置里，不做「全开、全吵」。</p>
+
+    <div class="feat-grid">
+      <div class="feat-card">
+        <div class="f-no">01 · 三路接单</div>
+        <h4>官网询盘 / 邮箱 / 领英，三路一起盯</h4>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>独立站询盘、销售邮箱未读、领英私信三个入口同时监听，30 秒一轮</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>每条来信按唯一标识去重，重启不重放旧邮件、也不漏读未读</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>群发广告、退信通知、系统邮件在门口就被挡掉，不占算力</li>
+        </ul>
+      </div>
+
+      <div class="feat-card">
+        <div class="f-no">02 · 白名单授权</div>
+        <h4>谁能让它干活，你说了算</h4>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>按来源分别授权：某个邮箱地址、整个客户域名（@domain）、某个领英联系人</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>同一个人在不同渠道的账号不自动合并，防冒充、防串号</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>观察（只听不干）→ 自动接单 → 自定义规则，权限分三档逐步放开，随时一键停</li>
+        </ul>
+      </div>
+
+      <div class="feat-card">
+        <div class="f-no">03 · 一单一个工作区</div>
+        <h4>一封来信一张工单，互不串台</h4>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>每张工单独立目录、独立会话、独立上下文：A 客户的资料进不了 B 客户的单</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>客户原文只当「资料」读，不当「指令」执行——防客户邮件里夹带指令让它越权</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>默认 2 张工单并行（可调），危险命令（改配置、删数据、批量群发）默认禁用</li>
+        </ul>
+      </div>
+
+      <div class="feat-card">
+        <div class="f-no">04 · 报价事实库</div>
+        <h4>价格 / MOQ / 交期 / 认证，它不自己编</h4>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>公司抬头、签名、报价基准（FOB 南沙 · 30% 定金 + 70% 尾款）、产品型号与起订量，全部写在事实库里</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>这四类只从事实库取；缺料时不猜，停下来报「卡住」，只问你一个问题</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>每单收尾都要交代「答应了客户什么 + 下次联系日期 + 下一步动作」，跟着落进跟进表</li>
+        </ul>
+      </div>
+
+      <div class="feat-card">
+        <div class="f-no">05 · 发信闸门</div>
+        <h4>不该发的信，发出前就被拦下</h4>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>所有外发先过本机闸门（默认 127.0.0.1:8099）；闸门不通就不发——宁可不发，也不裸发</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>发前预检只回 PASS / BLOCK 和原因：不计配额、不记账、真不发送，可以先试</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>退信率按 7 天滚动盯线，超线自动刹车；配额与每封发送记录全部留痕可查</li>
+        </ul>
+      </div>
+
+      <div class="feat-card">
+        <div class="f-no">06 · 回信纪律</div>
+        <h4>回哪来、回给谁、不重复</h4>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>邮件回邮件、领英回领英、官网询盘回官网，不串渠道、不换号</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>每条外发带幂等键，网络重试不会给同一个客户重复发第二封</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>跑完不擅自对外发出：要人拍板的事，在面板里排队等你点头</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="feat-note">以上每一项都能在独立环境里复跑验收（独立配置、独立数据目录、独立端口），不是拿生产环境给你演示。看不懂的、想关掉的，装的时候逐条跟你确认。</p>
+  </div>
+</section>
+
 <!-- 技术架构 -->
 <section class="arch">
   <div class="wrap">
@@ -723,9 +812,9 @@ footer{border-top:1px solid var(--line-soft);padding:40px 0 48px}
       </div>
       <div class="arch-card">
         <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M6 21h12"/></svg></div>
-        <h4>云端持久化</h4>
-        <p>计算状态独立托管，本地只留轻量代理——电脑关机，任务也持续在线。</p>
-        <span class="mono-tag">PERSISTENT · ALWAYS-ON</span>
+        <h4>本地常驻</h4>
+        <p>服务装在你自己的机器上常驻运行，开机即起、断线自恢复；机器关了它就停，不发散到任何云端。</p>
+        <span class="mono-tag">ON-PREMISE · RESIDENT</span>
       </div>
       <div class="arch-card">
         <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></div>
@@ -753,26 +842,26 @@ footer{border-top:1px solid var(--line-soft);padding:40px 0 48px}
         <span class="mono-tag">LOCALITY · CHAIN RECALL</span>
       </div>
       <div class="eng-card">
-        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="8" r="2.5"/><path d="M6 8.5v7M8.5 6.5c4 0 7 1 7 1.5"/></svg></div>
-        <h4>后台投机执行</h4>
-        <p>像 CPU 分支预测：后台先悄悄尝试修复潜在问题，跑通了再给你结果。</p>
-        <span class="mono-tag">SPECULATIVE EXECUTION</span>
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+        <h4>发信前预检 · 先验后发</h4>
+        <p>信不先验就不发：预检只回 PASS / BLOCK 和原因，闸门不通直接拦下，不靠人盯也不赌运气。</p>
+        <span class="mono-tag">PREFLIGHT · DRY-RUN</span>
       </div>
       <div class="eng-card">
         <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/><path d="M7 10l2 2 4-4"/></svg></div>
-        <h4>脑手分离 · BYOM</h4>
-        <p>云端大脑负责思考、本地环境负责执行，7×24 小时在线，关机也不停。</p>
-        <span class="mono-tag">BRAIN-HAND · BYOM</span>
+        <h4>本地常驻 · 看门狗自愈</h4>
+        <p>服务装在你自己的机器上常驻，看门狗定时巡逻；卡住、跑偏、崩了自动拉起，不用你手动重启。</p>
+        <span class="mono-tag">ON-PREMISE · WATCHDOG</span>
       </div>
     </div>
 
     <div class="arch-perf">
       <div class="ap-stats">
-        <div><b>≈ ½</b><span>大活耗时砍半</span></div>
-        <div><b>6s→2s</b><span>平均判断一条消息</span></div>
-        <div><b>24h</b><span>数字同事在线</span></div>
+        <div><b>3 路</b><span>询盘 / 邮箱 / 领英同时监听</span></div>
+        <div><b>30s</b><span>一轮轮询间隔</span></div>
+        <div><b>2 张</b><span>工单并行（可调）</span></div>
       </div>
-      <p>这不是 PPT 演示——这套「总调度 + 执行者 + 巡查员」的架构，已经在我们自己的真实业务里每天在跑，很多流程和脚本就是它自己写的。未来 AI 不再是聊天框，而是一群 24 小时替你扛事的数字同事。<i>数据来源：金骅AI 内部实测，实际效果因设备与环境而异。</i></p>
+      <p>这不是 PPT 演示——这套「总调度 + 执行者 + 巡查员」的架构，已经在我们自己的真实业务里每天在跑，很多流程和脚本就是它自己写的。未来 AI 不再是聊天框，而是一群 24 小时替你扛事的数字同事。<i>数据来源：内测机实测配置，可按你的机器与业务量调整。</i></p>
     </div>
 
     <div class="diner">
@@ -794,8 +883,8 @@ footer{border-top:1px solid var(--line-soft);padding:40px 0 48px}
           <p>长活转后台跑，不挡你操作，回复简洁。</p>
         </div>
         <div class="diner-item">
-          <div class="diner-role"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>不放灶台的账本</div>
-          <p>记忆上云，关机也能干活，支持跨设备协作。</p>
+          <div class="diner-role"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>不外借的账本</div>
+          <p>客户资料只记在这台机器上，不往云端抄一份。</p>
         </div>
         <div class="diner-item">
           <div class="diner-role"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>一直巡场的店长</div>
@@ -830,9 +919,9 @@ footer{border-top:1px solid var(--line-soft);padding:40px 0 48px}
       </div>
       <div class="ngen-card">
         <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
-        <h4>成本极低，跑得起</h4>
-        <p>基于小参数 Flash 模型，跑一天的算力成本只有几毛钱——自主归自主，账单不吓人。</p>
-        <span class="mono-tag">FLASH MODEL · PENNIES A DAY</span>
+        <h4>不按条计费</h4>
+        <p>模型跑在你自己的机器上，不按 token、不按封数收费：一天回 10 封和 200 封，账单不变。</p>
+        <span class="mono-tag">ON-PREMISE · NO METERED BILLING</span>
       </div>
     </div>
 
@@ -1118,6 +1207,7 @@ footer{border-top:1px solid var(--line-soft);padding:40px 0 48px}
       <nav class="foot-nav" aria-label="页脚导航">
         <a href="#biz">业务</a>
         <a href="#agent">外贸总监 SuperAgent</a>
+        <a href="#features">六件事</a>
         <a href="#pricing">价格与 3 天样板</a>
         <a href="#about">关于</a>
         <a href="https://vcniw48ecd3r.feishu.cn/share/base/shrcnQjxoqbbJ8V6y9ikOYNM2Ne" target="_blank" rel="noopener">申请内测</a>
