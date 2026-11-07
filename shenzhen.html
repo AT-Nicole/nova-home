@@ -356,6 +356,10 @@
 <script>
 const JH_SB_URL='https://zmhvarnrdnsimkkhrlol.supabase.co';
 const JH_SB_KEY=window.JH_SB_KEY;
+// 2026-11-07 渠道追踪：把链接上的 utm_source 写进留资的 source 字段。
+// 站点没有访问统计，这是唯一能知道"这个人从哪条链接来的"的办法。
+const CH=(new URLSearchParams(location.search).get('utm_source')||'').replace(/[^a-z0-9_-]/gi,'').slice(0,18);
+const SOURCE='jinhua.tech/shenzhen'+(CH?'-'+CH:'');
 document.getElementById('cform').addEventListener('submit',async function(e){
   e.preventDefault();
   const n=document.getElementById('f-name'),w=document.getElementById('f-wechat');
@@ -366,7 +370,7 @@ document.getElementById('cform').addEventListener('submit',async function(e){
   try{
     const r=await fetch(JH_SB_URL+'/rest/v1/jh_leads',{method:'POST',
       headers:{'apikey':JH_SB_KEY,'Authorization':'Bearer '+JH_SB_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},
-      body:JSON.stringify({name:n.value.trim(),contact:w.value.trim(),intent:document.getElementById('f-intent').value,source:'jinhua.tech/shenzhen'})});
+      body:JSON.stringify({name:n.value.trim(),contact:w.value.trim(),intent:document.getElementById('f-intent').value,source:SOURCE})});
     if(!r.ok)throw new Error('http '+r.status);
     ok.style.display='block';
     ok.textContent='已收到！Nicole 会在 1 个工作日内回复你。';
