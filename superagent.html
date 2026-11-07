@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>金铧AI · JINHUA AI —— 把 AI 装进外贸作业流</title>
-<meta name="description" content="金铧AI：本地部署的外贸总监 SuperAgent、佛山工厂出海实战、AI 外贸训练营。客户数据不出内网。">
+<title>金骅AI · JINHUA AI —— 把 AI 装进外贸作业流</title>
+<meta name="description" content="金骅AI：本地部署的外贸总监 SuperAgent、佛山工厂出海实战、AI 外贸训练营。客户数据不出内网。">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230B0E12'/%3E%3Cpath d='M20 44V22l12 12 12-12v22' stroke='%23E8B45C' stroke-width='5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <style>
 :root{
@@ -34,15 +34,16 @@ img,svg{max-width:100%}
 .brand b{font-size:17px}
 .brand span{color:var(--ink-3);font-size:11px;font-weight:400;letter-spacing:.08em;display:none}
 @media(min-width:420px){.brand span{display:inline}}
-.nav-links{display:flex;align-items:center;gap:2px}
-.nav-links a{display:inline-flex;align-items:center;min-height:44px;padding:0 10px;font-size:13.5px;color:var(--ink-2);text-decoration:none;border-radius:9px;transition:.16s}
+.nav-links{display:flex;align-items:center;gap:2px;flex:none}
+.nav-links a{display:inline-flex;align-items:center;min-height:44px;padding:0 10px;font-size:13.5px;color:var(--ink-2);text-decoration:none;border-radius:9px;transition:.16s;white-space:nowrap}
 .nav-links a:hover{color:var(--gold)}
 .nav-links a.nav-cta{background:var(--gold);color:#191510;font-weight:600;padding:0 14px;margin-left:4px}
 .nav-links a.nav-cta:hover{background:var(--gold-bright);color:#191510}
-.hide-sm{display:none}
-.only-lg{display:none}
-@media(min-width:620px){.hide-sm{display:inline-flex}.nav-links a{padding:0 12px;font-size:14px}}
-@media(min-width:900px){.only-lg{display:inline-flex}.hide-lg{display:none}}
+/* 显隐类必须比 .nav-links a 的 display 更具体，否则会被覆盖（2026-11-07 修） */
+.nav-links a.hide-sm,.nav-links a.only-lg{display:none}
+@media(min-width:620px){.nav-links a.hide-sm{display:inline-flex}.nav-links a{padding:0 12px;font-size:14px}}
+@media(min-width:900px){.nav-links a.only-lg{display:inline-flex}.nav-links a.hide-lg{display:none}}
+@media(max-width:520px){.nav-links a{padding:0 8px;font-size:13px}.nav-links a.nav-cta{padding:0 11px}.nav-in{gap:8px}}
 
 /* ════ 通用件 ════ */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;font-weight:600;font-size:15px;padding:14px 26px;border-radius:12px;text-decoration:none;transition:.18s;border:1px solid transparent;min-height:48px}
@@ -130,6 +131,47 @@ h1 em{font-style:normal;color:var(--gold)}
 .about-row span{color:var(--ink-3);flex:none;font-size:12px}
 .about-row b{font-weight:600;text-align:right}
 .about-panel .about-note{font-size:11.5px;color:var(--ink-3);margin-top:14px;line-height:1.6}
+
+/* ════ 价格 / 三天样板（2026-11-07 并入原报价页） ════ */
+.pricing{padding:72px 0;border-top:1px solid var(--line-soft);background:var(--bg-2)}
+.sec-lead{font-size:14.5px;color:var(--ink-2);max-width:64ch;margin:-16px 0 32px}
+.price-grid{display:grid;gap:14px;grid-template-columns:1fr}
+@media(min-width:900px){.price-grid{grid-template-columns:repeat(3,1fr);gap:16px}}
+.price-card{position:relative;background:var(--panel);border:1px solid var(--line-soft);border-radius:var(--radius);padding:24px 22px;display:flex;flex-direction:column}
+.price-card.rec{border-color:var(--gold-dim);background:linear-gradient(180deg,rgba(232,180,92,.07),transparent 46%),var(--panel)}
+.price-card .p-tag{font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--gold-dim);margin-bottom:12px}
+.price-card.rec .p-tag{color:var(--gold)}
+.price-card h3{font-size:16.5px;font-weight:750;margin-bottom:5px}
+.price-card .p-sub{font-size:12px;color:var(--ink-3);line-height:1.6;margin-bottom:16px}
+.price-card .p-amt{font-family:var(--mono);font-size:16px;font-weight:700;color:var(--gold-bright);padding-bottom:14px;border-bottom:1px solid var(--line-soft);letter-spacing:.01em;white-space:nowrap}
+.price-card .p-amt small{display:block;font-family:var(--sans);font-size:11.5px;font-weight:400;color:var(--ink-3);margin-top:6px;letter-spacing:0;white-space:normal}
+.price-card ul{display:grid;gap:7px;margin-top:16px;flex:1}
+.price-card li{list-style:none;display:flex;gap:8px;font-size:12.5px;color:var(--ink-2);line-height:1.6}
+.price-card li svg{width:14px;height:14px;color:var(--gold);flex:none;margin-top:4px}
+.price-card .p-cta{display:inline-flex;align-items:center;justify-content:center;margin-top:18px;min-height:44px;font-size:13px;font-weight:600;border-radius:10px;border:1px solid var(--line);color:var(--ink);text-decoration:none}
+.price-card .p-cta:hover{border-color:var(--gold-dim);color:var(--gold)}
+.price-card.rec .p-cta{background:var(--gold);border-color:var(--gold);color:#191510}
+.price-card.rec .p-cta:hover{background:var(--gold-bright);color:#191510}
+
+.bound{display:grid;gap:14px;margin-top:22px;grid-template-columns:1fr}
+@media(min-width:820px){.bound{grid-template-columns:1fr 1fr}}
+.bound-box{background:var(--panel);border:1px solid var(--line-soft);border-radius:var(--radius);padding:22px 22px}
+.bound-box h4{font-size:13.5px;font-weight:700;margin-bottom:13px;display:flex;align-items:center;gap:8px}
+.bound-box ul{display:grid;gap:8px}
+.bound-box li{list-style:none;display:flex;gap:8px;font-size:12.5px;color:var(--ink-2);line-height:1.65}
+.bound-box li i{font-style:normal;flex:none}
+.bound-box li i.y{color:var(--ok)}
+.bound-box li i.n{color:var(--danger)}
+
+.days{margin-top:14px;display:grid;gap:12px;grid-template-columns:1fr}
+@media(min-width:820px){.days{grid-template-columns:repeat(3,1fr)}}
+.day{background:var(--panel);border:1px solid var(--line-soft);border-radius:var(--radius);padding:20px 20px}
+.day .d-tag{font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--gold);margin-bottom:9px}
+.day h4{font-size:14px;font-weight:700;margin-bottom:8px}
+.day p{font-size:12.5px;color:var(--ink-2);line-height:1.7}
+.day .d-out{display:block;margin-top:12px;padding-top:10px;border-top:1px dashed var(--line);font-size:11.5px;color:var(--ink-3);line-height:1.6}
+.price-note{font-size:11.5px;color:var(--ink-3);line-height:1.75;margin-top:22px;max-width:92ch}
+.price-note b{color:var(--ink-2);font-weight:600}
 
 /* ════ 页脚 ════ */
 footer{border-top:1px solid var(--line-soft);padding:40px 0 48px}
@@ -375,13 +417,14 @@ footer{border-top:1px solid var(--line-soft);padding:40px 0 48px}
   <div class="wrap nav-in">
     <a class="brand" href="./" aria-label="金骅AI 官网首页">
       <svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="14" fill="#141A22"/><path d="M20 44V22l12 12 12-12v22" stroke="#E8B45C" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <b>金铧AI</b><span>JINHUA AI</span>
+      <b>金骅AI</b><span>JINHUA AI</span>
     </a>
     <nav class="nav-links" aria-label="主导航">
       <a class="hide-sm" href="./">官网首页</a>
       <a class="hide-sm" href="#biz">业务</a>
       <a href="#agent" class="hide-lg">产品</a>
       <a href="#agent" class="only-lg">外贸总监 SuperAgent</a>
+      <a class="hide-sm" href="#pricing">价格</a>
       <a class="hide-sm" href="#about">关于</a>
       <a class="nav-cta" href="https://vcniw48ecd3r.feishu.cn/share/base/shrcnQjxoqbbJ8V6y9ikOYNM2Ne" target="_blank" rel="noopener">申请内测</a>
     </nav>
@@ -396,7 +439,7 @@ footer{border-top:1px solid var(--line-soft);padding:40px 0 48px}
     <div>
       <span class="eyebrow"><i></i>佛山 · 外贸 × AI · 本地部署</span>
       <h1>把 30 年外贸经验，<br>做成<em>能跑的系统</em></h1>
-      <p class="hero-sub">金铧AI 不是又一个「帮你写英文」的工具。我们做三件事：把 AI 装进外贸作业流、把佛山工厂能力接到海外买家、把一线打法拆成可复制的动作。<b>客户数据不出内网</b>，是这一切的前提。</p>
+      <p class="hero-sub">金骅AI 不是又一个「帮你写英文」的工具。我们做三件事：把 AI 装进外贸作业流、把佛山工厂能力接到海外买家、把一线打法拆成可复制的动作。<b>客户数据不出内网</b>，是这一切的前提。</p>
       <div class="cta-row">
         <a class="btn btn-gold" href="#agent">
           看外贸总监 SuperAgent
@@ -729,7 +772,7 @@ footer{border-top:1px solid var(--line-soft);padding:40px 0 48px}
         <div><b>6s→2s</b><span>平均判断一条消息</span></div>
         <div><b>24h</b><span>数字同事在线</span></div>
       </div>
-      <p>这不是 PPT 演示——这套「总调度 + 执行者 + 巡查员」的架构，已经在我们自己的真实业务里每天在跑，很多流程和脚本就是它自己写的。未来 AI 不再是聊天框，而是一群 24 小时替你扛事的数字同事。<i>数据来源：金铧AI 内部实测，实际效果因设备与环境而异。</i></p>
+      <p>这不是 PPT 演示——这套「总调度 + 执行者 + 巡查员」的架构，已经在我们自己的真实业务里每天在跑，很多流程和脚本就是它自己写的。未来 AI 不再是聊天框，而是一群 24 小时替你扛事的数字同事。<i>数据来源：金骅AI 内部实测，实际效果因设备与环境而异。</i></p>
     </div>
 
     <div class="diner">
@@ -881,8 +924,111 @@ footer{border-top:1px solid var(--line-soft);padding:40px 0 48px}
         填写内测问卷
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </a>
-      <div class="beta-foot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>问卷由金铧AI 直接回收，仅用于内测筛选</div>
+      <div class="beta-foot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>问卷由金骅AI 直接回收，仅用于内测筛选</div>
     </div>
+  </div>
+</section>
+
+<!-- ════ 价格与 3 天样板（2026-11-07 由原报价页并入，对外只保留这一套口径） ════ -->
+<section class="pricing" id="pricing">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">PRICING · 先试再做</div>
+      <h2>不是越贵越好，<br>是<span>三种不同的交付</span></h2>
+    </div>
+    <p class="sec-lead">云端跑量、本地打深、机房落地。价格摆在这里，不藏。内测期可以先按「3 天样板」跑一遍——你带真实询盘进来，跑不动的部分当场说跑不动。</p>
+
+    <div class="price-grid">
+      <div class="price-card">
+        <div class="p-tag">01 · SAAS · 走量</div>
+        <h3>基础版 · 云端助手</h3>
+        <div class="p-sub">云端 API 开箱即用，并发有保障，适合先把日常活干快。</div>
+        <div class="p-amt">¥298 / 月<small>单账号 · 企业版 ¥798 / 月（3 账号）</small></div>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>邮件与资料多语种互转，术语不乱译</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>按客户类型出开发信初稿，改完再发</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>PI / 合同 / Listing / 社媒文案多版输出</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>产品资料进云端知识库再做问答</li>
+        </ul>
+        <a class="p-cta" href="https://vcniw48ecd3r.feishu.cn/share/base/shrcnQjxoqbbJ8V6y9ikOYNM2Ne" target="_blank" rel="noopener">先聊聊基础版</a>
+      </div>
+
+      <div class="price-card rec">
+        <div class="p-tag">02 · 本页主推 · 单客户独占</div>
+        <h3>标杆演示版 · 本地推理</h3>
+        <div class="p-sub">本地 DeepSeek-R1 推理，一次吃进整包客户资料，数据不出机器。</div>
+        <div class="p-amt">¥3,800 / 3 天<small>陪跑样板 · 成交后升级年包 ¥12,800 / 年</small></div>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>询盘研判：意图、真假、风险一次拆到底</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>客户背调 + 竞品拆解 + 谈判筹码推演</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>开发信序列（首封 + 三封跟进）与分层 SOP</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>线索与跟进计划落进飞书多维表格</li>
+        </ul>
+        <a class="p-cta" href="https://vcniw48ecd3r.feishu.cn/share/base/shrcnQjxoqbbJ8V6y9ikOYNM2Ne" target="_blank" rel="noopener">预约 3 天样板</a>
+      </div>
+
+      <div class="price-card">
+        <div class="p-tag">03 · 进机房 · 私有化</div>
+        <h3>私有化部署版</h3>
+        <div class="p-sub">装进你自己机房，接企业内网知识库与 CRM / ERP。</div>
+        <div class="p-amt">¥3 万起<small>按方案报价 · 常见区间 3–15 万</small></div>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>部署 R1 14B / 32B，算力由客户自备</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>喂企业数据，建内网知识库</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>对接 CRM / ERP，按人数配并发</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>交付培训 + 运维手册</li>
+        </ul>
+        <a class="p-cta" href="https://vcniw48ecd3r.feishu.cn/share/base/shrcnQjxoqbbJ8V6y9ikOYNM2Ne" target="_blank" rel="noopener">先出方案再报价</a>
+      </div>
+    </div>
+
+    <div class="bound">
+      <div class="bound-box">
+        <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;color:var(--ok)"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg>能做到的</h4>
+        <ul>
+          <li><i class="y">✓</i>单会话 8k–16k 上下文，一个客户的资料和历史邮件一起读进去</li>
+          <li><i class="y">✓</i>一次跑完整链路：询盘研判 → 背调 → 竞品拆解 → 谈判推演 → 开发信序列</li>
+          <li><i class="y">✓</i>推理在本机完成，不调用公网大模型接口，资料不出这台机器</li>
+          <li><i class="y">✓</i>交付的是可复用的序列、规则与 SOP，不是一段聊天记录</li>
+          <li><i class="y">✓</i>线索与跟进计划进飞书多维表格，人接着干</li>
+        </ul>
+      </div>
+      <div class="bound-box">
+        <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;color:var(--danger)"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></svg>做不到的（照实写）</h4>
+        <ul>
+          <li><i class="n">×</i>两位以上业务员同时重度使用：明显卡顿、思考时间拉长</li>
+          <li><i class="n">×</i>当 SaaS 多租户卖：没有并发隔离，没有多租户配额</li>
+          <li><i class="n">×</i>像云端快模型那样秒回：单次深度思考通常 30 秒–2 分钟</li>
+          <li><i class="n">×</i>替你拍板价格与承诺：报价、账期、交期必须人工复核</li>
+          <li><i class="n">×</i>把模型权重打包给你：只交付封装后的应用服务</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="days">
+      <div class="day">
+        <div class="d-tag">DAY 1</div>
+        <h4>喂料：把你的生意装进去</h4>
+        <p>产品资料、规格表、报价口径、账期底线、典型客户与历史邮件，整理成本机知识库；同时定验收口径——3 天结束时哪些东西必须在你手上。</p>
+        <span class="d-out">产出：本机知识库 + 验收清单</span>
+      </div>
+      <div class="day">
+        <div class="d-tag">DAY 2</div>
+        <h4>研判：一封一封拆开</h4>
+        <p>逐条拆询盘：要什么、急不急、预算真假、有没有坑；再背调客户、拆竞品动作、标出谈判筹码。你随时打断、纠正——这是陪跑，不是放录像。</p>
+        <span class="d-out">产出：客户画像 + 优先级 + 风险标注</span>
+      </div>
+      <div class="day">
+        <div class="d-tag">DAY 3</div>
+        <h4>落 SOP：人接着就能干</h4>
+        <p>把判断变成规则：A/B/C 分层标准、每层触发动作、首封与三封跟进怎么写；线索进飞书，跟进计划自动生成。</p>
+        <span class="d-out">产出：开发信序列 + 分层 SOP + 飞书线索库</span>
+      </div>
+    </div>
+
+    <p class="price-note">
+      <b>合规与免责（写进报价单，也写进合同附件）：</b>底层模型为 DeepSeek-R1 蒸馏模型（14B · Q4_K_M 量化），以 MIT 许可发布、允许商用，交付时附其版权与许可声明；金骅AI 负责外贸工作流、Prompt 库、知识库、飞书 CRM 对接与交付陪跑，模型不是我们训练的，我们<b>不是 DeepSeek 官方服务商、代理商或授权合作伙伴</b>。只交付封装后的应用服务，不分发模型权重文件。3 天样板按可控项验收（链路跑通、交付物齐、业务员能复述规则），不承诺询盘量、回复率或成交额；输出为辅助判断，报价、合同、交期与账期仍须人工复核；不做 AI 自动群发，每封邮件人工审稿后才发。涉密资料建议先脱敏，演示结束可按约定删除并出具书面确认。
+    </p>
   </div>
 </section>
 
@@ -911,7 +1057,7 @@ footer{border-top:1px solid var(--line-soft);padding:40px 0 48px}
         <div class="faq-a"><p>大多数工具只是「写一段英文」；SuperAgent 是完整的外贸作业流——背调客户、写针对性开发信、按时跟进、看住退信率，并且全部在你本地运行，数据和规则都归你。</p></div>
       </details>
       <details class="faq-item">
-        <summary class="faq-q">金铧AI 提供哪些合作方式？<span class="plus"></span></summary>
+        <summary class="faq-q">金骅AI 提供哪些合作方式？<span class="plus"></span></summary>
         <div class="faq-a"><p>三种：一是内测共创，跟着产品一起打磨；二是企业顾问，帮你的团队把 AI 外贸的动作落到流程上；三是训练营，把打法拆成团队能执行的步骤。具体适合哪种，填问卷后我们可以一对一聊。</p></div>
       </details>
     </div>
@@ -927,7 +1073,7 @@ footer{border-top:1px solid var(--line-soft);padding:40px 0 48px}
     </div>
     <div class="about-grid">
       <div>
-        <p>金铧AI 是一支做「AI × 外贸」的团队。底子是 <b>30 年一线外贸经验</b>，背后接的是<b>佛山家电与模具产业带</b>的真实产能——不是纯贸易，也不是纯软件。</p>
+        <p>金骅AI 是一支做「AI × 外贸」的团队。底子是 <b>30 年一线外贸经验</b>，背后接的是<b>佛山家电与模具产业带</b>的真实产能——不是纯贸易，也不是纯软件。</p>
         <p>我们做这个产品，是因为自己每天都在用：客户在跑、报价在发、退信在盯、跟进在漏。痛点不是坐在办公室里想出来的，是一个单一个单干出来的。</p>
         <div class="about-quote">外贸不是把英文写漂亮，是把订单拿下来。所以我们的 AI 从背调买家开始，而不是从写文案开始。</div>
         <p>我们的立场很明确：<b>客户数据只走本地和自有 CRM</b>，不为了「云端好用」把客户的名单和往来邮件搬出去。这条底线不因为产品迭代而放松。</p>
@@ -965,19 +1111,20 @@ footer{border-top:1px solid var(--line-soft);padding:40px 0 48px}
       <div>
         <a class="foot-brand" href="#top">
           <svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="14" fill="#141A22"/><path d="M20 44V22l12 12 12-12v22" stroke="#E8B45C" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          金铧AI · JINHUA AI
+          金骅AI · JINHUA AI
         </a>
         <p class="foot-desc" style="margin-top:12px">把 AI 装进外贸作业流。本地部署，客户数据不出内网。</p>
       </div>
       <nav class="foot-nav" aria-label="页脚导航">
         <a href="#biz">业务</a>
         <a href="#agent">外贸总监 SuperAgent</a>
+        <a href="#pricing">价格与 3 天样板</a>
         <a href="#about">关于</a>
         <a href="https://vcniw48ecd3r.feishu.cn/share/base/shrcnQjxoqbbJ8V6y9ikOYNM2Ne" target="_blank" rel="noopener">申请内测</a>
       </nav>
     </div>
     <div class="foot-bot">
-      <span>© 2026 金铧AI · JINHUA AI</span>
+      <span>© 2026 金骅AI · JINHUA AI</span>
       <span>外贸总监 SuperAgent · 内测招募中</span>
     </div>
   </div>

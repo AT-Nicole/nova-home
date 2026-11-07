@@ -29,16 +29,26 @@ img{max-width:100%}
 .nav .wrap{display:flex;align-items:center;gap:26px;height:58px}
 .logo{display:flex;align-items:center;gap:10px;color:#fff;font-weight:700;font-size:17px;letter-spacing:.02em}
 .logo .cube{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,var(--orange),#F7C86B);display:flex;align-items:center;justify-content:center;font-size:13px;color:#fff;font-weight:800}
-.nav .links{display:flex;gap:20px;margin-left:auto}
-.nav .links a{color:#C6CDE4;font-size:13.5px;padding:4px 2px}
+.nav .links{display:flex;gap:20px;margin-left:auto;flex-wrap:nowrap}
+.nav .links a{color:#C6CDE4;font-size:13.5px;padding:4px 2px;white-space:nowrap}
 .nav .links a:hover,.nav .links a.on{color:#fff}
-.nav .btns{display:flex;gap:10px}
-.nav .btns a{font-size:13px;padding:7px 18px;border-radius:5px;font-weight:600}
+.nav .btns{display:flex;gap:10px;flex:none;align-items:center}
+.nav .btns a{font-size:13px;padding:7px 18px;border-radius:5px;font-weight:600;white-space:nowrap}
 .b-login{color:#fff;border:1px solid rgba(255,255,255,.45)}
 .b-cta{background:var(--orange);color:#fff}
 .b-cta:hover{background:var(--orange-d)}
-@media(max-width:1080px){.nav .links{gap:12px}.nav .links a{font-size:12.5px}}
-@media(max-width:900px){.nav .links{display:none}}
+/* 窄屏折叠菜单（原生 details，不依赖脚本） */
+.nav-more{display:none;margin-left:auto;position:relative}
+.nav-more summary{list-style:none;cursor:pointer;color:#fff;font-size:13px;border:1px solid rgba(255,255,255,.45);border-radius:5px;padding:7px 13px;display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
+.nav-more summary::-webkit-details-marker{display:none}
+.nav-more summary::after{content:"";width:6px;height:6px;border-right:1.5px solid #fff;border-bottom:1.5px solid #fff;transform:rotate(45deg) translateY(-1px);transition:transform .18s}
+.nav-more[open] summary::after{transform:rotate(-135deg) translateY(-1px)}
+.nav-more-panel{position:absolute;right:0;top:calc(100% + 10px);background:var(--navy);border:1px solid rgba(255,255,255,.16);border-radius:8px;padding:8px;min-width:216px;box-shadow:0 18px 36px rgba(10,18,40,.42);display:grid;gap:2px;z-index:70}
+.nav-more-panel a{color:#C6CDE4;font-size:13.5px;padding:9px 12px;border-radius:6px;white-space:nowrap}
+.nav-more-panel a:hover{background:rgba(255,255,255,.08);color:#fff}
+.nav-more-panel .m-sep{height:1px;background:rgba(255,255,255,.14);margin:5px 4px}
+@media(max-width:1080px){.nav .links{gap:12px}.nav .links a{font-size:12.5px}.nav .btns a{padding:7px 12px;font-size:12px}}
+@media(max-width:900px){.nav .links{display:none}.nav-more{display:block;margin-left:0}.nav .btns{margin-left:auto}.nav .btns .b-login{display:none}}
 
 /* ===== Hero：学习季横幅 ===== */
 .hero{background:linear-gradient(115deg,#AEB9F8 0%,#C9B8F0 45%,#F3C6C2 100%);position:relative;overflow:hidden}
@@ -282,15 +292,11 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
   <div class="wrap">
     <a class="logo" href="#top"><img src="factory-site/images/logo/logo-jinhua-ai-badge.svg" alt="金骅AI" style="width:28px;height:28px;display:block;border-radius:7px"><img src="factory-site/images/logo/logo-jinhua-ai-wordmark-reversed.svg" alt="金骅AI" style="height:21px;display:block"></a>
     <div class="links">
-      <a href="#bundle" class="on">课程报名</a>
-      <a href="#pricing">产品价格</a>
-      <a href="agent.html">推理 Agent</a>
+      <a href="#top" class="on">首页</a>
       <a href="superagent.html">SuperAgent</a>
+      <a href="#bundle">训练营</a>
       <a href="#fly">方法论</a>
-      <a href="#compare">全部课程</a>
-      <a href="#tasks">任务表</a>
       <a href="#case">案例</a>
-      <a href="#results">结果墙</a>
       <a href="#founder">创始人</a>
       <a href="#contact">联系我们</a>
     </div>
@@ -298,6 +304,24 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
       <a class="b-login" href="/login.html">登录</a>
       <a class="b-cta" href="#bundle">立即报名</a>
     </div>
+    <details class="nav-more">
+      <summary>菜单</summary>
+      <div class="nav-more-panel">
+        <a href="#top">首页</a>
+        <a href="superagent.html">外贸总监 SuperAgent</a>
+        <a href="#bundle">训练营 · 会员报名</a>
+        <a href="#pricing">产品价格</a>
+        <a href="#fly">方法论</a>
+        <a href="#compare">全部课程</a>
+        <a href="#case">案例</a>
+        <a href="#results">结果墙</a>
+        <a href="#tasks">任务表</a>
+        <a href="#founder">创始人</a>
+        <a href="#contact">联系我们</a>
+        <div class="m-sep"></div>
+        <a class="m-login" href="/login.html">登录</a>
+      </div>
+    </details>
   </div>
 </div>
 
@@ -540,7 +564,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
       <p>客户资料不上公网。3 天跑通「询盘研判 → 客户背调 → 竞对拆解 → 谈判推演 → 开发信序列」，交付一套能直接复用的客户分层 SOP。<b>¥3,800 / 3 天</b>，成交后年包 ¥12,800。</p>
       <p class="pb-warn">说清楚：单客户独占，<b>不承诺多人同时在线</b> —— 这台是样板机，不是多租户服务器；要并发走云端基础版（¥298/月 · 3 账号 ¥798/月）。</p>
     </div>
-    <a class="pb-go" href="agent.html">看这一页 →</a>
+    <a class="pb-go" href="superagent.html#pricing">看价格与 3 天样板 →</a>
   </div>
 
   <p class="prmore">只想知道线下课和会员档位怎么选 → <a href="#compare">看全部课程与价格</a></p>
@@ -794,7 +818,7 @@ document.getElementById('cform').addEventListener('submit',async function(e){
       var s = r && r.data && r.data.session;
       if (!s) return;
       var em = (s.user && s.user.email) || '';
-      document.querySelectorAll('.b-login').forEach(function (a) {
+      document.querySelectorAll('.b-login, .m-login').forEach(function (a) {
         a.textContent = '进入管理台';
         a.href = '/jh-admin.html';
         a.title = '已登录：' + em;
