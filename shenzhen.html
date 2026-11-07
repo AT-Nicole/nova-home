@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>深圳专场 · AI + 外贸落地服务｜金骅AI</title>
+<meta name="description" content="面向深圳跨境卖家与产业带工厂的 AI 外贸落地服务：开发信代运营、AI 素材产能、卖家内训、企业私有化部署。佛山工厂直供，先诊断再报价，不承诺保出单。">
+<style>
+  :root{
+    --navy:#1B2A4E; --navy2:#111C38; --ink:#1B2A4E; --muted:#5B6478;
+    --line:#E3E7EE; --bg:#F5F7FA; --white:#fff; --acc:#2F5BD8;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+       color:var(--ink);background:var(--white);line-height:1.72;-webkit-font-smoothing:antialiased}
+  a{text-decoration:none;color:inherit}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+  .nav{background:var(--navy);position:sticky;top:0;z-index:60;box-shadow:0 2px 12px rgba(20,30,60,.18)}
+  .nav .wrap{display:flex;align-items:center;gap:22px;height:58px}
+  .nav .logo{display:flex;align-items:center;gap:9px}
+  .nav .links{display:flex;gap:18px;margin-left:auto}
+  .nav .links a{color:#C6CDE4;font-size:13.5px;padding:4px 2px;white-space:nowrap}
+  .nav .links a:hover,.nav .links a.on{color:#fff}
+  .nav .btns a{font-size:13px;padding:7px 18px;border-radius:5px;font-weight:600;white-space:nowrap;
+               background:#fff;color:var(--navy)}
+  @media(max-width:900px){.nav .links{display:none}}
+
+  .hero{padding:64px 0 52px;background:linear-gradient(180deg,#F7F9FC,#fff);border-bottom:1px solid var(--line)}
+  .kicker{display:inline-block;font-size:12.5px;letter-spacing:.08em;color:var(--acc);
+          border:1px solid #C9D6F5;background:#F0F4FE;padding:5px 12px;border-radius:4px;font-weight:600}
+  .hero h1{margin:20px 0 0;font-size:clamp(30px,4.6vw,46px);line-height:1.24;font-weight:800;
+           color:var(--navy2);letter-spacing:.01em}
+  .hero .lede{margin:18px 0 0;max-width:760px;font-size:16.5px;color:var(--muted)}
+  .hero .lede b{color:var(--navy2)}
+  .hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+  .btn-p{background:var(--navy);color:#fff;font-weight:700;font-size:14.5px;padding:12px 26px;border-radius:7px}
+  .btn-s{border:1px solid var(--line);color:var(--navy);font-weight:600;font-size:14.5px;padding:12px 24px;border-radius:7px;background:#fff}
+  .facts{display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:26px;font-size:13px;color:#7A8299}
+  .facts span::before{content:"·";color:var(--acc);font-weight:700;margin-right:7px}
+
+  section{padding:56px 0}
+  .sec-h{font-size:13px;letter-spacing:.1em;color:var(--acc);font-weight:700;margin:0 0 10px}
+  h2{font-size:clamp(22px,3vw,30px);line-height:1.32;margin:0 0 12px;color:var(--navy2);font-weight:800}
+  .sec-lede{color:var(--muted);font-size:15.5px;max-width:740px;margin:0 0 34px}
+
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:26px 24px}
+  .card .n{font-size:12px;font-weight:700;color:#A3ABC0;letter-spacing:.06em}
+  .card h3{font-size:17px;margin:8px 0 8px;color:var(--navy2);font-weight:700}
+  .card p{margin:0;font-size:14.5px;color:var(--muted)}
+
+  .pain{background:var(--bg)}
+  .pain .card{border-color:#DCE3F0}
+  .pain .card .n{color:#C0553F}
+
+  .prod .card h3{font-size:18px}
+  .prod .tag{display:inline-block;margin-top:14px;font-size:12.5px;color:var(--navy);
+             background:#F0F4FE;border:1px solid #D5DFF7;padding:4px 10px;border-radius:4px;font-weight:600}
+
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .step{padding:30px 26px;border-right:1px solid var(--line)}
+  .step:last-child{border-right:0}
+  .step .num{font-size:28px;font-weight:800;color:#C9D6F5;line-height:1}
+  .step h3{font-size:16.5px;margin:12px 0 8px;color:var(--navy2)}
+  .step p{margin:0;font-size:14px;color:var(--muted)}
+
+  .rules{background:radial-gradient(900px 420px at 50% -80px,#27356A,var(--navy2) 60%);color:#fff;padding:58px 0}
+  .rules h2{color:#fff}
+  .rules .sec-lede{color:#B9C2DC}
+  .rule{border-left:2px solid #4C6BC0;padding:2px 0 2px 18px;margin-bottom:24px}
+  .rule b{display:block;font-size:15.5px;margin-bottom:5px;color:#fff}
+  .rule span{font-size:14px;color:#AAB5D2}
+
+  .fit{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  .fit .col{border:1px solid var(--line);border-radius:10px;padding:26px 24px}
+  .fit .col.no{background:#FBFBFC;border-color:#EDEFF4}
+  .fit h3{font-size:15.5px;margin:0 0 14px;color:var(--navy2)}
+  .fit .col.no h3{color:#8A92A6}
+  .fit li{font-size:14.5px;color:var(--muted);margin-bottom:10px;padding-left:16px;position:relative;list-style:none}
+  .fit li::before{position:absolute;left:0;top:0}
+  .fit .col li::before{content:"—";color:var(--acc)}
+  .fit .col.no li::before{content:"—";color:#C2C8D6}
+
+  .faq{border-top:1px solid var(--line)}
+  details{border-bottom:1px solid var(--line);padding:18px 0}
+  details summary{cursor:pointer;font-size:15.5px;font-weight:700;color:var(--navy2);
+                  display:flex;justify-content:space-between;gap:16px;list-style:none}
+  details summary::-webkit-details-marker{display:none}
+  details summary::after{content:"+";color:#A3ABC0;font-weight:700;flex:none}
+  details[open] summary::after{content:"−"}
+  details p{margin:12px 0 0;font-size:14.5px;color:var(--muted);max-width:820px}
+
+  .contact{background:var(--bg);border-top:1px solid var(--line);padding:56px 0}
+  .cgrid{display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:start}
+  .clist{list-style:none;margin:0;padding:0;font-size:14.5px;color:var(--muted)}
+  .clist li{margin-bottom:14px}
+  .clist b{color:var(--navy2);margin-right:8px}
+  form label{display:block;font-size:13px;color:#6B7489;margin:16px 0 6px}
+  form input,form select{width:100%;padding:11px 13px;font-size:14.5px;border:1px solid var(--line);
+                        border-radius:6px;background:#fff;color:var(--ink);font-family:inherit}
+  form input:focus,form select:focus{outline:none;border-color:#9FB6E8}
+  form button{margin-top:20px;width:100%;background:var(--navy);color:#fff;border:0;border-radius:7px;
+              padding:13px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit}
+  form button:disabled{opacity:.65;cursor:default}
+  .form-ok{display:none;margin-top:14px;font-size:13.5px;color:#2C7A4B;background:#F0FAF3;
+           border:1px solid #CFE9D8;padding:10px 12px;border-radius:6px}
+
+  footer{background:var(--navy2);color:#9AA5C0;padding:30px 0;font-size:12.5px}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+
+  @media(max-width:860px){
+    .grid3,.grid2,.fit,.cgrid{grid-template-columns:1fr}
+    .steps{grid-template-columns:1fr}
+    .step{border-right:0;border-bottom:1px solid var(--line)}
+    .step:last-child{border-bottom:0}
+    section{padding:44px 0}
+  }
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <div class="wrap">
+    <a class="logo" href="index.html">
+      <img src="factory-site/images/logo/logo-jinhua-ai-badge.svg" alt="金骅AI" style="width:28px;height:28px;display:block;border-radius:7px">
+      <img src="factory-site/images/logo/logo-jinhua-ai-wordmark-reversed.svg" alt="金骅AI" style="height:21px;display:block">
+    </a>
+    <div class="links">
+      <a href="index.html">首页</a>
+      <a href="superagent.html">SuperAgent</a>
+      <a href="shenzhen.html" class="on">深圳专场</a>
+      <a href="index.html#bundle">训练营</a>
+      <a href="#contact">联系我们</a>
+    </div>
+    <div class="btns"><a href="#contact">预约诊断</a></div>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="wrap">
+    <span class="kicker">深圳专场 · AI + 外贸落地</span>
+    <h1>在深圳，我们不讲 AI 概念<br>先交付能出单的产能</h1>
+    <p class="lede">深圳的跨境卖家不缺 AI 工具，缺的是<b>把工具变成动作的人</b>。我们带着佛山工厂的产品线和一条真的把信发出去的链路过来——开发信、素材产能、内训、本地部署，四件事按你的卡点排顺序，先诊断再报价。</p>
+    <div class="hero-cta">
+      <a class="btn-p" href="#contact">预约 40 分钟诊断</a>
+      <a class="btn-s" href="#deliver">先看交付清单</a>
+    </div>
+    <div class="facts">
+      <span>佛山工厂直供，不是中间商</span>
+      <span>30 年外贸经验</span>
+      <span>一信一说法，不用模板群发</span>
+      <span>客户数据不出内网</span>
+    </div>
+  </div>
+</div>
+
+<section class="pain">
+  <div class="wrap">
+    <p class="sec-h">深圳卖家的三个卡点</p>
+    <h2>不是不努力，是产能跟不上动作</h2>
+    <p class="sec-lede">我们在深圳聊过一圈，卡点高度集中在这三处。这三处不改，买多少 AI 工具都只是多了一堆订阅。</p>
+    <div class="grid3">
+      <div class="card">
+        <span class="n">01</span>
+        <h3>素材产能跟不上</h3>
+        <p>平台一天要几十条，团队一天出三条。脚本、拍摄、剪辑、配字幕全卡在同一个人身上。</p>
+      </div>
+      <div class="card">
+        <span class="n">02</span>
+        <h3>开发信进垃圾箱</h3>
+        <p>同一套主题发给几百家，买家一眼看出群发。回复率低不是因为文案差，是因为每封都一样。</p>
+      </div>
+      <div class="card">
+        <span class="n">03</span>
+        <h3>工具买了没人接进流程</h3>
+        <p>订阅一堆，用起来的只有两三个。缺的不是工具，是知道哪一步该让 AI 干、哪一步必须人看的人。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="prod" id="deliver">
+  <div class="wrap">
+    <p class="sec-h">交付清单</p>
+    <h2>四件可以直接接手的事</h2>
+    <p class="sec-lede">每一项都能单独做，也能按顺序组合。不清谈方法论，先把你手上那批活接过来跑一遍。</p>
+    <div class="grid2">
+      <div class="card">
+        <span class="n">交付 01</span>
+        <h3>开发信代运营</h3>
+        <p>按客户逐条写信：型号、功率、电压、对方在卖什么，一信一说法。发前过内容闸门，模板信、推销腔、参数编造一律不放行；同一客户 7 天内不重复触达。</p>
+        <span class="tag">3 天样板 ¥3,800 · 年包 ¥12,800</span>
+      </div>
+      <div class="card">
+        <span class="n">交付 02</span>
+        <h3>AI 素材产能</h3>
+        <p>从选题、脚本到成片，做成一条流水线。漫剧、短视频、产品演示都能出，按项目或按条结算，先看两条样片再谈量。</p>
+        <span class="tag">按项目 / 按条结算</span>
+      </div>
+      <div class="card">
+        <span class="n">交付 03</span>
+        <h3>卖家内训</h3>
+        <p>半天或一天，只讲三件当天能上手的事：开发信怎么写才不被判群发、素材流水线怎么排、本地部署和订阅到底怎么选。可上门，深圳场次按预约排期，满 15 人开班。</p>
+        <span class="tag">按场报价 · 可上门</span>
+      </div>
+      <div class="card">
+        <span class="n">交付 04</span>
+        <h3>企业私有化部署</h3>
+        <p>客户名单和往来邮件留在你自己的机器上，不出内网。对外只放脱敏后的内容。适合对数据敏感的卖家和中大型工厂。</p>
+        <span class="tag">¥3 万起 · 含实施</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="sec-h">怎么开始</p>
+    <h2>三步，第一步不收费</h2>
+    <p class="sec-lede">我们不先卖课。先看你卡在哪，再决定要不要做、做什么。</p>
+    <div class="steps">
+      <div class="step">
+        <div class="num">01</div>
+        <h3>40 分钟诊断</h3>
+        <p>线上或深圳面谈，只看三件事：现在的素材产能、开发信回复率、团队谁在干活。诊断不收费，也不推销。</p>
+      </div>
+      <div class="step">
+        <div class="num">02</div>
+        <h3>给方案和报价</h3>
+        <p>按上面四项里挑最该先做的一两项，给出周期、交付物和价格。不合适就直说不合适。</p>
+      </div>
+      <div class="step">
+        <div class="num">03</div>
+        <h3>小样板先跑</h3>
+        <p>3 天样板跑通再放大。样板期内交付物归你，不合格不收钱。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="rules">
+  <div class="wrap">
+    <p class="sec-h" style="color:#7E93C8">我们的纪律</p>
+    <h2>三条底线，写在前面</h2>
+    <p class="sec-lede">这几条比价格重要，先说清楚再合作。</p>
+    <div class="rule">
+      <b>不承诺「保出单」</b>
+      <span>谁承诺谁在骗你。我们只承诺交付动作和可核验的过程：写了多少封、过没过闸门、有没有回复，全部留痕给你看。结果让案例说话。</span>
+    </div>
+    <div class="rule">
+      <b>不群发、不打扰</b>
+      <span>和我们的发信系统同一条纪律：一信一说法，同一客户 7 天内不重复触达，对方说不就停。这条对你自己人也不破例。</span>
+    </div>
+    <div class="rule">
+      <b>客户数据不出内网</b>
+      <span>名单、往来邮件、报价只在你自己机器和你的私有环境里跑。给外部模型的内容一律先脱敏。</span>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="sec-h">适配判断</p>
+    <h2>适合谁，不适合谁</h2>
+    <p class="sec-lede">把不适合的写在明面上，比多签几个单更省双方时间。</p>
+    <div class="fit">
+      <div class="col">
+        <h3>适合</h3>
+        <ul>
+          <li>深圳跨境卖家：亚马逊、独立站、TikTok Shop，卡在素材产能或开发信回复率</li>
+          <li>产业带工厂：宝安、龙岗、光明、大浪一带，有货想自己出海，缺写信和做内容的人</li>
+          <li>园区与服务商：要讲师、要内容，可以谈场地置换或分成合作</li>
+        </ul>
+      </div>
+      <div class="col no">
+        <h3>不适合</h3>
+        <ul>
+          <li>想「一键爆单」的：没有这种产品，承诺这个的都是骗子</li>
+          <li>想让 AI 全自动接管客户关系的：我们坚持关键节点必须人看</li>
+          <li>只想买一门 9.9 元课听个热闹的：我们的东西要动手才有效</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="faq">
+  <div class="wrap">
+    <p class="sec-h">常见问题</p>
+    <h2>你可能想问的</h2>
+    <details>
+      <summary>只能在深圳做吗？佛山或线上行不行</summary>
+      <p>都行。深圳场次按园区或企业预约排期，满 15 人开班；企业内训可以直接上门。线上诊断不受地域限制。</p>
+    </details>
+    <details>
+      <summary>一定要买产品才能聊吗</summary>
+      <p>不用。诊断免费，诊断完觉得不合适就不做，我们不会追着卖。真要合作，也是先跑 3 天样板再放大。</p>
+    </details>
+    <details>
+      <summary>数据安全怎么保证</summary>
+      <p>客户名单、往来邮件、报价全部留在本地私有环境，不出内网；需要外部模型处理的内容先脱敏。这也是我们做本地部署而不是纯云 SaaS 的原因。</p>
+    </details>
+    <details>
+      <summary>能不能保证出单</summary>
+      <p>不能，任何人说能都是骗你。我们能保证的是动作到位、过程可查：发了多少、卡在哪、为什么被拦，全部有记录。</p>
+    </details>
+    <details>
+      <summary>价格怎么算</summary>
+      <p>开发信 3 天样板 ¥3,800、年包 ¥12,800；企业私有化部署 ¥3 万起；内训按场报价；落地项目 3–10 万/单。训练营与会员 ¥3,980–19,800，按档位选。先预约再报价，不先报虚价再砍。</p>
+    </details>
+  </div>
+</section>
+
+<div class="contact" id="contact">
+  <div class="wrap">
+    <h2>约一次 40 分钟诊断</h2>
+    <p class="sec-lede">留下联系方式和你的卡点，我们按顺序回。不群发、不推销——和我们的邮件系统同一条纪律。</p>
+    <div class="cgrid">
+      <ul class="clist">
+        <li><b>电话 / 微信</b>131 6875 2099（Nicole，微信同号）</li>
+        <li><b>深圳场次</b>按园区 / 企业预约排期，满 15 人开班</li>
+        <li><b>可上门</b>深圳、东莞、佛山企业内训</li>
+        <li><b>地址</b>广东 · 佛山</li>
+      </ul>
+      <form id="cform" novalidate>
+        <label for="f-name">怎么称呼你</label>
+        <input id="f-name" type="text" placeholder="姓名 / 昵称" autocomplete="name">
+        <label for="f-wechat">微信号或手机号</label>
+        <input id="f-wechat" type="text" placeholder="用于回复你" autocomplete="tel">
+        <label for="f-intent">你现在的卡点</label>
+        <select id="f-intent">
+          <option value="深圳-素材产能跟不上">素材产能跟不上</option>
+          <option value="深圳-开发信回复率低">开发信回复率低</option>
+          <option value="深圳-工具买了不会用">工具买了不会用</option>
+          <option value="深圳-想谈内训/园区合作">想谈内训 / 园区合作</option>
+          <option value="深圳-企业私有化部署">企业私有化部署</option>
+          <option value="深圳-其他">其他</option>
+        </select>
+        <button type="submit">预约诊断</button>
+        <p class="form-ok" id="fok">已收到！Nicole 会在 1 个工作日内回复你。</p>
+      </form>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 金骅智能科技 · 广东佛山</span>
+    <span>我们只做成功的搬运工</span>
+  </div>
+</footer>
+
+<script src="js/config.js"></script>
+<script>
+const JH_SB_URL='https://zmhvarnrdnsimkkhrlol.supabase.co';
+const JH_SB_KEY=window.JH_SB_KEY;
+document.getElementById('cform').addEventListener('submit',async function(e){
+  e.preventDefault();
+  const n=document.getElementById('f-name'),w=document.getElementById('f-wechat');
+  const ok=document.getElementById('fok');
+  if(!n.value.trim()||!w.value.trim()){(n.value.trim()?w:n).focus();return}
+  const btn=this.querySelector('button[type=submit]');
+  btn.disabled=true;btn.textContent='提交中…';
+  try{
+    const r=await fetch(JH_SB_URL+'/rest/v1/jh_leads',{method:'POST',
+      headers:{'apikey':JH_SB_KEY,'Authorization':'Bearer '+JH_SB_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},
+      body:JSON.stringify({name:n.value.trim(),contact:w.value.trim(),intent:document.getElementById('f-intent').value,source:'jinhua.tech/shenzhen'})});
+    if(!r.ok)throw new Error('http '+r.status);
+    ok.style.display='block';
+    ok.textContent='已收到！Nicole 会在 1 个工作日内回复你。';
+    this.reset();
+  }catch(err){
+    console.error('[金骅官网] 深圳专场预约提交失败：',err);
+    ok.style.display='block';
+    ok.textContent='通道正在升级——请直接加微信 131 6875 2099（Nicole），马上为你安排。';
+  }finally{btn.disabled=false;btn.textContent='预约诊断';}
+});
+</script>
+</body>
+</html>
