@@ -41,9 +41,7 @@ a{color:#4A5AC3;text-decoration:none}
 </div>
   <div class="who" id="who"></div>
   <div class="links" id="logged">
-    <a class="hot" href="/deck.html">📖 查看完整课件</a>
-    <a href="/leads.html">📋 报名台账</a>
-    <a href="/jh-admin.html">⚙️ 管理后台</a>
+    <a class="hot" href="#" onclick="return false" style="opacity:.65">📖 完整课件已迁出公网，需要的请联系创始人</a>
     <a class="plain" href="#" onclick="logout()">退出当前账号</a>
   </div>
   <p class="ok" id="ok">✅ 登录成功，正在进入…</p>
@@ -55,7 +53,7 @@ a{color:#4A5AC3;text-decoration:none}
 var SBlib = window.supabase || self.supabase;
 var sb = SBlib.createClient('https://zmhvarnrdnsimkkhrlol.supabase.co', window.JH_SB_KEY);
 var next = new URLSearchParams(location.search).get('next') || '';
-var DEST = {'deck':'/deck.html','leads':'/leads.html','admin':'/factory-site/admin.html'};
+var DEST = {};
 
 sb.auth.getSession().then(function(r){
   if(r.data && r.data.session){

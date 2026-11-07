@@ -846,8 +846,8 @@ document.getElementById('cform').addEventListener('submit',async function(e){
       if (!s) return;
       var em = (s.user && s.user.email) || '';
       document.querySelectorAll('.b-login, .m-login').forEach(function (a) {
-        a.textContent = '进入管理台';
-        a.href = '/jh-admin.html';
+        a.textContent = '已登录';
+        a.href = '#';
         a.title = '已登录：' + em;
         var out = document.createElement('a');
         out.className = 'b-login';
