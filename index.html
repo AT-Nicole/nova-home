@@ -844,29 +844,34 @@ document.getElementById('cform').addEventListener('submit',async function(e){
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="js/config.js"></script>
 <script>
+/* 登录态：由认证网关 cookie 驱动；已登录则把“登录”换成用户名，并在旁加“退出” */
 (function () {
+  function paint(d) {
+    if (!d || !d.ok) return;
+    var nm = (d.name && String(d.name).trim()) ? String(d.name).trim() : String(d.email || '').split('@')[0];
+    var list = document.querySelectorAll('.b-login, .m-login');
+    for (var i = 0; i < list.length; i++) {
+      var a = list[i];
+      a.textContent = nm;
+      a.setAttribute('href', '#');
+      a.title = (d.email || '') + ' · 已登录';
+      a.onclick = function (e) { e.preventDefault(); };
+      if (a.parentNode.querySelector('[data-jh-logout]')) continue;
+      var out = document.createElement('a');
+      out.className = a.className;
+      out.setAttribute('href', '/logout');
+      out.setAttribute('data-jh-logout', '1');
+      out.textContent = '退出';
+      out.style.marginLeft = '8px';
+      a.parentNode.insertBefore(out, a.nextSibling);
+    }
+  }
   try {
-    var lib = window.supabase || self.supabase;
-    if (!lib || !window.JH_SB_KEY) return;
-    var sb = lib.createClient('https://zmhvarnrdnsimkkhrlol.supabase.co', window.JH_SB_KEY);
-    sb.auth.getSession().then(function (r) {
-      var s = r && r.data && r.data.session;
-      if (!s) return;
-      var em = (s.user && s.user.email) || '';
-      document.querySelectorAll('.b-login, .m-login').forEach(function (a) {
-        a.textContent = '已登录';
-        a.href = '#';
-        a.title = '已登录：' + em;
-        var out = document.createElement('a');
-        out.className = 'b-login';
-        out.href = '#';
-        out.textContent = '退出';
-        out.style.marginLeft = '8px';
-        out.onclick = function (e) { e.preventDefault(); sb.auth.signOut().then(function () { location.reload(); }); };
-        a.parentNode.insertBefore(out, a.nextSibling);
-      });
-    });
-  } catch (e) { /* SDK 没加载成功就保持原样，不阻塞页面 */ }
+    fetch('/api/auth/me', { credentials: 'same-origin' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(paint)
+      .catch(function () {});
+  } catch (e) {}
 })();
 </script>
 

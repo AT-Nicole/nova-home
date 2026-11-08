@@ -365,5 +365,36 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
 </footer>
 
 <script src="/js/visit.js" async></script>
+  <script>
+/* 登录态：由认证网关 cookie 驱动；已登录则把“登录”换成用户名，并在旁加“退出” */
+(function () {
+  function paint(d) {
+    if (!d || !d.ok) return;
+    var nm = (d.name && String(d.name).trim()) ? String(d.name).trim() : String(d.email || '').split('@')[0];
+    var list = document.querySelectorAll('.b-login, .m-login');
+    for (var i = 0; i < list.length; i++) {
+      var a = list[i];
+      a.textContent = nm;
+      a.setAttribute('href', '#');
+      a.title = (d.email || '') + ' · 已登录';
+      a.onclick = function (e) { e.preventDefault(); };
+      if (a.parentNode.querySelector('[data-jh-logout]')) continue;
+      var out = document.createElement('a');
+      out.className = a.className;
+      out.setAttribute('href', '/logout');
+      out.setAttribute('data-jh-logout', '1');
+      out.textContent = '退出';
+      out.style.marginLeft = '8px';
+      a.parentNode.insertBefore(out, a.nextSibling);
+    }
+  }
+  try {
+    fetch('/api/auth/me', { credentials: 'same-origin' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(paint)
+      .catch(function () {});
+  } catch (e) {}
+})();
+</script>
 </body>
 </html>
