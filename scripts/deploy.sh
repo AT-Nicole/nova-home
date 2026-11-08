@@ -16,6 +16,8 @@ echo "== 2/3 rsync → $HOST:$DEST =="
 rsync -rlptz --delete \
   --exclude '.git' \
   --exclude '_backup' \
+  --exclude 'tools' \
+  --exclude '.gitignore' \
   --exclude 'CNAME' \
   -e "ssh -o BatchMode=yes" ./ "$HOST:$DEST/"
 

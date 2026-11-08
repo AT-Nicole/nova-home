@@ -1,0 +1,8 @@
+# 本地改稿备份，只留本机，不入仓也不发布
+_backup/
+*.bak*
+*.bak-*
+
+# 系统与依赖
+.DS_Store
+node_modules/
